@@ -5,10 +5,23 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/master/pom.xml" />
+        <option value="$PROJECT_DIR$/HIS-master/pom.xml" />
+        <option value="$PROJECT_DIR$/his-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/HIS-Gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/HIS-System/pom.xml" />
+        <option value="$PROJECT_DIR$/HIS-common/pom.xml" />
+        <option value="$PROJECT_DIR$/HIS-Statistics/pom.xml" />
+        <option value="$PROJECT_DIR$/HIS-Business/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/HIS-master/pom.xml" />
+        <option value="$PROJECT_DIR$/his-gateway/pom.xml" />
+      </set>
+    </option>
   </component>
-  <component name="ProjectRootManager">
+  <component name="ProjectRootManager" version="2" project-jdk-name="ms-21" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
