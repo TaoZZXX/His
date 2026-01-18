@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: HIS-Gateway
+server:
+  port: 9999
+zuul:
+  routes:
+    his-service:
+      path: /api/**
+      url: http://localhost:8080/
+    dev-api:
+      path: /dev-api/**
+      url: http://localhost:8081/
+      strip-prefix: true

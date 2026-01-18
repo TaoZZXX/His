@@ -1,16 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import LoginVue from '@/views/login'
+import DashboardVue from "@/layout/dashboard/Dashboard.Vue.vue";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    name: 'home',
+    component: DashboardVue,
+    meta: { title: '主页' }
+  },
+  {
+    path: '/login',
     name: 'login',
-    component: LoginVue,
-    meta: { title: '登录' }
+    component: () => import('@/views/login/LoginVue.vue'),
   }
 ]
 
@@ -27,5 +32,10 @@ router.beforeEach((to, from, next) => {
 
   next()
 })
+
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
 
 export default router

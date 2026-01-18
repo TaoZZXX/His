@@ -8,11 +8,16 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 2. 全局注册 Element UI
 Vue.use(ElementUI)
 
+// 导入全局样式
+import '@/style/css/reset.css'
+
 import router from './router'
+import store from './store'
 
 Vue.config.productionTip = false
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
