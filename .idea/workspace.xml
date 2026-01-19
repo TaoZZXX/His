@@ -4,29 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-1-6">
-      <change afterPath="$PROJECT_DIR$/his-web/.env.development" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/api/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/History.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/store/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/store/modules/user.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/style/css/reset.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/utils/auth.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/utils/request.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/views/login/LoginVue.vue" afterDir="false" />
+    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-1-18">
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/StaffController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Business/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Statistics/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/.env.development" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/components/HelloWorld.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/HomeView.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/login/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/utils/request.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/vue.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,8 +42,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="JavaScript File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -74,6 +68,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="dragonwell-ex-1.8" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -87,6 +84,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor&quot;: &quot;Run&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
@@ -110,8 +108,11 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
     &quot;ts.external.directory.path&quot;: &quot;D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -150,7 +151,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HisSystemApplication">
+  <component name="RunManager" selected="Spring Boot.HisGatewayApplication">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:5173">
       <method v="2" />
     </configuration>
@@ -238,7 +239,8 @@
       <workItem from="1767708791828" duration="2837000" />
       <workItem from="1767770175727" duration="12487000" />
       <workItem from="1767840180798" duration="2150000" />
-      <workItem from="1768741752992" duration="136000" />
+      <workItem from="1768741752992" duration="8639000" />
+      <workItem from="1768828115530" duration="28000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -280,7 +282,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767711345379</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="25-1-18">
+      <option name="closed" value="true" />
+      <created>1768742114246</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1768742114246</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -307,7 +317,8 @@
     <MESSAGE value="." />
     <MESSAGE value="25-12-29" />
     <MESSAGE value="25-1-6" />
-    <option name="LAST_COMMIT_MESSAGE" value="25-1-6" />
+    <MESSAGE value="25-1-18" />
+    <option name="LAST_COMMIT_MESSAGE" value="25-1-18" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -5,10 +5,18 @@ server:
   port: 9999
 zuul:
   routes:
-    his-service:
-      path: /api/**
-      url: http://localhost:8080/
-    dev-api:
-      path: /dev-api/**
+    his-system:
+      path: /staff/**
       url: http://localhost:8081/
-      strip-prefix: true
+      strip-prefix: false
+
+# 日志配置（和 spring 同级）
+logging:
+  level:
+    com.netflix.zuul: DEBUG
+    org.springframework.cloud.netflix.zuul: DEBUG
+    org.springframework.cloud.netflix.zuul.filters: DEBUG
+    org.springframework.cloud.netflix.zuul.filters.route: DEBUG
+    com.netflix.ribbon: DEBUG
+  file:
+    name: ../logs/zuul-gateway.log

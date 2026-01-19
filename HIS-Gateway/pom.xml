@@ -5,30 +5,19 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.1</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <!-- Spring Boot 2.3.12.RELEASE：和 Zuul 2.2.9.RELEASE 完美兼容 -->
+        <version>2.3.12.RELEASE</version>
+        <relativePath/>
     </parent>
     <groupId>com.his</groupId>
     <artifactId>HIS-Gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>HIS-Gateway</name>
     <description>HIS-Gateway</description>
-    <url/>
-    <licenses>
-        <license/>
-    </licenses>
-    <developers>
-        <developer/>
-    </developers>
-    <scm>
-        <connection/>
-        <developerConnection/>
-        <tag/>
-        <url/>
-    </scm>
+
     <properties>
-        <java.version>17</java.version>
-        <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <java.version>8</java.version>
+        <spring-cloud.version>Hoxton.SR12</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -44,16 +33,17 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Zuul 依赖（无需指定版本，由 spring-cloud-dependencies 管理） -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-            <version>2.2.10.RELEASE</version>
         </dependency>
+        <!-- Spring Boot Web 依赖（必须） -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
+        <!-- 测试依赖（可选） -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -69,5 +59,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
