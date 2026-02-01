@@ -1,5 +1,21 @@
 spring:
   application:
     name: HIS-System
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/his?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+
 server:
   port: 8081
+
+# 先开基础 SQL 日志，方便确认是否真正连库/执行 SQL
+logging:
+  level:
+    org.springframework.jdbc.core: debug

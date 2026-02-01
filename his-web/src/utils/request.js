@@ -10,9 +10,12 @@ const service = axios.create({
 
 service.interceptors.request.use(
   config => {
-
-    if (store.getters.token) {
-      config.headers['X-Token'] = getToken()
+    // 兼容后端常见的 Token 传递方式：X-Token / Authorization
+    const token = getToken()
+    if (token) {
+      config.headers['X-Token'] = token
+      // 如果后端后续切到标准 Bearer，也能直接用
+      config.headers['Authorization'] = `Bearer ${token}`
     }
     return config
   },
@@ -56,4 +59,3 @@ service.interceptors.response.use(
 )
 
 export default service
-

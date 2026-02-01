@@ -4,23 +4,45 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-1-18">
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/StaffController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-1-19">
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/Size.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/utils/FiledLengthValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsStall.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/UserLoginDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/UserRegisterDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/BusinessException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStallMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsStallService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStallService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/IdGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/MD5Util.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/domain/Result.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/ResultCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-web/src/views/register/RegisterVue.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-Business/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Business/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/.gitattributes" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-Gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-Statistics/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Statistics/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/.gitattributes" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/StaffController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-common/.gitattributes" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/.env.development" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/HisCommonApplication.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/vue.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/vue.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/views/login/LoginVue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/login/LoginVue.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,6 +65,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="Interface" />
+        <option value="AnnotationType" />
+        <option value="Exception" />
         <option value="Class" />
       </list>
     </option>
@@ -82,41 +107,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.HisGatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.HisSystemApplication.executor&quot;: &quot;Run&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;ms-21&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/workspace-java/HIS&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.runner&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.HisGatewayApplication.executor": "Run",
+    "Spring Boot.HisSystemApplication.executor": "Run",
+    "Spring Boot.Unnamed.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "ms-21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "G:/workspace-java/HIS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
+    "ts.external.directory.path": "D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\workspace-java\HIS" />
@@ -143,7 +169,6 @@
         <entry key="SpringBootApplicationConfigurationType">
           <value>
             <map>
-              <entry key="HisGatewayApplication" value="STOPPED" />
               <entry key="HisSystemApplication" value="STOPPED" />
             </map>
           </value>
@@ -151,7 +176,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HisGatewayApplication">
+  <component name="RunManager" selected="Spring Boot.HisSystemApplication">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:5173">
       <method v="2" />
     </configuration>
@@ -169,7 +194,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HisGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="HisGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="HIS-Gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisGatewayApplication" />
       <method v="2">
@@ -190,6 +215,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="JavaScript Debug.Debug Application" />
+      <item itemvalue="Spring Boot.HisBusinessApplication" />
+      <item itemvalue="Spring Boot.HisCommonApplication" />
+      <item itemvalue="Spring Boot.HisStatisticsApplication" />
+      <item itemvalue="Spring Boot.HisSystemApplication" />
+      <item itemvalue="Spring Boot.HisGatewayApplication" />
+    </list>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -240,7 +273,13 @@
       <workItem from="1767770175727" duration="12487000" />
       <workItem from="1767840180798" duration="2150000" />
       <workItem from="1768741752992" duration="8639000" />
-      <workItem from="1768828115530" duration="28000" />
+      <workItem from="1768828115530" duration="4042000" />
+      <workItem from="1769519598468" duration="1160000" />
+      <workItem from="1769520859060" duration="397000" />
+      <workItem from="1769612369796" duration="5002000" />
+      <workItem from="1769863187651" duration="1333000" />
+      <workItem from="1769864540033" duration="2154000" />
+      <workItem from="1769946135618" duration="208000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -290,7 +329,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768742114246</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="25-1-19">
+      <option name="closed" value="true" />
+      <created>1768828184989</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1768828184989</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +365,8 @@
     <MESSAGE value="25-12-29" />
     <MESSAGE value="25-1-6" />
     <MESSAGE value="25-1-18" />
-    <option name="LAST_COMMIT_MESSAGE" value="25-1-18" />
+    <MESSAGE value="25-1-19" />
+    <option name="LAST_COMMIT_MESSAGE" value="25-1-19" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

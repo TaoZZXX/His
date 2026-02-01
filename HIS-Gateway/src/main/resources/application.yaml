@@ -6,11 +6,10 @@ server:
 zuul:
   routes:
     his-system:
-      path: /staff/**
+      path: /user/**
       url: http://localhost:8081/
       strip-prefix: false
 
-# 日志配置（和 spring 同级）
 logging:
   level:
     com.netflix.zuul: DEBUG
@@ -18,5 +17,3 @@ logging:
     org.springframework.cloud.netflix.zuul.filters: DEBUG
     org.springframework.cloud.netflix.zuul.filters.route: DEBUG
     com.netflix.ribbon: DEBUG
-  file:
-    name: ../logs/zuul-gateway.log

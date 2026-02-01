@@ -16,14 +16,25 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import('@/views/login/LoginVue.vue'),
+    meta: { title: '登录' }
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/register/RegisterVue.vue'),
+    meta: { title: '注册' }
   }
 ]
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+function createRouter() {
+  return new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
+  })
+}
+
+const router = createRouter()
 
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {

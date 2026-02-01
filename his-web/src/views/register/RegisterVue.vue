@@ -1,9 +1,15 @@
 <template>
-  <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
-
+  <div class="register-container">
+    <el-form
+      ref="registerForm"
+      :model="registerForm"
+      :rules="registerRules"
+      class="register-form"
+      auto-complete="on"
+      label-position="left"
+    >
       <div class="title-container">
-        <h3 class="title">医院信息管理系统</h3>
+        <h3 class="title">用户注册</h3>
       </div>
 
       <el-form-item prop="username">
@@ -11,12 +17,10 @@
           <i class="el-icon-user"></i>
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
+          v-model="registerForm.username"
           placeholder="用户名"
           name="username"
           type="text"
-          tabindex="1"
           auto-complete="on"
         />
       </el-form-item>
@@ -27,101 +31,108 @@
         </span>
         <el-input
           :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
+          v-model="registerForm.password"
           :type="passwordType"
           placeholder="密码"
           name="password"
-          tabindex="2"
           auto-complete="on"
-          @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
           <i :class="passwordType === 'password' ? 'el-icon-view' : 'el-icon-minus'"></i>
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:12px;" @click.native.prevent="handleLogin">
-        登录
+      <el-form-item prop="confirmPassword">
+        <span class="svg-container">
+          <i class="el-icon-lock"></i>
+        </span>
+        <el-input
+          v-model="registerForm.confirmPassword"
+          type="password"
+          placeholder="确认密码"
+          name="confirmPassword"
+          auto-complete="on"
+          @keyup.enter.native="handleRegister"
+        />
+      </el-form-item>
+
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:12px;" @click.native.prevent="handleRegister">
+        注册
       </el-button>
 
       <div class="link-row">
-        <span class="link" @click="goRegister">没有账号？去注册</span>
+        <span class="link" @click="goLogin">已有账号？去登录</span>
       </div>
-
     </el-form>
   </div>
 </template>
 
 <script>
+import { register } from '@/api/user'
+
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!value) {
-        callback(new Error('请输入正确的用户名'))
-      } else {
-        callback()
-      }
+      if (!value) return callback(new Error('请输入用户名'))
+      if (value.length < 2) return callback(new Error('用户名至少2位'))
+      callback()
     }
+
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
-      } else {
-        callback()
-      }
+      if (!value) return callback(new Error('请输入密码'))
+      if (value.length < 6) return callback(new Error('密码不能少于6位'))
+      callback()
     }
+
+    const validateConfirmPassword = (rule, value, callback) => {
+      if (!value) return callback(new Error('请再次输入密码'))
+      if (value !== this.registerForm.password) return callback(new Error('两次密码不一致'))
+      callback()
+    }
+
     return {
-      loginForm: {
+      registerForm: {
         username: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
       },
-      loginRules: {
+      registerRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        confirmPassword: [{ required: true, trigger: 'blur', validator: validateConfirmPassword }]
       },
       loading: false,
-      passwordType: 'password',
-      redirect: undefined
-    }
-  },
-  watch: {
-    $route: {
-      handler: function(route) {
-        this.redirect = route.query && route.query.redirect
-      },
-      immediate: true
+      passwordType: 'password'
     }
   },
   methods: {
     showPwd() {
-      if (this.passwordType === 'password') {
-        this.passwordType = ''
-      } else {
-        this.passwordType = 'password'
-      }
-      this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+      this.passwordType = this.passwordType === 'password' ? '' : 'password'
     },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push('/')
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
+    goLogin() {
+      this.$router.push('/login')
+    },
+    handleRegister() {
+      this.$refs.registerForm.validate(async valid => {
+        if (!valid) return
+
+        this.loading = true
+        try {
+          // 注意：这里的 URL 在 api/user.js 里定义。
+          // 若你的后端注册接口不是 /user/register，请改 api/user.js。
+          await register({
+            username: this.registerForm.username.trim(),
+            password: this.$md5(this.registerForm.password),
+            confirmPassword: this.$md5(this.registerForm.confirmPassword)
           })
-        } else {
-          console.log('error submit!!')
-          return false
+
+          this.$message.success('注册成功，请登录')
+          this.$router.push('/login')
+        } finally {
+          this.loading = false
         }
       })
-    },
-    goRegister() {
-      this.$router.push('/register')
     }
   }
 }
@@ -132,14 +143,14 @@ $bg:#2d3a4b;
 $light_gray:#fff;
 $cursor: #fff;
 
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
+@supports (-webkit-mask: none) and (not (caret-color: $cursor)) {
+  .register-container .el-input input {
     color: $cursor;
   }
 }
 
 /* reset element-ui css */
-.login-container {
+.register-container {
   .el-input {
     display: inline-block;
     height: 47px;
@@ -176,31 +187,19 @@ $bg:#283443;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
-.login-container {
+.register-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
 
-  .login-form {
+  .register-form {
     position: relative;
     width: 520px;
     max-width: 100%;
-    padding: 160px 35px 0;
+    padding: 140px 35px 0;
     margin: 0 auto;
     overflow: hidden;
-  }
-
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
   }
 
   .svg-container {
