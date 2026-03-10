@@ -1,10 +1,12 @@
+server:
+  port: 8081
+
 spring:
   application:
     name: HIS-System
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/his?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/his?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
     username: root
     password: 123456
     hikari:
@@ -12,10 +14,19 @@ spring:
       minimum-idle: 2
       connection-timeout: 30000
 
-server:
-  port: 8081
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.his.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
 
-# 先开基础 SQL 日志，方便确认是否真正连库/执行 SQL
+jwt:
+  secret: his@2026#JwtSecretKey_1234567890_abcdefg
+  expire:
+    minutes: 120
+
 logging:
   level:
     org.springframework.jdbc.core: debug

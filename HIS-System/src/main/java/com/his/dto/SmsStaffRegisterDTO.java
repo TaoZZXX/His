@@ -3,7 +3,7 @@ package com.his.dto;
 
 import com.his.annotation.Size;
 
-public class UserRegisterDTO {
+public class SmsStaffRegisterDTO {
 
     @Size(filedName = "账号", min = 2, max = 64, message = "长度必须在2-64之间")
     private String username;

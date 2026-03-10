@@ -4,45 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-1-19">
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/Size.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/utils/FiledLengthValidator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsStall.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/UserLoginDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/UserRegisterDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/BusinessException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStallMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsStallService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStallService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/IdGenerator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/MD5Util.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/domain/Result.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/ResultCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/views/register/RegisterVue.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-2-1">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/JwtUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/SmsStaffLoginVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-Business/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Business/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-Gateway/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-Gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-Statistics/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Statistics/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/.gitattributes" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/StaffController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/HisSystemApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/HisSystemApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/utils/FiledLengthValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/utils/FiledLengthValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsStaffController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsStall.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsStaff.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/UserLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffLoginDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/UserRegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffRegisterDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/BusinessException.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/BusinessException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStallMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsStallService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsStaffService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStallService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-common/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/HisCommonApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/user.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/ResultCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/ResultCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/api/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/stall.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/store/modules/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/utils/auth.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/utils/auth.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/login/LoginVue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/login/LoginVue.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/views/register/RegisterVue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/register/RegisterVue.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,9 +129,14 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.runner",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "ts.external.directory.path": "D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
+    ]
   }
 }]]></component>
   <component name="RecentsManager">
@@ -169,6 +165,7 @@
         <entry key="SpringBootApplicationConfigurationType">
           <value>
             <map>
+              <entry key="HisGatewayApplication" value="STOPPED" />
               <entry key="HisSystemApplication" value="STOPPED" />
             </map>
           </value>
@@ -219,9 +216,9 @@
       <item itemvalue="JavaScript Debug.Debug Application" />
       <item itemvalue="Spring Boot.HisBusinessApplication" />
       <item itemvalue="Spring Boot.HisCommonApplication" />
+      <item itemvalue="Spring Boot.HisGatewayApplication" />
       <item itemvalue="Spring Boot.HisStatisticsApplication" />
       <item itemvalue="Spring Boot.HisSystemApplication" />
-      <item itemvalue="Spring Boot.HisGatewayApplication" />
     </list>
   </component>
   <component name="SharedIndexes">
@@ -279,7 +276,12 @@
       <workItem from="1769612369796" duration="5002000" />
       <workItem from="1769863187651" duration="1333000" />
       <workItem from="1769864540033" duration="2154000" />
-      <workItem from="1769946135618" duration="208000" />
+      <workItem from="1769946135618" duration="11023000" />
+      <workItem from="1772696846089" duration="602000" />
+      <workItem from="1773029427452" duration="45000" />
+      <workItem from="1773029872964" duration="282000" />
+      <workItem from="1773030328404" duration="45000" />
+      <workItem from="1773060155048" duration="9679000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -337,7 +339,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768828184989</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="25-2-1">
+      <option name="closed" value="true" />
+      <created>1769946433457</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1769946433457</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -366,7 +376,8 @@
     <MESSAGE value="25-1-6" />
     <MESSAGE value="25-1-18" />
     <MESSAGE value="25-1-19" />
-    <option name="LAST_COMMIT_MESSAGE" value="25-1-19" />
+    <MESSAGE value="25-2-1" />
+    <option name="LAST_COMMIT_MESSAGE" value="25-2-1" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

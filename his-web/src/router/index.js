@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import DashboardVue from "@/layout/dashboard/Dashboard.Vue.vue";
+import { getToken } from '@/utils/auth'
 
 Vue.use(VueRouter)
 
@@ -41,7 +42,25 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title
   }
 
-  next()
+  // 登录白名单
+  const whiteList = ['/login', '/register']
+  const hasToken = getToken()
+
+  if (hasToken) {
+    // 已登录，访问登录页则跳转主页
+    if (to.path === '/login') {
+      next({ path: '/' })
+    } else {
+      next()
+    }
+  } else {
+    // 未登录，访问白名单以外页面则跳转登录页
+    if (whiteList.includes(to.path)) {
+      next()
+    } else {
+      next({ path: '/login', query: { redirect: to.fullPath } })
+    }
+  }
 })
 
 export function resetRouter() {

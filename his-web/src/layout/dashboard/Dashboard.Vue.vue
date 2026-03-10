@@ -10,13 +10,28 @@
       <div class="app-top-nav">
         <!-- 顶部导航第一行：折叠图标 + 标题 -->
         <div class="app-top-nav-title">
-          <el-button
-              icon="el-icon-s-fold"
-              circle
-              @click="toggleCollapse"
-              class="collapse-btn"
-          ></el-button>
-          {{ currentPageTitle }}
+          <div class="left-panel">
+            <el-button
+                icon="el-icon-s-fold"
+                circle
+                @click="toggleCollapse"
+                class="collapse-btn"
+            ></el-button>
+            {{ currentPageTitle }}
+          </div>
+          <div class="right-panel">
+            <el-dropdown class="avatar-container" trigger="click" @command="handleCommand">
+              <span class="el-dropdown-link">
+                当前用户：{{ name }} <span v-if="username">({{ username }})</span>
+                <i class="el-icon-caret-bottom" />
+              </span>
+              <el-dropdown-menu slot="dropdown" class="user-dropdown">
+                <el-dropdown-item command="logout">
+                  <span style="display:block;">退出登录</span>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
 
         <!-- 顶部导航第二行：历史/其他内容 -->
@@ -41,6 +56,7 @@
 <script>
 import Sidebar from '@/layout/dashboard/component/Sidebar.vue';
 import History from '@/layout/dashboard/component/History.vue';
+import { mapState } from 'vuex';
 
 export default {
   name: 'App',
@@ -63,7 +79,6 @@ export default {
     this.addViewTags();
   },
   methods: {
-    // 切换折叠/展开状态
     toggleCollapse() {
       this.isCollapse = !this.isCollapse;
     },
@@ -100,9 +115,28 @@ export default {
       } else {
         this.$router.push('/');
       }
+    },
+    handleCommand(command) {
+      if (command === 'logout') {
+        this.logout();
+      }
+    },
+    async logout() {
+      try {
+        await this.$store.dispatch('user/logout');
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      } catch (error) {
+        // 即使后端请求失败，前端也应该清除状态并跳转到登录页
+        // 这里可以选择提示错误，或者静默处理
+        console.error("Logout failed:", error);
+        // 强制清除前端状态
+        await this.$store.dispatch('user/resetToken');
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      }
     }
   },
   computed: {
+    ...mapState('user', ['name', 'username']),
     currentPageTitle() {
       return this.$route.meta.title || '';
     }
@@ -166,10 +200,32 @@ export default {
 /* 第一行：标题区域 */
 .app-top-nav-title {
   /* 改为block，独占一行 */
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
   height: 40px; /* 第一行高度 */
   line-height: 40px; /* 文字垂直居中 */
+}
+
+.left-panel {
+  display: flex;
+  align-items: center;
+}
+
+.right-panel {
+  padding-right: 20px;
+  font-size: 14px;
+  color: #606266;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409EFF;
+}
+
+.el-icon-caret-bottom {
+  font-size: 12px;
 }
 
 /* 第二行：历史区域 */

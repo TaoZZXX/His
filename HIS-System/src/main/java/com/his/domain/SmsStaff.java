@@ -4,9 +4,9 @@ import com.his.annotation.Size;
 
 import java.time.LocalDate;
 
-public class SmsStall {
+public class SmsStaff {
 
-    private Integer id;
+    private Long id;
 
     @Size(filedName = "账号", min = 2, max = 64, message = "长度必须在2-64之间")
     private String username;
@@ -30,11 +30,11 @@ public class SmsStall {
 
     private Integer deptId;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

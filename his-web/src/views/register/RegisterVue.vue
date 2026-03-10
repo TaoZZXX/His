@@ -68,7 +68,8 @@
 </template>
 
 <script>
-import { register } from '@/api/user'
+import { register } from '@/api/stall'
+import {Message} from "element-ui";
 
 export default {
   name: 'Register',
@@ -119,13 +120,20 @@ export default {
 
         this.loading = true
         try {
-          // 注意：这里的 URL 在 api/user.js 里定义。
-          // 若你的后端注册接口不是 /user/register，请改 api/user.js。
-          await register({
+          const res = await register({
             username: this.registerForm.username.trim(),
             password: this.$md5(this.registerForm.password),
             confirmPassword: this.$md5(this.registerForm.confirmPassword)
           })
+
+          if (res.code !== 20000) {
+            Message({
+              message: res.message,
+              type: 'error',
+              duration: 5 * 1000
+            })
+            return
+          }
 
           this.$message.success('注册成功，请登录')
           this.$router.push('/login')

@@ -6,7 +6,7 @@ server:
 zuul:
   routes:
     his-system:
-      path: /user/**
+      path: /stall/**
       url: http://localhost:8081/
       strip-prefix: false
 

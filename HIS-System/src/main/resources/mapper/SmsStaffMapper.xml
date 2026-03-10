@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.SmsStaffMapper">
+
+    <insert id="insertSmsStaff" parameterType="com.his.domain.SmsStaff">
+        insert into sms_staff (id, username, password, status, create_time,
+                               gender, skd_flag, title, name, dept_id, role_id, registration_rank_id)
+        values (
+                #{id}, #{username}, #{password}, #{status}, #{createTime},
+                #{gender}, #{skdFlag}, #{title}, #{name}, #{deptId}, #{roleId}, #{registrationRankId}
+               )
+    </insert>
+
+    <select id="selectSmsStaffCountByUsername" resultType="long" parameterType="string">
+        select count(*) from sms_staff where username = #{username}
+    </select>
+
+    <select id="selectSmsStaffByUsername" resultType="com.his.domain.SmsStaff">
+        select * from sms_staff where username = #{username}
+    </select>
+
+</mapper>

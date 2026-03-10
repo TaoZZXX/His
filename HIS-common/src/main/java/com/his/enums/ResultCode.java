@@ -4,7 +4,10 @@ public enum ResultCode {
     SUCCESS(20000, "success"),
     LOGIN_FAILED(401, "error"),
     PARAM_ERROR(400, "error"),
-    SERVER_ERROR(500, "error");
+    SERVER_ERROR(500, "error"),
+    TOKEN_INVALID(50014, "error"),
+    USER_NOT_EXIST(20001, "error"),
+    DATA_NOT_FOUND(404, "error");
 
     private final Integer code;
     private final String status;

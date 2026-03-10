@@ -1,6 +1,8 @@
 package com.his.annotation.utils;
 
 import com.his.annotation.Size;
+import com.his.enums.ResultCode;
+import com.his.exception.BusinessException;
 
 import java.lang.reflect.Field;
 
@@ -25,7 +27,7 @@ public class FiledLengthValidator {
                     if (fieldValue == null) {
 
                         if (annotation.min() > 0) {
-                            throw new IllegalArgumentException(
+                            throw new BusinessException(ResultCode.PARAM_ERROR,
                                     String.format("%s长度过短，长度应在[%d, %d]之间",
                                             annotation.filedName(), annotation.min(), annotation.max())
                             );
@@ -41,14 +43,14 @@ public class FiledLengthValidator {
                     int length = fieldValueStr.length();
 
                     if (length < annotation.min()) {
-                        throw new IllegalArgumentException(
+                        throw new BusinessException(ResultCode.PARAM_ERROR,
                                 String.format("%s长度过短，长度应在[%d, %d]之间",
                                         annotation.filedName(), annotation.min(), annotation.max())
                         );
                     }
 
                     if (length > annotation.max()) {
-                        throw new IllegalArgumentException(
+                        throw new BusinessException(ResultCode.PARAM_ERROR,
                                 String.format("%s长度过长，长度应在[%d, %d]之间",
                                         annotation.filedName(), annotation.min(), annotation.max())
                         );
