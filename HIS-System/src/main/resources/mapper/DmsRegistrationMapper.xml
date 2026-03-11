@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.DmsRegistrationMapper">
+
+
+    <insert id="insertDmsRegistration" parameterType="com.his.domain.DmsRegistration">
+        insert into dms_registration
+        (id, patient_id, create_time, end_attendance, status, skd_id, need_book, bind_status,
+        dept_id, attendance_date, patient_age_str)
+        values
+        (#{id}, #{patientId}, #{createTime}, #{endAttendance}, #{status}, #{skdId}, #{needBook}, #{bindStatus},
+         #{deptId}, #{attendanceDate}, #{patientAgeStr})
+    </insert>
+</mapper>

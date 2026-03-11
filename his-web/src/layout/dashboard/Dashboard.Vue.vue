@@ -83,14 +83,27 @@ export default {
       this.isCollapse = !this.isCollapse;
     },
     addViewTags() {
-      const { name } = this.$route;
+      const { name, path } = this.$route;
       if (name) {
-        if (this.visitedViews.some(v => v.path === this.$route.path)) {
+        if (this.visitedViews.some(v => v.path === path)) {
           return;
         }
+        // 优先使用 route.meta.breadcrumb（如果存在并且是数组）
+        let title = 'no-name';
+        const metaBreadcrumb = this.$route.meta && this.$route.meta.breadcrumb;
+        if (Array.isArray(metaBreadcrumb) && metaBreadcrumb.length) {
+          title = metaBreadcrumb.join(' / ');
+        } else {
+          // 使用路由 matched 列表自动生成面包屑：读取每一段的 meta.title 或回退到 name/path
+          const breadcrumb = (this.$route.matched || []).map(record => {
+            return (record.meta && record.meta.title) ? record.meta.title : (record.name || record.path);
+          }).filter(Boolean).join(' / ');
+          title = breadcrumb || (this.$route.meta && this.$route.meta.title) || title;
+        }
+
         this.visitedViews.push(
           Object.assign({}, this.$route, {
-            title: this.$route.meta.title || 'no-name'
+            title
           })
         );
       }

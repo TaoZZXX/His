@@ -3,15 +3,40 @@ import VueRouter from 'vue-router'
 
 import DashboardVue from "@/layout/dashboard/Dashboard.Vue.vue";
 import { getToken } from '@/utils/auth'
+import Home from '@/views/home/Home.vue';
+import Registration from '@/views/registration/Registration.vue';
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'dashboard',
     component: DashboardVue,
-    meta: { title: '主页' }
+    redirect: '/home',
+    meta: { title: '主页' },
+    children: [
+      {
+        path: 'home',
+        name: 'home',
+        component: Home,
+        meta: { title: '主页' }
+      },
+      {
+        path: 'charge',
+        name: 'charge',
+        component: { render: h => h('router-view') },
+        meta: { title: '门诊收费挂号', breadcrumb: ['首页', '门诊收费挂号'] },
+        children: [
+          {
+            path: 'registration',
+            name: 'registration',
+            component: Registration,
+            meta: { title: '门诊挂号工作台', breadcrumb: ['首页', '门诊收费挂号', '门诊挂号工作台'] }
+          }
+        ]
+      }
+    ]
   },
   {
     path: '/login',

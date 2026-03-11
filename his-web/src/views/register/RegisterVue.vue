@@ -127,11 +127,7 @@ export default {
           })
 
           if (res.code !== 20000) {
-            Message({
-              message: res.message,
-              type: 'error',
-              duration: 5 * 1000
-            })
+            this.$message.error(res.message)
             return
           }
 

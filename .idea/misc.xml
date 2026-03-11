@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/HIS-common/pom.xml" />
         <option value="$PROJECT_DIR$/HIS-Statistics/pom.xml" />
         <option value="$PROJECT_DIR$/HIS-Business/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

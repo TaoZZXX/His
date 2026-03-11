@@ -1,0 +1,116 @@
+import request from '@/utils/request'
+
+/**
+ * 获取科室列表
+ * params: { keyword?, page?, size? }
+ */
+export function getDepartments(params) {
+  return request({
+    url: '/sms/registration/departments',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取科室下医生列表
+ * deptId: 科室 ID
+ * params: { keyword?, page?, size? }
+ */
+export function getDoctors(deptId, params) {
+  return request({
+    url: `/sms/registration/departments/${deptId}/doctors`,
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取医生某日排班 / 可挂号时段
+ * doctorId: 医生 ID
+ * date: YYYY-MM-DD
+ */
+export function getDoctorSchedule(doctorId, date) {
+  return request({
+    url: `/sms/registration/doctors/${doctorId}/schedule`,
+    method: 'get',
+    params: { date }
+  })
+}
+
+/**
+ * 查询患者的挂号记录（按患者 ID）
+ * patientId: 患者 ID
+ * params: { page?, size?, status? }
+ */
+export function getRegistrationsByPatient(patientId, params) {
+  return request({
+    url: `/sms/registration/patients/${patientId}/registrations`,
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 获取单条挂号详情
+ * registrationId: 挂号记录 ID
+ */
+export function getRegistrationDetails(registrationId) {
+  return request({
+    url: `/sms/registration/registrations/${registrationId}`,
+    method: 'get'
+  })
+}
+
+/**
+ * 创建挂号（提交挂号申请）
+ * data: {
+ *   patientId, doctorId, deptId, date(YYYY-MM-DD), slotId, visitType?, remarks?
+ * }
+ */
+export function createRegistration(data) {
+  return request({
+    url: '/sms/registration/registrations',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 取消挂号
+ * registrationId: 挂号记录 ID
+ * data (可选): { reason? }
+ */
+export function cancelRegistration(registrationId, data) {
+  return request({
+    url: `/sms/registration/registrations/${registrationId}/cancel`,
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 检查医生某时段是否可挂号（可用于创建前校验）
+ * params: { doctorId, date, slotId }
+ */
+export function checkAvailability(params) {
+  return request({
+    url: '/registration/availability',
+    method: 'get',
+    params
+  })
+}
+
+/**
+ * 修改挂号（例如更改时段/备注）
+ * registrationId: 挂号记录 ID
+ * data: { date?, slotId?, remarks? }
+ */
+export function updateRegistration(registrationId, data) {
+  return request({
+    url: `/registration/registrations/${registrationId}`,
+    method: 'put',
+    data
+  })
+}
+

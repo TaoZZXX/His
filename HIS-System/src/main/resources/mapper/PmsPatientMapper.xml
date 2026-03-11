@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.PmsPatientMapper">
+    <select id="countByIdentificationNo" resultType="java.lang.Integer">
+        select count(*) from pms_patient where identification_no = #{identificationNo}
+    </select>
+
+    <insert id="insertPmsPatient" parameterType="com.his.domain.PmsPatient">
+        insert into pms_patient
+        (id, name, date_of_birth, identification_no, home_address, phone_no, gender, medical_record_no)
+        values
+        (#{id}, #{name}, #{dateOfBirth}, #{identificationNo}, #{homeAddress}, #{phoneNo}, #{gender}, #{medicalRecordNo})
+    </insert>
+
+    <select id="selectPmsPatientByIdentificationNo" resultType="com.his.domain.PmsPatient">
+        select * from pms_patient where identification_no = #{identificationNo}
+    </select>
+
+
+</mapper>
