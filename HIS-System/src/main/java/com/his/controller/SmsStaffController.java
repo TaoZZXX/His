@@ -1,19 +1,18 @@
 package com.his.controller;
 
+import com.his.domain.PageResult;
 import com.his.domain.Result;
 import com.his.dto.SmsStaffLoginDTO;
 import com.his.dto.SmsStaffRegisterDTO;
 import com.his.service.ISmsStaffService;
 import com.his.vo.SmsStaffLoginVo;
+import com.his.vo.StaffPageVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/stall")
+@RequestMapping("/staff")
 public class SmsStaffController {
 
     @Autowired
@@ -40,5 +39,18 @@ public class SmsStaffController {
     @PostMapping("/logout")
     public Result<Object> logout() {
         return Result.success("退出成功", null);
+    }
+
+    /**
+     * 分页获取员工列表
+     */
+    @GetMapping("staffs")
+    public Result<PageResult<StaffPageVo>> getStaffs(
+            @RequestParam(value = "page", defaultValue = "1") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size,
+            @RequestParam(value = "deptId", required = false) Integer deptId,
+            @RequestParam(value = "roleId", required = false) Integer roleId
+            ) {
+        return Result.success("获取员工列表成功", smsStallService.getStaffByPage(page, size, deptId, roleId));
     }
 }

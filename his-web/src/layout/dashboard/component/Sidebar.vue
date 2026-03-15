@@ -19,7 +19,6 @@
           <span slot="title">首页</span>
         </template>
 
-        <!-- 门诊收费挂号 作为首页的子目录 -->
         <el-submenu index="1-1" @mouseenter.native="handleMenuMouseEnter('1-1')" @mouseleave.native="handleMenuMouseLeave('1-1')">
           <template slot="title">
             <i class="el-icon-s-order"></i>
@@ -28,22 +27,44 @@
           <el-menu-item index="/charge/registration" @click="goTo('/charge/registration')">
             门诊挂号工作台
           </el-menu-item>
+          <el-menu-item index="/charge/registration" @click="goTo('/charge/registration/editRegistration')">
+            编辑
+          </el-menu-item>
         </el-submenu>
-
       </el-submenu>
 
-      <el-menu-item index="/charge" @click="goTo('/charge')">
-        <i class="el-icon-s-cooperation"></i>
-        <span slot="title">收费</span>
-      </el-menu-item>
+      <el-submenu index="2" @mouseenter.native="handleMenuMouseEnter('2')" @mouseleave.native="handleMenuMouseLeave('2')">
+        <template slot="title">
+          <i class="el-icon-s-cooperation"></i>
+          <span slot="title">门诊医生</span>
+        </template>
+
+        <el-menu-item index="/doctor/outpatient" @click="goTo('/doctor/outpatient')">
+          门诊医生工作台
+        </el-menu-item>
+      </el-submenu>
+
       <el-menu-item index="/pharmacy" @click="goTo('/pharmacy')">
         <i class="el-icon-s-management"></i>
         <span slot="title">药房</span>
       </el-menu-item>
-      <el-menu-item index="/system" @click="goTo('/system')">
-        <i class="el-icon-s-platform"></i>
-        <span slot="title">系统管理</span>
-      </el-menu-item>
+
+      <el-submenu index="4" @mouseenter.native="handleMenuMouseEnter('4')" @mouseleave.native="handleMenuMouseLeave('4')">
+        <template slot="title">
+          <i class="el-icon-s-home"></i>
+          <span slot="title">首页</span>
+        </template>
+
+        <el-submenu index="4-1" @mouseenter.native="handleMenuMouseEnter('4-1')" @mouseleave.native="handleMenuMouseLeave('4-1')">
+          <template slot="title">
+            <i class="el-icon-s-order"></i>
+            <span>用户管理</span>
+          </template>
+          <el-menu-item index="/admin/staff" @click="goTo('/admin/staff')">
+            角色权限管理
+          </el-menu-item>
+        </el-submenu>
+      </el-submenu>
     </el-menu>
   </div>
 </template>

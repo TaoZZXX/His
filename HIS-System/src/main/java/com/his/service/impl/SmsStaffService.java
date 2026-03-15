@@ -1,26 +1,35 @@
 package com.his.service.impl;
 
+import com.his.domain.PageResult;
+import com.his.domain.SmsDept;
 import com.his.domain.SmsStaff;
 import com.his.dto.SmsStaffLoginDTO;
 import com.his.dto.SmsStaffRegisterDTO;
 import com.his.enums.ResultCode;
 import com.his.exception.BusinessException;
+import com.his.mapper.SmsDeptMapper;
 import com.his.mapper.SmsStaffMapper;
 import com.his.service.ISmsStaffService;
 import com.his.utils.IdGenerator;
 import com.his.utils.JwtUtil;
 import com.his.vo.SmsStaffLoginVo;
+import com.his.vo.StaffPageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SmsStaffService implements ISmsStaffService {
 
     @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
     private SmsStaffMapper smsStallMapper;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private SmsDeptMapper smsDeptMapper;
 
     @Override
     public SmsStaffLoginVo getInfo(String token) {
@@ -39,6 +48,51 @@ public class SmsStaffService implements ISmsStaffService {
         smsStaffLoginVo.setUsername(smsStall.getUsername());
         smsStaffLoginVo.setName(smsStall.getName() == null ? "用户" : smsStall.getName());
         return smsStaffLoginVo;
+    }
+
+    @Override
+    public PageResult<StaffPageVo> getStaffByPage(Integer page, Integer size, Integer deptId, Integer roleId) {
+        if (page == null || page < 1) page = 1;
+        if (size == null || size < 1) size = 10;
+
+        // convert to 0-based offset
+        int offset = (page - 1) * size;
+
+        Long total = smsStallMapper.selectStaffCount(deptId, roleId);
+        List<StaffPageVo> list = smsStallMapper.selectStaffByPage(deptId, roleId, offset, size);
+
+        for (StaffPageVo l : list) {
+            Long deptIdT = l.getDeptId();
+            if (deptIdT == null) {
+                l.setDeptName("未知");
+                continue;
+            }
+            SmsDept smsDept = smsDeptMapper.selectDeptById(deptIdT);
+            if (smsDept == null) {
+                l.setDeptName("未知");
+                continue;
+            }
+            l.setDeptName(smsDept.getName());
+        }
+
+        // compute total pages
+        int pages = 0;
+        if (total != null && total > 0) {
+            pages = (int) ((total + size - 1) / size);
+        }
+
+        PageResult<StaffPageVo> result = new PageResult<>();
+        result.setList(list);
+        result.setTotal(total == null ? 0L : total);
+        result.setPageNo(page);
+        result.setPageSize(size);
+        result.setPages(pages);
+        return result;
+    }
+
+    // Backwards-compatible overload: support callers that pass only page and size
+    public PageResult<StaffPageVo> getStaffByPage(Integer page, Integer size) {
+        return getStaffByPage(page, size, null, null);
     }
 
     @Override

@@ -4,36 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-10">
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/RegistrationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsRegistration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/PmsPatient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/PmsPatientMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IPmsPatientService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/PmsPatientServiceService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/PmsPatientMapper.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/EndAttendanceCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/GenderCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/RegistrationStatusCode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/api/registService.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/his-web/src/views/registration/Registration.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/HIS.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-11">
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsDept.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/StaffPageVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/domain/PageResult.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-web/src/api/staff.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-web/src/views/registration/EditRegistration.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/his-web/src/views/user/StaffRoleManagement.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsStaff.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsStaff.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffLoginDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffLoginDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffRegisterDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffRegisterDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsStaffController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsStaffController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsStaffService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsStaffService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/api/registService.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/registService.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/api/stall.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/stall.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/router/index.js" afterDir="false" />
     </list>
@@ -61,8 +49,8 @@
         <option value="AnnotationType" />
         <option value="Exception" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -101,47 +89,47 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "Spring Boot.HisGatewayApplication.executor": "Run",
-    "Spring Boot.HisSystemApplication.executor": "Debug",
-    "Spring Boot.Unnamed.executor": "Run",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
-    "jdk.selected.JAVA_MODULE": "ms-21",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "G:/workspace-java/HIS/HIS-System/src/main/resources/mapper",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "editor.stickyLines",
-    "ts.external.directory.path": "D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;Spring Boot.HisGatewayApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.HisSystemApplication.executor&quot;: &quot;Debug&quot;,
+    &quot;Spring Boot.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;ms-21&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/workspace-java/HIS/HIS-System/src/main/resources/mapper&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\workspace-java\HIS\HIS-System\src\main\resources\mapper" />
@@ -177,7 +165,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HisSystemApplication">
+  <component name="RunManager" selected="Spring Boot.HisGatewayApplication">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:5173">
       <method v="2" />
     </configuration>
@@ -289,7 +277,11 @@
       <workItem from="1773146035477" duration="3908000" />
       <workItem from="1773217092262" duration="21000" />
       <workItem from="1773217601184" duration="426000" />
-      <workItem from="1773228675189" duration="12842000" />
+      <workItem from="1773228675189" duration="13240000" />
+      <workItem from="1773286515680" duration="383000" />
+      <workItem from="1773393996069" duration="61000" />
+      <workItem from="1773488648397" duration="10817000" />
+      <workItem from="1773573175484" duration="1069000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -363,7 +355,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773129175776</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="25-3-11">
+      <option name="closed" value="true" />
+      <created>1773241822842</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1773241822842</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -394,7 +394,8 @@
     <MESSAGE value="25-1-19" />
     <MESSAGE value="25-2-1" />
     <MESSAGE value="25-3-10" />
-    <option name="LAST_COMMIT_MESSAGE" value="25-3-10" />
+    <MESSAGE value="25-3-11" />
+    <option name="LAST_COMMIT_MESSAGE" value="25-3-11" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

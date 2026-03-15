@@ -22,4 +22,30 @@
         select * from sms_staff where username = #{username}
     </select>
 
+    <select id="selectStaffCount" resultType="long" parameterType="map">
+        select count(*) from sms_staff s
+        <where>
+            <if test="filterDeptId != null and filterDeptId &gt; 0">
+                and s.dept_id = #{filterDeptId}
+            </if>
+            <if test="filterRoleId != null and filterRoleId &gt; 0">
+                and s.role_id = #{filterRoleId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectStaffByPage" resultType="com.his.vo.StaffPageVo" parameterType="map">
+        select id, username, name, role_id, dept_id, create_time from sms_staff
+        <where>
+            <if test="filterDeptId != null and filterDeptId &gt; 0">
+                and dept_id = #{filterDeptId}
+            </if>
+            <if test="filterRoleId != null and filterRoleId &gt; 0">
+                and role_id = #{filterRoleId}
+            </if>
+        </where>
+        order by create_time desc
+        limit #{limit} offset #{offset}
+    </select>
+
 </mapper>

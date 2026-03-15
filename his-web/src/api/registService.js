@@ -108,9 +108,31 @@ export function checkAvailability(params) {
  */
 export function updateRegistration(registrationId, data) {
   return request({
-    url: `/registration/registrations/${registrationId}`,
+    // use the project's SMS registration prefix for consistency
+    url: `/sms/registration/registrations/${registrationId}`,
     method: 'put',
     data
   })
 }
 
+/**
+ * 删除挂号记录（前端会优先尝试软删/退号，如果后端支持物理删除可使用此接口）
+ * registrationId: 挂号记录 ID
+ */
+export function deleteRegistration(registrationId) {
+  return request({
+    url: `/sms/registration/registrations/${registrationId}`,
+    method: 'delete'
+  })
+}
+
+/**
+ *
+ */
+export function getAllRegistrations(page) {
+  return request({
+    url: '/sms/registration/getAllByPage',
+    method: 'post',
+    page
+  })
+}
