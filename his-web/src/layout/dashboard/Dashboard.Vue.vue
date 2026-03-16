@@ -254,6 +254,7 @@ export default {
 .app-content {
   flex: 1;
   width: 100%;
+  padding: 30px;
   overflow: auto;
 }
 </style>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.SmsRoleMapper">
+
+    <select id="selectRoleList" resultType="com.his.domain.SmsRole" parameterType="map">
+        select id, name, description, create_time AS createTime, status from sms_role
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat('%', #{keyword}, '%') or description like concat('%', #{keyword}, '%'))
+            </if>
+        </where>
+        order by create_time desc
+        limit #{limit} offset #{offset}
+    </select>
+
+    <select id="selectRoleCount" resultType="long" parameterType="string">
+        select count(*) from sms_role
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat('%', #{keyword}, '%') or description like concat('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="selectRoleById" resultType="com.his.domain.SmsRole" parameterType="long">
+        select id, name, description, create_time AS createTime, status from sms_role where id = #{id}
+    </select>
+
+    <insert id="insertRole" parameterType="com.his.domain.SmsRole">
+        insert into sms_role (id, name, description, create_time, status)
+        values (#{id}, #{name}, #{description}, #{createTime}, #{status})
+    </insert>
+
+    <update id="updateRole" parameterType="com.his.domain.SmsRole">
+        update sms_role
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRoleById" parameterType="long">
+        delete from sms_role where id = #{id}
+    </delete>
+
+    <!-- permissions -->
+    <select id="selectAllPermissions" resultType="com.his.domain.SmsPermission">
+        select id,
+               pid,
+               name,
+               value,
+               url,
+               status,
+               create_time AS createTime,
+               sort,
+               type
+        from sms_permission
+        order by pid, sort
+    </select>
+
+    <select id="selectPermissionById" resultType="com.his.domain.SmsPermission" parameterType="long">
+        select id, pid, name, value, url, status, create_time AS createTime, sort, type from sms_permission where id = #{id}
+    </select>
+
+    <insert id="insertPermission" parameterType="com.his.domain.SmsPermission">
+        insert into sms_permission (id, pid, name, value, url, status, create_time, sort, type)
+        values (#{id}, #{pid}, #{name}, #{value}, #{url}, #{status}, #{createTime}, #{sort}, #{type})
+    </insert>
+
+    <update id="updatePermission" parameterType="com.his.domain.SmsPermission">
+        update sms_permission
+        <set>
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="value != null">value = #{value},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="type != null">type = #{type},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePermissionById" parameterType="long">
+        delete from sms_permission where id = #{id}
+    </delete>
+
+    <select id="selectPermissionIdsByRoleId" resultType="long" parameterType="long">
+        select permission_id from sms_role_permission_relation where role_id = #{roleId}
+    </select>
+
+    <delete id="deleteRolePermissions" parameterType="long">
+        delete from sms_role_permission_relation where role_id = #{roleId}
+    </delete>
+
+    <insert id="insertRolePermission" parameterType="map">
+        insert into sms_role_permission_relation (id, role_id, permission_id) values (#{id}, #{roleId}, #{permissionId})
+    </insert>
+
+</mapper>

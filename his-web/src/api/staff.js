@@ -28,7 +28,7 @@ export function getRoles() {
 // 创建用户
 export function createStaff(data) {
   return request({
-    url: '/sms/staff/staffs',
+    url: '/sms/staff/createStaff',
     method: 'post',
     data
   })
@@ -44,9 +44,9 @@ export function updateStaff(id, data) {
 }
 
 // 删除用户
-export function deleteStaff(id) {
+export function deleteStaff(username) {
   return request({
-    url: `/sms/staff/staffs/${id}`,
+    url: `/sms/staff/staffs/${username}`,
     method: 'delete'
   })
 }

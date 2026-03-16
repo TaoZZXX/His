@@ -1,10 +1,11 @@
 package com.his.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.his.annotation.Size;
 import lombok.Data;
 import lombok.Getter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class SmsStaff {
@@ -19,7 +20,11 @@ public class SmsStaff {
 
     private Integer status;
 
-    private LocalDate createTime;
+    @JsonFormat(
+            pattern = "yyyy-MM-dd HH:mm:ss",
+            timezone = "GMT+8"
+    )
+    private LocalDateTime createTime;
 
     private Integer gender;
 

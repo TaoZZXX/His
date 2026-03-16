@@ -8,6 +8,7 @@ import Registration from '@/views/registration/Registration.vue';
 import EditRegistration from '@/views/registration/EditRegistration.vue';
 import OutpatientDesk from '@/views/doctor/OutpatientDesk.vue';
 import StaffRoleManagement from '@/views/user/StaffRoleManagement.vue';
+import RolePermissionManagement from '@/views/user/RolePermissionManagement.vue';
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,12 @@ const routes = [
             name: 'staff-role-management',
             component: StaffRoleManagement,
             meta: { title: '用户管理/角色权限管理', breadcrumb: ['首页', '系统管理', '用户管理'] }
+          },
+          {
+            path: 'roles',
+            name: 'role-permission-management',
+            component: RolePermissionManagement,
+            meta: { title: '角色权限管理', breadcrumb: ['首页', '系统管理', '角色权限管理'] }
           }
         ]
       },

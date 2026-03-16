@@ -4,9 +4,11 @@ package com.his.mapper;
 import com.his.domain.SmsStaff;
 import com.his.vo.StaffPageVo;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface SmsStaffMapper {
     /**
      * 用户注册
@@ -34,5 +36,11 @@ public interface SmsStaffMapper {
     // 分页查询列表，参数为 offset 和 limit
     List<StaffPageVo> selectStaffByPage(@Param("filterDeptId") Integer deptId, @Param("filterRoleId") Integer roleId,
                                         @Param("offset") Integer offset, @Param("limit") Integer limit);
+
+    // 删除员工
+    Integer deleteSmsStaffByUsername(@Param("username") String username);
+
+    // 更新员工（传入 SmsStaff, 只更新非 null 字段）
+    Integer updateSmsStaff(SmsStaff smsStaff);
 
 }

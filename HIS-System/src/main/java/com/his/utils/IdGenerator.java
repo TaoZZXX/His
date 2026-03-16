@@ -10,6 +10,6 @@ public class IdGenerator {
         long timestamp = System.currentTimeMillis();
         int randomNum = RANDOM.nextInt((int) Math.pow(10, RANDOM_LEN));
         String randomStr = String.format("%0" + RANDOM_LEN + "d", randomNum);
-        return Long.parseLong(timestamp + randomStr);
+        return Long.parseLong(timestamp + "");
     }
 }

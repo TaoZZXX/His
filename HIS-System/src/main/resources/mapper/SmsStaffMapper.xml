@@ -48,4 +48,26 @@
         limit #{limit} offset #{offset}
     </select>
 
+    <!-- update only non-null fields -->
+    <update id="updateSmsStaff" parameterType="com.his.domain.SmsStaff">
+        update sms_staff
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="skdFlag != null">skd_flag = #{skdFlag},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="registrationRankId != null">registration_rank_id = #{registrationRankId},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSmsStaffByUsername" parameterType="String">
+        delete from sms_staff where username = #{username}
+    </delete>
+
 </mapper>

@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import md5 from 'js-md5'
 import { getStaffList, getDepartments, getRoles, createStaff, updateStaff, deleteStaff } from '@/api/staff'
 export default {
   name: 'UserRoleManagement',
@@ -213,6 +214,11 @@ export default {
           await updateStaff(this.editing.id, this.editing)
           this.$message.success('更新成功')
         } else {
+          // set default password to MD5('123456') for new users
+          // don't overwrite if frontend explicitly set a password
+          if (!this.editing.password) {
+            this.editing.password = md5('123456')
+          }
           await createStaff(this.editing)
           this.$message.success('创建成功')
         }
@@ -229,7 +235,7 @@ export default {
       this.$confirm('确认删除该用户？', '提示', { type: 'warning' })
         .then(async () => {
           try {
-            await deleteStaff(row.id)
+            await deleteStaff(row.username)
             this.$message.success('删除成功')
             this.fetchList(this.currentPage, this.pageSize)
           } catch (err) {

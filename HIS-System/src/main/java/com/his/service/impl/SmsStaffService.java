@@ -17,6 +17,7 @@ import com.his.vo.StaffPageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -109,6 +110,7 @@ public class SmsStaffService implements ISmsStaffService {
         smsStall.setId(IdGenerator.generateNumericId());
         smsStall.setUsername(smsStaffRegisterDTO.getUsername());
         smsStall.setPassword(smsStaffRegisterDTO.getPassword());
+        smsStall.setCreateTime(LocalDateTime.now());
 
         if (smsStallMapper.insertSmsStaff(smsStall) < 1) {
             throw new BusinessException(ResultCode.SERVER_ERROR, "服务器错误，请联系管理员");
@@ -137,6 +139,49 @@ public class SmsStaffService implements ISmsStaffService {
         smsStaffLoginVo.setName(smsStall.getName() == null ? "用户" : smsStall.getName());
         smsStaffLoginVo.setToken(token);
         return smsStaffLoginVo;
+    }
+
+    @Override
+    public void createStaff(SmsStaff smsStaff) {
+        if (smsStaff == null || smsStaff.getUsername() == null) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "用户名不能为空");
+        }
+        // check unique
+        if (smsStallMapper.selectSmsStaffCountByUsername(smsStaff.getUsername()) > 0) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "用户名已存在");
+        }
+        smsStaff.setId(IdGenerator.generateNumericId());
+        smsStaff.setCreateTime(LocalDateTime.now());
+        // set create time to now if applicable (SmsStaff.createTime is LocalDate in model, keep null if not present)
+        // insert
+        if (smsStallMapper.insertSmsStaff(smsStaff) < 1) {
+            throw new BusinessException(ResultCode.SERVER_ERROR, "新增员工失败");
+        }
+    }
+
+    @Override
+    public void updateStaff(Long id, SmsStaff smsStaff) {
+        if (id == null || smsStaff == null) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "参数错误");
+        }
+        SmsStaff exist = smsStallMapper.selectSmsStaffByUsername(smsStaff.getUsername() != null ? smsStaff.getUsername() : "__none__");
+        if (exist != null && !exist.getId().equals(id)) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "用户名已被占用");
+        }
+        smsStaff.setId(id);
+        if (smsStallMapper.updateSmsStaff(smsStaff) < 1) {
+            throw new BusinessException(ResultCode.SERVER_ERROR, "更新员工失败");
+        }
+    }
+
+    @Override
+    public void deleteStaff(String username) {
+        if (username == null || username.isEmpty()) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "参数错误");
+        }
+        if (smsStallMapper.deleteSmsStaffByUsername(username) < 1) {
+            throw new BusinessException(ResultCode.SERVER_ERROR, "删除员工失败");
+        }
     }
 
 }
