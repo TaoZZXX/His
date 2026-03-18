@@ -18,4 +18,7 @@ public class DmsRegistration {
     private LocalDate attendanceDate;   /// 就诊日期
     private String patientAgeStr;   /// 30岁3月
 
+    // 额外字段：仅用于前端列表展示
+    private String patientName;
+    private String deptName;
 }

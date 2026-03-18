@@ -7,6 +7,7 @@ import Home from '@/views/home/Home.vue';
 import Registration from '@/views/registration/Registration.vue';
 import EditRegistration from '@/views/registration/EditRegistration.vue';
 import OutpatientDesk from '@/views/doctor/OutpatientDesk.vue';
+import DoctorScheduleManagement from '@/views/doctor/DoctorScheduleManagement.vue';
 import StaffRoleManagement from '@/views/user/StaffRoleManagement.vue';
 import RolePermissionManagement from '@/views/user/RolePermissionManagement.vue';
 
@@ -77,6 +78,12 @@ const routes = [
             name: 'outpatient-desk',
             component: OutpatientDesk,
             meta: { title: '门诊医生工作台', breadcrumb: ['首页', '门诊医生', '门诊医生工作台'] }
+          },
+          {
+            path: 'schedule',
+            name: 'doctor-schedule-management',
+            component: DoctorScheduleManagement,
+            meta: { title: '医生排班管理', breadcrumb: ['首页', '医生排班管理'] }
           }
         ]
       }

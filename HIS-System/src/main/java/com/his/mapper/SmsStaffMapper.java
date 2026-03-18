@@ -37,6 +37,9 @@ public interface SmsStaffMapper {
     List<StaffPageVo> selectStaffByPage(@Param("filterDeptId") Integer deptId, @Param("filterRoleId") Integer roleId,
                                         @Param("offset") Integer offset, @Param("limit") Integer limit);
 
+    // 新增：通过科室查询医生列表（不分页）
+    List<StaffPageVo> selectStaffByDept(@Param("deptId") Long deptId);
+
     // 删除员工
     Integer deleteSmsStaffByUsername(@Param("username") String username);
 

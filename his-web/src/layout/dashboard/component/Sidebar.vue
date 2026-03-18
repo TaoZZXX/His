@@ -41,6 +41,9 @@
         <el-menu-item index="/doctor/outpatient" @click="goTo('/doctor/outpatient')">
           门诊医生工作台
         </el-menu-item>
+        <el-menu-item index="/doctor/schedule" @click="goTo('/doctor/schedule')">
+          医生排班管理
+        </el-menu-item>
       </el-submenu>
 
       <el-menu-item index="/pharmacy" @click="goTo('/pharmacy')">
@@ -51,7 +54,7 @@
       <el-submenu index="4" @mouseenter.native="handleMenuMouseEnter('4')" @mouseleave.native="handleMenuMouseLeave('4')">
         <template slot="title">
           <i class="el-icon-s-home"></i>
-          <span slot="title">首页</span>
+          <span slot="title">系统管理</span>
         </template>
 
         <el-submenu index="4-1" @mouseenter.native="handleMenuMouseEnter('4-1')" @mouseleave.native="handleMenuMouseLeave('4-1')">

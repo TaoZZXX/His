@@ -77,6 +77,18 @@ export function createRegistration(data) {
 }
 
 /**
+ * 根据身份证号查询患者信息
+ * idCard: 身份证号
+ */
+export function getPatientByIdCard(idCard) {
+  return request({
+    url: '/sms/registration/patient',
+    method: 'get',
+    params: { identificationNo: idCard }
+  })
+}
+
+/**
  * 取消挂号
  * registrationId: 挂号记录 ID
  * data (可选): { reason? }
@@ -129,10 +141,10 @@ export function deleteRegistration(registrationId) {
 /**
  *
  */
-export function getAllRegistrations(page) {
+export function getAllRegistrations(data) {
   return request({
     url: '/sms/registration/getAllByPage',
     method: 'post',
-    page
+    data
   })
 }

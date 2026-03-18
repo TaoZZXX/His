@@ -14,4 +14,53 @@
         (#{id}, #{patientId}, #{createTime}, #{endAttendance}, #{status}, #{skdId}, #{needBook}, #{bindStatus},
          #{deptId}, #{attendanceDate}, #{patientAgeStr})
     </insert>
+
+    <!-- 分页查询挂号记录，按创建时间（挂号时间）倒序，联表取患者姓名和科室名称，返回 VO -->
+    <select id="selectByPage" resultType="com.his.vo.RegistrationPageVo">
+        select
+            dr.id,
+            dr.patient_id      as patientId,
+            dr.create_time     as createTime,
+            dr.end_attendance  as endAttendance,
+            dr.status,
+            dr.skd_id          as skdId,
+            dr.need_book       as needBook,
+            dr.bind_status     as bindStatus,
+            dr.dept_id         as deptId,
+            dr.attendance_date as attendanceDate,
+            dr.patient_age_str as patientAgeStr,
+            p.name             as patientName,
+            d.name             as deptName,
+            skd.staff_id       as doctorId,
+            s.name             as doctorName
+        from dms_registration dr
+        left join pms_patient p on dr.patient_id = p.id
+        left join sms_dept d on dr.dept_id = d.id
+        left join sms_skd skd on dr.skd_id = skd.id
+        left join sms_staff s on skd.staff_id = s.id
+        order by dr.create_time desc
+        limit #{limit} offset #{offset}
+    </select>
+
+    <!-- 统计总数 -->
+    <select id="countAll" resultType="long">
+        select count(1) from dms_registration
+    </select>
+
+    <!-- 根据主键更新部分字段 -->
+    <update id="updateById" parameterType="com.his.domain.DmsRegistration">
+        update dms_registration
+        <set>
+            <if test="deptId != null">
+                dept_id = #{deptId},
+            </if>
+            <if test="skdId != null">
+                skd_id = #{skdId},
+            </if>
+            <if test="attendanceDate != null">
+                attendance_date = #{attendanceDate},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
 </mapper>

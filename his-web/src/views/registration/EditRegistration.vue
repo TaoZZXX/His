@@ -64,11 +64,29 @@
         <el-form-item label="患者姓名">
           <el-input v-model="current.name" disabled />
         </el-form-item>
-        <el-form-item label="科室" prop="department">
-          <el-input v-model="current.department" placeholder="科室" />
+        <el-form-item label="科室" prop="departmentId">
+          <el-select
+            v-model="current.departmentId"
+            placeholder="请选择科室"
+            @change="handleDeptChangeInEdit"
+          >
+            <el-option
+              v-for="dept in deptOptions"
+              :key="dept.id"
+              :label="dept.name"
+              :value="dept.id"
+            />
+          </el-select>
         </el-form-item>
-        <el-form-item label="医生" prop="doctor">
-          <el-input v-model="current.doctor" placeholder="医生" />
+        <el-form-item label="医生" prop="doctorId">
+          <el-select v-model="current.doctorId" placeholder="请选择医生">
+            <el-option
+              v-for="doc in doctorOptions"
+              :key="doc.id"
+              :label="doc.name"
+              :value="doc.id"
+            />
+          </el-select>
         </el-form-item>
         <el-form-item label="挂号日期" prop="registrationDate">
           <el-date-picker v-model="current.registrationDate" type="date" placeholder="选择日期" style="width: 100%;" />
@@ -86,7 +104,7 @@
 </template>
 
 <script>
-import { getRegistrationsByPatient, updateRegistration, deleteRegistration } from '@/api/registService'
+import { getRegistrationsByPatient, getAllRegistrations, updateRegistration, deleteRegistration, getDepartments, getDoctors } from '@/api/registService'
 
 export default {
   name: 'EditRegistration',
@@ -99,20 +117,29 @@ export default {
       loading: false,
       deleting: {}, // map registrationId => boolean
 
+      // 科室/医生选项
+      deptOptions: [],
+      doctorOptions: [],
+
       // pagination
       currentPage: 1,
       pageSize: 10,
       total: 0,
       pageSizes: [10, 20, 50, 100],
 
-       // 编辑相关
-       editDialogVisible: false,
-       current: {},
-       saving: false
-     }
-   },
-   methods: {
-     formatDate(d) {
+      // 编辑相关
+      editDialogVisible: false,
+      current: {},
+      saving: false
+    }
+  },
+  created() {
+    // 初始化科室列表和挂号列表
+    this.loadDepartments()
+    this.fetchRegistrations(1, this.pageSize)
+  },
+  methods: {
+    formatDate(d) {
        if (!d) return ''
        if (typeof d === 'string') return d
        const dt = new Date(d)
@@ -122,25 +149,60 @@ export default {
        return `${y}-${m}-${day}`
      },
 
-     // 支持分页的查询
-     // page: 1-based page number for UI, size: page size
-     // 注意：后端分页参数可能为 0-based page index；这里假设后端使用 0-based page（常见），因此发送 page-1
-     async fetchRegistrations(page, size) {
+    // 根据科室 ID 获取科室名称（用于列表回显）
+    getDeptNameById(id) {
+      if (!id || !Array.isArray(this.deptOptions)) return ''
+      const found = this.deptOptions.find(d => String(d.id) === String(id))
+      return found ? found.deptName : ''
+    },
+
+    // 加载科室列表
+    async loadDepartments() {
+      try {
+        const res = await getDepartments()
+        if (res.code === 20000 && Array.isArray(res.data)) {
+          this.deptOptions = res.data
+        }
+      } catch (e) {
+        this.$message.error('获取科室列表失败')
+      }
+    },
+
+    // 根据科室获取医生列表（编辑弹框用）
+    async handleDeptChangeInEdit(deptId) {
+      this.current.doctorId = ''
+      this.doctorOptions = []
+      if (!deptId) return
+      try {
+        const res = await getDoctors(deptId)
+        if (res.code === 20000 && Array.isArray(res.data)) {
+          this.doctorOptions = res.data
+        }
+      } catch (e) {
+        this.$message.error('获取医生列表失败')
+      }
+    },
+
+    // 支持分页的查询
+    // page: 1-based page number for UI, size: page size
+    // 注意：后端分页参数可能为 0-based page index；这里假设后端使用 0-based page（常见），因此发送 page-1
+    async fetchRegistrations(page, size) {
       // fall back to current state when params are not provided
       page = (typeof page === 'number' && page > 0) ? page : this.currentPage
       size = (typeof size === 'number' && size > 0) ? size : this.pageSize
-
-      if (!this.search.patientId) {
-        this.$message.warning('请输入患者ID或身份证号后查询')
-        return
-      }
       // update pagination state
       this.currentPage = page
       this.pageSize = size
       this.loading = true
       try {
-        const query = { page: Math.max(0, page - 1), size }
-        const res = await getRegistrationsByPatient(this.search.patientId, query)
+        const query = { page: Math.max(0, page - 1), size, sort: 'registrationDate,DESC' }
+        let res
+        // 有患者ID/身份证号时按患者查询；否则查询全部挂号
+        if (this.search.patientId) {
+          res = await getRegistrationsByPatient(this.search.patientId, query)
+        } else {
+          res = await getAllRegistrations(query)
+        }
         const data = res.data || res || {}
         if (data.code && data.code !== 200 && data.code !== 20000) {
           this.$message.error(data.message || '查询失败')
@@ -178,16 +240,41 @@ export default {
           total = payload.total || payload.totalElements || 0
         }
 
-        this.registrations = (items || []).map(item => ({
-          raw: item,
-          id: item.id || item.registrationId || item.registration || item._id || item.registId,
-          name: item.name || item.patientName || item.patient || '',
-          department: item.department || item.dept || item.deptName || '',
-          doctor: item.doctor || item.doctorName || '',
-          registrationDate: item.registrationDate || item.date || item.createdAt || '',
-          status: item.status || item.state || '已挂号',
-          remarks: item.remarks || item.note || ''
-        }))
+        // 按挂号时间倒序排序（后端未排序时，前端兜底）
+        items = (items || []).slice().sort((a, b) => {
+          const da = new Date(a.registrationDate || a.date || a.createdAt || 0)
+          const db = new Date(b.registrationDate || b.date || b.createdAt || 0)
+          return db - da
+        })
+
+        this.registrations = items.map(item => {
+          const departmentId = item.departmentId || item.deptId || item.departmentId
+          // 后端分页接口返回的科室名称字段（通过联表查询）
+          const deptNameFromServer = item.deptName || item.department || item.dept || item.deptName
+          // 再根据 ID 在已加载的科室列表中获取名称进行兜底
+          const deptNameFromId = this.getDeptNameById(departmentId)
+          const departmentName = deptNameFromServer || deptNameFromId || ''
+
+          const doctorId = item.doctorId || item.staffId || item.doctorId
+          const doctorName = item.doctor || item.doctorName || ''
+          const regDate = item.attendanceDate || item.registrationDate || item.date || item.createdAt || ''
+          return {
+            raw: item,
+            id: item.id || item.registrationId || item.registration || item._id || item.registId,
+            name: item.name || item.patientName || item.patient || '',
+            // 用于表格展示的名称
+            department: departmentName,
+            doctor: doctorName,
+            registrationDate: regDate,
+            status: item.status || item.state || '已挂号',
+            remarks: item.remarks || item.note || '',
+            // 编辑时使用的 ID
+            departmentId,
+            doctorId,
+            departmentName,
+            doctorName
+          }
+        })
         // 如果没有 total，则将 total 设为当前项数（用于分页控件基本显示）
         this.total = total || this.registrations.length
       } catch (err) {
@@ -215,20 +302,24 @@ export default {
       return !disabled.includes(row.status)
     },
 
-    openEdit(row) {
+    async openEdit(row) {
       if (!row || !row.id) return
       // 深拷贝当前行数据到 current
       this.current = JSON.parse(JSON.stringify(row))
       // 保证日期为 Date 或字符串可被 date-picker 处理
       if (this.current.registrationDate && typeof this.current.registrationDate === 'string') {
-        // 留下字符串格式，date-picker 仍能处理 YYYY-MM-DD 字符串
+        // 保持 YYYY-MM-DD 字符串，el-date-picker 可以识别
+      }
+      // 打开时根据当前科室加载医生列表，方便直接选择
+      if (this.current.departmentId) {
+        await this.handleDeptChangeInEdit(this.current.departmentId)
       }
       this.editDialogVisible = true
     },
 
     async saveEdit() {
       // 简单校验
-      if (!this.current.department || !this.current.registrationDate) {
+      if (!this.current.departmentId || !this.current.registrationDate) {
         this.$message.warning('请填写科室和挂号日期')
         return
       }
@@ -237,9 +328,13 @@ export default {
       try {
         const payload = {
           // 按后端 updateRegistration 期望传递的字段构造
-          registrationDate: this.current.registrationDate,
-          department: this.current.department,
-          doctor: this.current.doctor,
+          // 统一转换为 YYYY-MM-DD 字符串，避免带时区的时间戳
+          registrationDate: this.formatDate(this.current.registrationDate),
+          departmentId: this.current.departmentId,
+          department: this.current.departmentName || this.current.department,
+          doctorId: this.current.doctorId,
+          doctor: this.current.doctorName || this.current.doctor,
+          session: this.current.session || '默认',
           remarks: this.current.remarks
         }
         const res = await updateRegistration(this.current.id, payload)
@@ -249,16 +344,8 @@ export default {
           return
         }
         this.$message.success('保存成功')
-        // 更新本地列表项
-        const idx = this.registrations.findIndex(r => r.id === this.current.id)
-        if (idx !== -1) {
-          this.$set(this.registrations, idx, Object.assign({}, this.registrations[idx], {
-            department: this.current.department,
-            doctor: this.current.doctor,
-            registrationDate: this.current.registrationDate,
-            remarks: this.current.remarks
-          }))
-        }
+        // 重新拉取当前页数据，确保与后端一致
+        this.fetchRegistrations(this.currentPage, this.pageSize)
         this.editDialogVisible = false
       } catch (err) {
         console.error(err)

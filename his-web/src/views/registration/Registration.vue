@@ -5,7 +5,11 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="身份证号">
-            <el-input v-model="form.idCard" placeholder="身份证号" />
+            <el-input
+              v-model="form.idCard"
+              placeholder="身份证号"
+              @blur="handleIdCardInputFinish"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -40,10 +44,17 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="挂号科室">
-            <el-select v-model="form.department" placeholder="挂号科室">
-              <el-option label="心血管内科" value="心血管内科" />
-              <el-option label="神经内科" value="神经内科" />
-              <!-- 可根据实际科室补充 -->
+            <el-select
+              v-model="form.department"
+              placeholder="挂号科室"
+              @change="handleDeptChange"
+            >
+              <el-option
+                v-for="dept in deptOptions"
+                :key="dept.id"
+                :label="dept.name"
+                :value="dept.id"
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -82,9 +93,13 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="看诊医生">
-            <el-select v-model="form.doctor" placeholder="默认">
-              <el-option label="默认" value="默认" />
-              <!-- 可根据实际医生补充 -->
+            <el-select v-model="form.doctor" placeholder="请选择医生">
+              <el-option
+                v-for="doc in doctorOptions"
+                :key="doc.id"
+                :label="doc.name"
+                :value="doc.id"
+              />
             </el-select>
           </el-form-item>
         </el-col>
@@ -116,7 +131,7 @@
 </template>
 
 <script>
-import { createRegistration } from '@/api/registService'
+import { createRegistration, getPatientByIdCard, getDepartments, getDoctors } from '@/api/registService'
 
 export default {
   name: 'Registration',
@@ -124,6 +139,8 @@ export default {
     return {
       invoiceNo: '',
       submitting: false,
+      deptOptions: [],
+      doctorOptions: [],
       form: {
         idCard: '',
         name: '',
@@ -131,18 +148,94 @@ export default {
         gender: '',
         address: '',
         contact: '',
-        department: '',
+          department: '',
         level: '',
         registrationDate: '',
         payment: '',
-        session: '默认',
-        doctor: '默认',
+          session: '默认',
+          doctor: '',
         amount: 0,
         medicalRecord: ''
       }
     };
   },
+  created() {
+    // 页面加载时先拉取科室列表
+    this.loadDepartments()
+  },
   methods: {
+    // 根据科室 ID 获取科室名称
+    getDeptNameById(id) {
+      if (!id || !Array.isArray(this.deptOptions)) return ''
+      const found = this.deptOptions.find(d => String(d.id) === String(id))
+      return found ? found.deptName : ''
+    },
+
+    // 加载科室列表
+    async loadDepartments() {
+      try {
+        const res = await getDepartments()
+        if (res.code === 20000 && Array.isArray(res.data)) {
+          this.deptOptions = res.data
+        }
+      } catch (e) {
+        this.$message.error('获取科室列表失败')
+      }
+    },
+
+    // 科室切换时，加载该科室下的医生
+    async handleDeptChange(deptId) {
+      this.form.doctor = ''
+      this.doctorOptions = []
+      if (!deptId) return
+      try {
+        const res = await getDoctors(deptId)
+        if (res.code === 20000 && Array.isArray(res.data)) {
+          this.doctorOptions = res.data
+        }
+      } catch (e) {
+        this.$message.error('获取医生列表失败')
+      }
+    },
+
+    // 身份证号输入完成（失焦）后自动查询患者信息并回填
+    async handleIdCardInputFinish() {
+      const idCard = (this.form.idCard || '').trim()
+      // 简单长度判断，可按需要调整
+      if (!idCard) return
+      if (idCard.length !== 18) {
+        // 长度不对就不查，避免无效请求
+        return
+      }
+      try {
+        const res = await getPatientByIdCard(idCard)
+        if (res.code !== 20000 || !res.data) {
+          // 未查到患者信息时给个提示，不回填
+          this.$message.warning(res.message || '未查到该患者信息，将按新患者处理')
+          return
+        }
+        const p = res.data
+        // 回填基础信息
+        this.form.name = p.name || ''
+        // 后端 dateOfBirth 是 LocalDate，序列化后一般是 'YYYY-MM-DD'
+        this.form.birthDate = p.dateOfBirth || ''
+        // 性别：后端是数字 code，需要转换成前端下拉的“男/女”
+        if (p.gender === 1) {
+          this.form.gender = '男'
+        } else if (p.gender === 0) {
+          this.form.gender = '女'
+        }
+        this.form.address = p.homeAddress || ''
+        this.form.contact = p.phoneNo || ''
+        // 病历本编号
+        this.form.medicalRecord = p.medicalRecordNo || this.form.medicalRecord
+        this.$message.success('已根据身份证号加载患者信息')
+      } catch (e) {
+        // 静默或简单提示即可
+        this.$message.error('查询患者信息失败，请稍后再试')
+      }
+    },
+
     // 简单日期格式化 YYYY-MM-DD
     formatDate(d) {
       if (!d) return ''
@@ -164,7 +257,8 @@ export default {
       const invoiceNo = regInfo.invoiceNo || regInfo.invoice || this.invoiceNo || '—'
       const patientName = regInfo.name || this.form.name || '—'
       const idCard = regInfo.idCard || this.form.idCard || '—'
-      const dept = regInfo.department || this.form.department || '—'
+      const deptId = regInfo.department || this.form.department
+      const dept = this.getDeptNameById(deptId) || '—'
       const doctor = regInfo.doctor || this.form.doctor || '—'
       const date = regInfo.registrationDate || this.formatDate(this.form.registrationDate) || '—'
       const amount = regInfo.amount != null ? regInfo.amount : this.form.amount
@@ -220,7 +314,9 @@ export default {
         gender: this.form.gender,
         address: this.form.address,
         contact: this.form.contact,
-        department: this.form.department,
+        // 传名称给后端，额外带上 departmentId
+        departmentId: this.form.department,
+        department: this.getDeptNameById(this.form.department),
         level: this.form.level,
         registrationDate: this.formatDate(this.form.registrationDate),
         payment: this.form.payment,

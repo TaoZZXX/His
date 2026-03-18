@@ -48,6 +48,11 @@
         limit #{limit} offset #{offset}
     </select>
 
+    <!-- 新增：通过科室查询医生列表（不分页） -->
+    <select id="selectStaffByDept" resultType="com.his.vo.StaffPageVo" parameterType="long">
+        select id, name, dept_id from sms_staff where dept_id = #{deptId} order by name
+    </select>
+
     <!-- update only non-null fields -->
     <update id="updateSmsStaff" parameterType="com.his.domain.SmsStaff">
         update sms_staff
