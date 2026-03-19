@@ -37,6 +37,6 @@ public interface SmsRoleMapper {
 
     Integer deleteRolePermissions(@Param("roleId") Long roleId);
 
-    Integer insertRolePermission(@Param("id") Long id, @Param("roleId") Long roleId, @Param("permissionId") Long permissionId);
+    Integer insertRolePermission(@Param("roleId") Long roleId, @Param("permissionId") Long permissionId);
 
 }

@@ -37,4 +37,18 @@ public interface IDmsRegistrationService {
      * @param attendanceDate 就诊日期
      */
     void updateRegistrationBasic(Long id, Long deptId, Long doctorId, String session, LocalDate attendanceDate);
+
+    /**
+     * 删除挂号记录
+     *
+     * @param id 挂号ID
+     */
+    void deleteRegistration(Long id);
+
+    /**
+     * 退号：把挂号状态置为已取消（不删除记录）
+     *
+     * @param id 挂号ID
+     */
+    void cancelRegistration(Long id);
 }

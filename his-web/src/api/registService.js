@@ -25,6 +25,15 @@ export function getDoctors(deptId, params) {
   })
 }
 
+// 按排班规则查询可挂号医生
+export function getAvailableDoctors(params) {
+  return request({
+    url: '/sms/registration/doctors/available',
+    method: 'get',
+    params
+  })
+}
+
 /**
  * 获取医生某日排班 / 可挂号时段
  * doctorId: 医生 ID
@@ -144,6 +153,47 @@ export function deleteRegistration(registrationId) {
 export function getAllRegistrations(data) {
   return request({
     url: '/sms/registration/getAllByPage',
+    method: 'post',
+    data
+  })
+}
+
+/**
+ * 新增排班规则（草稿）
+ */
+export function createSkdRule(data) {
+  return request({
+    url: '/sms/registration/skd/rules',
+    method: 'post',
+    data
+  })
+}
+
+export function listSkdRules(deptId) {
+  return request({
+    url: '/sms/registration/skd/rules',
+    method: 'get',
+    params: { deptId }
+  })
+}
+
+export function getSkdRuleDetail(id) {
+  return request({
+    url: `/sms/registration/skd/rules/${id}`,
+    method: 'get'
+  })
+}
+
+export function publishSkdRule(id) {
+  return request({
+    url: `/sms/registration/skd/rules/${id}/publish`,
+    method: 'post'
+  })
+}
+
+export function generateSkdByRule(id, data) {
+  return request({
+    url: `/sms/registration/skd/rules/${id}/generate`,
     method: 'post',
     data
   })

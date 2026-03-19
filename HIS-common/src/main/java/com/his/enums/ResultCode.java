@@ -6,6 +6,7 @@ public enum ResultCode {
     PARAM_ERROR(400, "error"),
     SERVER_ERROR(500, "error"),
     TOKEN_INVALID(50014, "error"),
+    PERMISSION_DENIED(50015, "error"),
     USER_NOT_EXIST(20001, "error"),
     DATA_NOT_FOUND(404, "error");
 

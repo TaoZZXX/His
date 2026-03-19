@@ -4,31 +4,38 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-16">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/mybatisx/templates.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsDeptController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsSkd.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsDeptService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsDeptService.java" afterDir="false" />
+    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-17">
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsSkdRule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsSkdRuleItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/RegistrationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsRegistration.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsRegistration.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsRoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsRoleMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/IdGenerator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/PmsPatientMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/PmsPatientMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsRoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsRoleMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/ResultCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/ResultCode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/api/registService.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/registService.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/api/staff.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/staff.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/utils/request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/views/registration/EditRegistration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/registration/EditRegistration.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/his-web/src/views/registration/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/registration/Registration.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/views/user/RolePermissionManagement.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/user/RolePermissionManagement.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/his-web/src/views/user/StaffRoleManagement.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/user/StaffRoleManagement.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -170,7 +177,7 @@
       </map>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HisSystemApplication">
+  <component name="RunManager" selected="Spring Boot.HisGatewayApplication">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:5173">
       <method v="2" />
     </configuration>
@@ -288,7 +295,7 @@
       <workItem from="1773488648397" duration="10817000" />
       <workItem from="1773573175484" duration="13370000" />
       <workItem from="1773748544666" duration="12123000" />
-      <workItem from="1773840061867" duration="2093000" />
+      <workItem from="1773840061867" duration="17473000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -386,7 +393,15 @@
       <option name="project" value="LOCAL" />
       <updated>1773633886037</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="25-3-17">
+      <option name="closed" value="true" />
+      <created>1773842335096</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1773842335096</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,7 +435,8 @@
     <MESSAGE value="25-3-11" />
     <MESSAGE value="25-3-15" />
     <MESSAGE value="25-3-16" />
-    <option name="LAST_COMMIT_MESSAGE" value="25-3-16" />
+    <MESSAGE value="25-3-17" />
+    <option name="LAST_COMMIT_MESSAGE" value="25-3-17" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

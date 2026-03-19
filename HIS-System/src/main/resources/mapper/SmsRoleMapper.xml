@@ -30,8 +30,8 @@
     </select>
 
     <insert id="insertRole" parameterType="com.his.domain.SmsRole">
-        insert into sms_role (id, name, description, create_time, status)
-        values (#{id}, #{name}, #{description}, #{createTime}, #{status})
+        insert into sms_role (name, description, create_time, status)
+        values (#{name}, #{description}, #{createTime}, #{status})
     </insert>
 
     <update id="updateRole" parameterType="com.his.domain.SmsRole">
@@ -68,8 +68,8 @@
     </select>
 
     <insert id="insertPermission" parameterType="com.his.domain.SmsPermission">
-        insert into sms_permission (id, pid, name, value, url, status, create_time, sort, type)
-        values (#{id}, #{pid}, #{name}, #{value}, #{url}, #{status}, #{createTime}, #{sort}, #{type})
+        insert into sms_permission (pid, name, value, url, status, create_time, sort, type)
+        values (#{pid}, #{name}, #{value}, #{url}, #{status}, #{createTime}, #{sort}, #{type})
     </insert>
 
     <update id="updatePermission" parameterType="com.his.domain.SmsPermission">
@@ -100,7 +100,7 @@
     </delete>
 
     <insert id="insertRolePermission" parameterType="map">
-        insert into sms_role_permission_relation (id, role_id, permission_id) values (#{id}, #{roleId}, #{permissionId})
+        insert into sms_role_permission_relation (role_id, permission_id) values (#{roleId}, #{permissionId})
     </insert>
 
 </mapper>

@@ -10,7 +10,6 @@ import com.his.exception.BusinessException;
 import com.his.mapper.SmsDeptMapper;
 import com.his.mapper.SmsStaffMapper;
 import com.his.service.ISmsStaffService;
-import com.his.utils.IdGenerator;
 import com.his.utils.JwtUtil;
 import com.his.vo.SmsStaffLoginVo;
 import com.his.vo.StaffPageVo;
@@ -107,7 +106,6 @@ public class SmsStaffService implements ISmsStaffService {
         }
 
         SmsStaff smsStall = new SmsStaff();
-        smsStall.setId(IdGenerator.generateNumericId());
         smsStall.setUsername(smsStaffRegisterDTO.getUsername());
         smsStall.setPassword(smsStaffRegisterDTO.getPassword());
         smsStall.setCreateTime(LocalDateTime.now());
@@ -150,7 +148,6 @@ public class SmsStaffService implements ISmsStaffService {
         if (smsStallMapper.selectSmsStaffCountByUsername(smsStaff.getUsername()) > 0) {
             throw new BusinessException(ResultCode.PARAM_ERROR, "用户名已存在");
         }
-        smsStaff.setId(IdGenerator.generateNumericId());
         smsStaff.setCreateTime(LocalDateTime.now());
         // set create time to now if applicable (SmsStaff.createTime is LocalDate in model, keep null if not present)
         // insert

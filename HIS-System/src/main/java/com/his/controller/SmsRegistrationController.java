@@ -9,7 +9,9 @@ import com.his.service.IDmsRegistrationService;
 import com.his.service.IPmsPatientService;
 import com.his.mapper.SmsDeptMapper;
 import com.his.mapper.SmsStaffMapper;
+import com.his.mapper.SmsSkdMapper;
 import com.his.vo.StaffPageVo;
+import com.his.enums.NoonCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +29,9 @@ public class SmsRegistrationController {
 
     @Autowired
     private SmsStaffMapper smsStaffMapper;
+
+    @Autowired
+    private SmsSkdMapper smsSkdMapper;
 
     @Autowired
     private IPmsPatientService iPmsPatientService;
@@ -50,6 +55,33 @@ public class SmsRegistrationController {
     public Result<List<StaffPageVo>> getDoctorsByDept(@PathVariable("deptId") Long deptId) {
         List<StaffPageVo> list = smsStaffMapper.selectStaffByDept(deptId);
         return Result.success("获取医生列表成功", list);
+    }
+
+    /**
+     * 按排班规则查询某天可挂号医生列表
+     */
+    @GetMapping("/doctors/available")
+    public Result<List<StaffPageVo>> listAvailableDoctors(@RequestParam("deptId") Long deptId,
+                                                          @RequestParam("date") String date,
+                                                          @RequestParam(value = "session", required = false) String session) {
+        if (deptId == null || date == null) {
+            return Result.error(ResultCode.PARAM_ERROR, "科室和日期不能为空");
+        }
+        java.time.LocalDate d = java.time.LocalDate.parse(date);
+        java.time.LocalDateTime start = d.atStartOfDay();
+        java.time.LocalDateTime end = d.plusDays(1).atStartOfDay();
+        Integer noon = null;
+        if ("上午".equals(session)) {
+            noon = NoonCode.MORNING.getCode();
+        } else if ("下午".equals(session)) {
+            noon = NoonCode.AFTERNOON.getCode();
+        }
+        java.util.List<Long> staffIds = smsSkdMapper.selectAvailableStaffIds(deptId, start, end, noon);
+        if (staffIds == null || staffIds.isEmpty()) {
+            return Result.success("暂无可挂号医生", java.util.Collections.emptyList());
+        }
+        java.util.List<StaffPageVo> doctors = smsStaffMapper.selectStaffByIds(staffIds);
+        return Result.success("查询成功", doctors);
     }
 
     /**
@@ -112,6 +144,33 @@ public class SmsRegistrationController {
         }
         iDmsRegistrationService.updateRegistrationBasic(id, deptId, doctorId, session, attendanceDate);
         return Result.success("更新挂号信息成功");
+    }
+
+    /**
+     * 删除挂号记录
+     * 对应前端：DELETE /sms/registration/registrations/{id}
+     */
+    @DeleteMapping("/registrations/{id}")
+    public Result<?> deleteRegistration(@PathVariable("id") Long id) {
+        if (id == null) {
+            return Result.error(ResultCode.PARAM_ERROR, "挂号ID不能为空");
+        }
+        iDmsRegistrationService.deleteRegistration(id);
+        return Result.success("删除挂号记录成功");
+    }
+
+    /**
+     * 退号（不物理删除）：把状态置为已取消
+     * 对应前端：POST /sms/registration/registrations/{id}/cancel
+     */
+    @PostMapping("/registrations/{id}/cancel")
+    public Result<?> cancelRegistration(@PathVariable("id") Long id,
+                                          @RequestBody(required = false) Map<String, Object> body) {
+        if (id == null) {
+            return Result.error(ResultCode.PARAM_ERROR, "挂号ID不能为空");
+        }
+        iDmsRegistrationService.cancelRegistration(id);
+        return Result.success("退号成功");
     }
 
     /**

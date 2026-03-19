@@ -181,6 +181,7 @@ export default {
 
 /* 主容器：flex占满剩余宽度 */
 .app-main-container {
+  padding-left: 30px;
   flex: 1;
   height: 100%;
   display: flex;

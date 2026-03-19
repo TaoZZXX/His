@@ -17,12 +17,6 @@
             </template>
           </el-table-column>
         </el-table>
-
-        <!-- debug: show raw API response to help diagnose missing roles -->
-        <div style="margin-top:12px; background:#f9f9f9; padding:8px; border:1px solid #eee;">
-          <strong>调试信息（可删除）</strong>
-          <pre style="max-height:200px; overflow:auto;">{{ JSON.stringify(lastRolesRaw, null, 2) }}</pre>
-        </div>
       </el-col>
 
       <el-col :span="14">
@@ -196,9 +190,27 @@ export default {
       try {
         const res = await getPermissions()
         const data = res.data || res || []
-        // backend might return tree or flat list; normalize to tree if needed
+        // backend returns PermissionNode tree; keep fields for "edit permission" dialog.
+        const mapNode = (p) => {
+          const children = Array.isArray(p && p.children) ? p.children.map(mapNode) : []
+          return {
+            // el-tree
+            id: p.id,
+            label: p.label || p.name || '',
+            children,
+            // permission form fields
+            name: p.name || p.label || '',
+            value: p.value,
+            url: p.url,
+            sort: p.sort,
+            status: p.status,
+            pid: p.pid,
+            type: p.type
+          }
+        }
+
         if (Array.isArray(data)) {
-          this.permissionTree = data.map(p => ({ id: p.id, label: p.name || p.label, children: p.children || [] }))
+          this.permissionTree = data.map(mapNode)
         } else {
           this.permissionTree = []
         }
@@ -312,7 +324,16 @@ export default {
       this.permDialogVisible = true
     },
     openEditPermission() {
-      if (!this.selectedPermission) return
+      if (!this.selectedPermission) {
+        const tree = this.$refs.permTree
+        if (!tree) return
+        const checkedNodes = tree.getCheckedNodes(false, true) || []
+        if (checkedNodes.length === 0) return
+        if (checkedNodes.length > 1) {
+          this.$message.warning('当前勾选了多个权限，编辑将以第一个为准')
+        }
+        this.selectedPermission = checkedNodes[0]
+      }
       this.permEditing = Object.assign({}, this.selectedPermission)
       this.permDialogVisible = true
     },

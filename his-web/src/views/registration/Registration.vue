@@ -70,7 +70,12 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="挂号日期">
-            <el-date-picker v-model="form.registrationDate" placeholder="选择日期" style="width: 100%;" />
+            <el-date-picker
+              v-model="form.registrationDate"
+              placeholder="选择日期"
+              style="width: 100%;"
+              @change="loadAvailableDoctors"
+            />
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -84,7 +89,7 @@
         </el-col>
         <el-col :span="6">
           <el-form-item label="午别">
-            <el-select v-model="form.session" placeholder="默认">
+            <el-select v-model="form.session" placeholder="默认" @change="loadAvailableDoctors">
               <el-option label="上午" value="上午" />
               <el-option label="下午" value="下午" />
               <el-option label="默认" value="默认" />
@@ -131,11 +136,13 @@
 </template>
 
 <script>
-import { createRegistration, getPatientByIdCard, getDepartments, getDoctors } from '@/api/registService'
+import { createRegistration, getPatientByIdCard, getDepartments, getAvailableDoctors } from '@/api/registService'
 
 export default {
   name: 'Registration',
   data() {
+    const now = new Date()
+    const session = now.getHours() < 12 ? '上午' : '下午'
     return {
       invoiceNo: '',
       submitting: false,
@@ -150,9 +157,9 @@ export default {
         contact: '',
           department: '',
         level: '',
-        registrationDate: '',
+        registrationDate: now,
         payment: '',
-          session: '默认',
+          session: session,
           doctor: '',
         amount: 0,
         medicalRecord: ''
@@ -183,19 +190,12 @@ export default {
       }
     },
 
-    // 科室切换时，加载该科室下的医生
+    // 科室切换时，重置医生并按排班重新加载
     async handleDeptChange(deptId) {
       this.form.doctor = ''
       this.doctorOptions = []
       if (!deptId) return
-      try {
-        const res = await getDoctors(deptId)
-        if (res.code === 20000 && Array.isArray(res.data)) {
-          this.doctorOptions = res.data
-        }
-      } catch (e) {
-        this.$message.error('获取医生列表失败')
-      }
+      await this.loadAvailableDoctors()
     },
 
     // 身份证号输入完成（失焦）后自动查询患者信息并回填
@@ -245,6 +245,34 @@ export default {
       const m = String(dt.getMonth() + 1).padStart(2, '0')
       const day = String(dt.getDate()).padStart(2, '0')
       return `${y}-${m}-${day}`
+    },
+
+    // 按排班规则加载可挂号医生（需选好科室/日期/午别）
+    async loadAvailableDoctors() {
+      const deptId = this.form.department
+      const date = this.formatDate(this.form.registrationDate)
+      const session = this.form.session
+      if (!deptId || !date || !session || session === '默认') {
+        this.doctorOptions = []
+        this.form.doctor = ''
+        return
+      }
+      try {
+        const res = await getAvailableDoctors({ deptId, date, session })
+        if (res.code === 20000 && Array.isArray(res.data)) {
+          this.doctorOptions = res.data
+          if (!this.doctorOptions.find(d => d.id === this.form.doctor)) {
+            this.form.doctor = ''
+          }
+        } else {
+          this.doctorOptions = []
+          this.form.doctor = ''
+        }
+      } catch (e) {
+        this.$message.error('获取可挂号医生失败')
+        this.doctorOptions = []
+        this.form.doctor = ''
+      }
     },
 
     // 打开新窗口写入发票并触发打印

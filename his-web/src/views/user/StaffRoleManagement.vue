@@ -83,16 +83,8 @@ export default {
         dept: null,
         role: null
       },
-      departments: [
-        { value: 'cardio', label: '心血管内科' },
-        { value: 'neuro', label: '神经内科' },
-        { value: 'gi', label: '消化内科' }
-      ],
-      roles: [
-        { value: 'admin', label: '管理员' },
-        { value: 'doctor', label: '门诊医生' },
-        { value: 'pharmacist', label: '药房医生' }
-      ],
+      departments: [],
+      roles: [],
       users: [],
 
       // pagination
@@ -110,8 +102,8 @@ export default {
     pagedUsers() {
       return (this.users || []).map(u => ({
         ...u,
-        roleLabel: (this.roles.find(r => r.value === u.role) || {}).label || u.role,
-        deptLabel: u.deptName || (this.departments.find(d => d.value === u.dept) || {}).label || u.dept
+        roleLabel: (this.roles.find(r => Number(r.value) === Number(u.role)) || {}).label || (u.role != null ? u.role : ''),
+        deptLabel: u.deptName || ((this.departments.find(d => Number(d.value) === Number(u.dept)) || {}).label) || (u.dept != null ? u.dept : '')
       }))
     }
   },
@@ -124,11 +116,20 @@ export default {
       // fetch departments and roles from backend if available
       try {
         const [deptRes, roleRes] = await Promise.all([getDepartments(), getRoles()])
-        // normalize responses: backend might return { data: [...] } or [...] directly
-        const dr = deptRes.data || deptRes
-        const rr = roleRes.data || roleRes
-        this.departments = Array.isArray(dr) ? dr.map(d => ({ value: d.value || d.id || d.code, label: d.label || d.name })) : this.departments
-        this.roles = Array.isArray(rr) ? rr.map(r => ({ value: r.value || r.id || r.code, label: r.label || r.name })) : this.roles
+        // normalize responses
+        const deptList = deptRes && (deptRes.data || deptRes)
+        const rolePageResult = roleRes && (roleRes.data || roleRes)
+        const roleList = Array.isArray(rolePageResult)
+          ? rolePageResult
+          : (rolePageResult && Array.isArray(rolePageResult.list) ? rolePageResult.list : [])
+
+        this.departments = Array.isArray(deptList)
+          ? deptList.map(d => ({ value: d.value || d.id, label: d.label || d.name }))
+          : []
+
+        this.roles = Array.isArray(roleList)
+          ? roleList.map(r => ({ value: r.value || r.id, label: r.label || r.name }))
+          : []
       } catch (err) {
         // ignore and keep default meta
         console.error('failed to load meta', err)
@@ -166,10 +167,11 @@ export default {
           total = data.total || 0
         }
         this.users = (items || []).map(u => ({
+          id: u.id,
           username: u.username || u.loginName || u.name,
-          name: u.realName || u.name || u.displayName,
-          role: u.role || u.roleId || u.roleCode,
-          dept: u.dept || u.deptId || u.deptCode,
+          realName: u.realName || u.name || u.displayName,
+          role: u.role || u.roleId,
+          dept: u.dept || u.deptId,
           deptName: u.deptName || null,
           createTime: u.createTime || u.createdAt || u.create_date,
           remark: u.remark || u.notes || u.comment || ''
@@ -210,16 +212,28 @@ export default {
       }
       this.loading = true
       try {
+        const deptId = this.editing.dept != null ? Number(this.editing.dept) : null
+        const roleId = this.editing.role != null ? Number(this.editing.role) : null
+
+        // 后端 sms_staff 字段：username/name/dept_id/role_id/password/status...
         if (this.editing.id) {
-          await updateStaff(this.editing.id, this.editing)
+          await updateStaff(this.editing.id, {
+            // 只传可更新字段，避免把 UI 字段（remark/realName等）发给后端
+            name: this.editing.realName,
+            deptId,
+            roleId
+          })
           this.$message.success('更新成功')
         } else {
-          // set default password to MD5('123456') for new users
-          // don't overwrite if frontend explicitly set a password
-          if (!this.editing.password) {
-            this.editing.password = md5('123456')
-          }
-          await createStaff(this.editing)
+          const password = this.editing.password ? this.editing.password : md5('123456')
+          await createStaff({
+            username: this.editing.username,
+            password,
+            name: this.editing.realName,
+            deptId,
+            roleId,
+            status: 1
+          })
           this.$message.success('创建成功')
         }
         this.editingDialog = false

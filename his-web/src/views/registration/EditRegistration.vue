@@ -22,7 +22,11 @@
           {{ formatDate(scope.row.registrationDate) }}
         </template>
       </el-table-column>
-      <el-table-column prop="status" label="状态" width="100" />
+      <el-table-column label="状态" width="100">
+        <template v-slot="scope">
+          {{ statusText(scope.row.status) }}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="200">
         <template v-slot="scope">
           <el-button
@@ -37,7 +41,7 @@
             @click="confirmDelete(scope.row)"
             :loading="deleting[scope.row.id]"
             style="margin-left:8px"
-          >删除</el-button>
+          >退号</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -89,7 +93,19 @@
           </el-select>
         </el-form-item>
         <el-form-item label="挂号日期" prop="registrationDate">
-          <el-date-picker v-model="current.registrationDate" type="date" placeholder="选择日期" style="width: 100%;" />
+          <el-date-picker
+            v-model="current.registrationDate"
+            type="date"
+            placeholder="选择日期"
+            style="width: 100%;"
+            @change="handleEditDateChange"
+          />
+        </el-form-item>
+        <el-form-item label="午别" prop="session">
+          <el-select v-model="current.session" placeholder="选择午别" @change="handleEditSessionChange">
+            <el-option label="上午" value="上午" />
+            <el-option label="下午" value="下午" />
+          </el-select>
         </el-form-item>
         <el-form-item label="备注" prop="remarks">
           <el-input v-model="current.remarks" placeholder="备注" />
@@ -104,7 +120,7 @@
 </template>
 
 <script>
-import { getRegistrationsByPatient, getAllRegistrations, updateRegistration, deleteRegistration, getDepartments, getDoctors } from '@/api/registService'
+import { getRegistrationsByPatient, getAllRegistrations, updateRegistration, cancelRegistration, getDepartments, getAvailableDoctors } from '@/api/registService'
 
 export default {
   name: 'EditRegistration',
@@ -149,6 +165,16 @@ export default {
        return `${y}-${m}-${day}`
      },
 
+    // status: 0 未完成, 1 已完成, 2 已取消
+    statusText(status) {
+      if (status === null || status === undefined || status === '') return ''
+      const s = status
+      if (s === 0 || s === '0') return '未完成'
+      if (s === 1 || s === '1') return '已完成'
+      if (s === 2 || s === '2') return '已取消'
+      return String(s)
+    },
+
     // 根据科室 ID 获取科室名称（用于列表回显）
     getDeptNameById(id) {
       if (!id || !Array.isArray(this.deptOptions)) return ''
@@ -168,18 +194,61 @@ export default {
       }
     },
 
-    // 根据科室获取医生列表（编辑弹框用）
+    // 根据“排班”加载医生列表（编辑弹框用）
     async handleDeptChangeInEdit(deptId) {
       this.current.doctorId = ''
       this.doctorOptions = []
       if (!deptId) return
       try {
-        const res = await getDoctors(deptId)
+        const date = this.formatDate(this.current.registrationDate)
+        if (!date) {
+          this.doctorOptions = []
+          this.current.doctorId = ''
+          return
+        }
+        const res = await getAvailableDoctors({
+          deptId,
+          date,
+          session: this.current.session || '默认'
+        })
         if (res.code === 20000 && Array.isArray(res.data)) {
           this.doctorOptions = res.data
         }
       } catch (e) {
         this.$message.error('获取医生列表失败')
+      }
+    },
+
+    // 编辑弹窗日期变化时，刷新可挂号医生
+    async handleEditDateChange() {
+      if (!this.current || !this.current.departmentId) return
+      await this.handleDeptChangeInEdit(this.current.departmentId)
+      // 如果当前选中的医生不在列表里，清空
+      if (this.current.doctorId && Array.isArray(this.doctorOptions)) {
+        const exists = this.doctorOptions.find(d => String(d.id) === String(this.current.doctorId))
+        if (!exists) {
+          this.current.doctorId = ''
+        }
+      }
+    },
+
+    // noon(0/1) -> session(上午/下午)
+    noonToSession(noon) {
+      if (noon === 0 || noon === '0') return '上午'
+      if (noon === 1 || noon === '1') return '下午'
+      return '默认'
+    },
+
+    // 编辑弹窗午别变化时，刷新可挂号医生
+    async handleEditSessionChange() {
+      if (!this.current || !this.current.departmentId) return
+      await this.handleDeptChangeInEdit(this.current.departmentId)
+      // 如果当前选中的医生不在列表里，清空
+      if (this.current.doctorId && Array.isArray(this.doctorOptions)) {
+        const exists = this.doctorOptions.find(d => String(d.id) === String(this.current.doctorId))
+        if (!exists) {
+          this.current.doctorId = ''
+        }
       }
     },
 
@@ -258,6 +327,8 @@ export default {
           const doctorId = item.doctorId || item.staffId || item.doctorId
           const doctorName = item.doctor || item.doctorName || ''
           const regDate = item.attendanceDate || item.registrationDate || item.date || item.createdAt || ''
+          const noon = item.noon
+          const session = this.noonToSession(noon)
           return {
             raw: item,
             id: item.id || item.registrationId || item.registration || item._id || item.registId,
@@ -266,6 +337,8 @@ export default {
             department: departmentName,
             doctor: doctorName,
             registrationDate: regDate,
+            noon,
+            session,
             status: item.status || item.state || '已挂号',
             remarks: item.remarks || item.note || '',
             // 编辑时使用的 ID
@@ -297,7 +370,13 @@ export default {
 
      isEditable(row) {
       if (!row) return false
-      // 根据状态决定是否可编辑，默认不可编辑已就诊或已退号记录
+      // 根据状态决定是否可编辑
+      // 后端 status 是数字：0=未完成，1=已完成，2=已取消（退号）
+      if (typeof row.status === 'number') {
+        // 允许未完成/已完成编辑，不允许已取消编辑
+        return row.status !== 2
+      }
+      // 兼容字符串状态（如果后端未来返回文字）
       const disabled = ['已就诊', '已退号', '已取消']
       return !disabled.includes(row.status)
     },
@@ -357,7 +436,7 @@ export default {
 
     confirmDelete(row) {
       if (!row || !row.id) return
-      this.$confirm('确认删除该挂号记录？删除后不可恢复', '删除确认', { type: 'warning' })
+      this.$confirm('确认退号该挂号记录？退号后不可恢复', '退号确认', { type: 'warning' })
         .then(() => this.doDelete(row))
         .catch(() => {})
     },
@@ -367,18 +446,18 @@ export default {
       if (!id) return
       this.$set(this.deleting, id, true)
       try {
-        const res = await deleteRegistration(id)
+        const res = await cancelRegistration(id)
         const data = res.data || res || {}
         if (data.code && data.code !== 200 && data.code !== 20000) {
-          this.$message.error(data.message || '删除失败')
+          this.$message.error(data.message || '退号失败')
           return
         }
-        this.$message.success('删除成功')
-        // 从本地列表移除
-        this.registrations = this.registrations.filter(r => r.id !== id)
+        this.$message.success('退号成功')
+        // 重新拉取当前页数据，展示状态已变更
+        this.fetchRegistrations(this.currentPage, this.pageSize)
       } catch (err) {
         console.error(err)
-        this.$message.error('删除失败')
+        this.$message.error('退号失败')
       } finally {
         this.$set(this.deleting, id, false)
       }

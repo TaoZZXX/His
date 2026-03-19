@@ -40,6 +40,9 @@ public interface SmsStaffMapper {
     // 新增：通过科室查询医生列表（不分页）
     List<StaffPageVo> selectStaffByDept(@Param("deptId") Long deptId);
 
+    // 新增：通过 ID 列表查询医生（不分页）
+    List<StaffPageVo> selectStaffByIds(@Param("ids") java.util.List<Long> ids);
+
     // 删除员工
     Integer deleteSmsStaffByUsername(@Param("username") String username);
 

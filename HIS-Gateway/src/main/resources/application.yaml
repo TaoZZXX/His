@@ -1,8 +1,32 @@
 spring:
   application:
     name: HIS-Gateway
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/his?useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      connection-timeout: 30000
+  redis:
+    host: localhost
+    port: 6379
+    database: 0
+    password: 123456
 server:
   port: 9999
+
+jwt:
+  secret: his@2026#JwtSecretKey_1234567890_abcdefg
+
+# 管理员角色放行配置：填写 sms_role 表中管理员角色的 id，逗号分隔
+# 例如：1 代表 sms_role.id=1
+permission:
+  admin:
+    role-ids: 1
+
 zuul:
   routes:
     his-system:

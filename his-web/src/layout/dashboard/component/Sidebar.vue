@@ -65,6 +65,9 @@
           <el-menu-item index="/admin/staff" @click="goTo('/admin/staff')">
             角色权限管理
           </el-menu-item>
+          <el-menu-item index="/admin/roles" @click="goTo('/admin/roles')">
+            权限分配
+          </el-menu-item>
         </el-submenu>
       </el-submenu>
     </el-menu>

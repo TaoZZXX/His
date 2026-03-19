@@ -10,9 +10,9 @@
 
     <insert id="insertPmsPatient" parameterType="com.his.domain.PmsPatient">
         insert into pms_patient
-        (id, name, date_of_birth, identification_no, home_address, phone_no, gender, medical_record_no)
+        (name, date_of_birth, identification_no, home_address, phone_no, gender, medical_record_no)
         values
-        (#{id}, #{name}, #{dateOfBirth}, #{identificationNo}, #{homeAddress}, #{phoneNo}, #{gender}, #{medicalRecordNo})
+        (#{name}, #{dateOfBirth}, #{identificationNo}, #{homeAddress}, #{phoneNo}, #{gender}, #{medicalRecordNo})
     </insert>
 
     <select id="selectPmsPatientByIdentificationNo" resultType="com.his.domain.PmsPatient">

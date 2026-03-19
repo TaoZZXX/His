@@ -32,7 +32,8 @@
             p.name             as patientName,
             d.name             as deptName,
             skd.staff_id       as doctorId,
-            s.name             as doctorName
+            s.name             as doctorName,
+            skd.noon           as noon
         from dms_registration dr
         left join pms_patient p on dr.patient_id = p.id
         left join sms_dept d on dr.dept_id = d.id
@@ -62,5 +63,78 @@
             </if>
         </set>
         where id = #{id}
+    </update>
+
+    <!-- 根据主键删除挂号记录 -->
+    <delete id="deleteById">
+        delete from dms_registration where id = #{id}
+    </delete>
+
+    <!-- 退号：将状态置为已取消 -->
+    <update id="cancelById" parameterType="com.his.domain.DmsRegistration">
+        update dms_registration
+        set
+            status = #{status},
+            end_attendance = #{endAttendance}
+        where id = #{id}
+    </update>
+
+    <!-- 门诊医生工作台：查询医生/科室挂号病人（仅未结束就诊） -->
+    <select id="selectOutpatientDeskPatients" resultType="com.his.vo.OutpatientPatientVo">
+        select
+            dr.id as id,
+            p.medical_record_no as medicalNo,
+            p.name as name,
+            case when p.gender = 1 then '男' else '女' end as gender,
+            COALESCE(TIMESTAMPDIFF(YEAR, p.date_of_birth, dr.attendance_date), 0) as age,
+            dr.status as status,
+            dr.end_attendance as endAttendance,
+            skd.noon as noon
+        from dms_registration dr
+        left join pms_patient p on dr.patient_id = p.id
+        left join sms_skd skd on dr.skd_id = skd.id
+        where dr.attendance_date = #{attendanceDate}
+          <if test="noon != null">
+              and skd.noon = #{noon}
+          </if>
+          and (dr.end_attendance = #{endAttendance} or dr.end_attendance is null)
+          and dr.status &lt;&gt; #{canceledStatus}
+          <choose>
+              <when test="scope == 'self'">
+                  and skd.staff_id = #{staffId}
+              </when>
+              <otherwise>
+                  and dr.dept_id = #{deptId}
+              </otherwise>
+          </choose>
+          <if test="keyword != null and keyword != ''">
+              and (p.name like concat('%', #{keyword}, '%') or p.medical_record_no like concat('%', #{keyword}, '%'))
+          </if>
+        order by dr.create_time asc
+    </select>
+
+    <!-- 门诊医生工作台：开始诊疗 -->
+    <update id="startVisitById">
+        update dms_registration dr
+        join sms_skd skd on dr.skd_id = skd.id
+        set dr.status = #{status}
+        where dr.id = #{id}
+          and skd.staff_id = #{staffId}
+          and dr.status = #{unfinishedStatus}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null)
+          and dr.status &lt;&gt; #{canceledStatus}
+    </update>
+
+    <!-- 门诊医生工作台：结束就诊 -->
+    <update id="finishVisitById">
+        update dms_registration dr
+        join sms_skd skd on dr.skd_id = skd.id
+        set
+            dr.end_attendance = #{endAttendance},
+            dr.status = #{status}
+        where dr.id = #{id}
+          and skd.staff_id = #{staffId}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null)
+          and dr.status &lt;&gt; #{canceledStatus}
     </update>
 </mapper>

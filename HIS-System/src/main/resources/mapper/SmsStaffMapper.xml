@@ -6,10 +6,10 @@
 <mapper namespace="com.his.mapper.SmsStaffMapper">
 
     <insert id="insertSmsStaff" parameterType="com.his.domain.SmsStaff">
-        insert into sms_staff (id, username, password, status, create_time,
+        insert into sms_staff (username, password, status, create_time,
                                gender, skd_flag, title, name, dept_id, role_id, registration_rank_id)
         values (
-                #{id}, #{username}, #{password}, #{status}, #{createTime},
+                #{username}, #{password}, #{status}, #{createTime},
                 #{gender}, #{skdFlag}, #{title}, #{name}, #{deptId}, #{roleId}, #{registrationRankId}
                )
     </insert>
@@ -51,6 +51,17 @@
     <!-- 新增：通过科室查询医生列表（不分页） -->
     <select id="selectStaffByDept" resultType="com.his.vo.StaffPageVo" parameterType="long">
         select id, name, dept_id from sms_staff where dept_id = #{deptId} order by name
+    </select>
+
+    <!-- 新增：通过 ID 列表查询医生列表（不分页） -->
+    <select id="selectStaffByIds" resultType="com.his.vo.StaffPageVo">
+        select id, name, dept_id
+        from sms_staff
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+        order by name
     </select>
 
     <!-- update only non-null fields -->

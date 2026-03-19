@@ -12,7 +12,7 @@ export function getStaffList(params) {
 // 获取科室列表（若后端提供）
 export function getDepartments() {
   return request({
-    url: '/staff/departments',
+    url: '/sms/registration/departments',
     method: 'get'
   })
 }
@@ -20,8 +20,12 @@ export function getDepartments() {
 // 获取角色列表（若后端提供）
 export function getRoles() {
   return request({
-    url: '/sms/staff/roles',
-    method: 'get'
+    url: '/sms/role/roles',
+    method: 'get',
+    params: {
+      page: 1,
+      size: 2000
+    }
   })
 }
 
