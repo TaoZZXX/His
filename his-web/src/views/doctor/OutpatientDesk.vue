@@ -1,6 +1,7 @@
 <template>
   <div class="outpatient-desk">
     <div class="left-panel">
+      <div class="left-title">门诊队列</div>
       <div class="panel-header">
         <el-input v-model="patientQuery" placeholder="患者名" size="small" clearable @clear="fetchPatients">
           <template v-slot:append>
@@ -15,7 +16,10 @@
       </el-tabs>
 
       <div class="patient-section">
-        <div class="section-title">待诊患者</div>
+        <div class="section-title">
+          <span>待诊患者</span>
+          <el-tag size="mini" type="warning">{{ waitingPatients.length }}</el-tag>
+        </div>
         <div class="patient-list">
           <el-card
             v-for="p in waitingPatients"
@@ -36,7 +40,10 @@
       </div>
 
       <div class="patient-section">
-        <div class="section-title">诊中患者</div>
+        <div class="section-title">
+          <span>诊中患者</span>
+          <el-tag size="mini" type="success">{{ doingPatients.length }}</el-tag>
+        </div>
         <div class="patient-list">
           <el-card
             v-for="p in doingPatients"
@@ -58,7 +65,8 @@
     </div>
 
     <div class="right-panel">
-      <div class="top-info">
+      <div class="page-title">门诊医生工作台</div>
+      <div class="top-info card">
         <div class="info-left">
           <div class="field"><label>当前病人:</label> <span>{{ selectedPatient ? selectedPatient.name : '—' }}</span></div>
           <div class="field"><label>就诊号:</label> <span>{{ selectedPatient ? selectedPatient.medicalNo : '—' }}</span></div>
@@ -67,6 +75,8 @@
           <div class="field"><label>年龄:</label> <span>{{ selectedPatient ? selectedPatient.age : '—' }}岁</span></div>
         </div>
         <div class="info-right">
+          <el-tag v-if="selectedPatient && selectedPatient.status === 0" type="warning" size="small">待诊</el-tag>
+          <el-tag v-else-if="selectedPatient" type="success" size="small">诊中</el-tag>
           <el-checkbox v-model="isFinished" :disabled="!selectedPatient" @change="onFinishedChange">诊毕</el-checkbox>
         </div>
       </div>
@@ -155,7 +165,9 @@
             <div class="card-title">检查申请</div>
             <el-form :model="examForm" label-width="90px">
               <el-form-item label="检查项目">
-                <el-input v-model="examForm.item" placeholder="例如：胸片 / 心电图 / B超" />
+                <el-select v-model="examForm.noDrugId" placeholder="请选择检查项目" filterable style="width: 100%">
+                  <el-option v-for="it in examDict" :key="it.id" :label="`${it.name}（${formatMoney(it.price)}元）`" :value="it.id" />
+                </el-select>
               </el-form-item>
               <el-form-item label="备注">
                 <el-input v-model="examForm.remark" placeholder="请输入备注" type="textarea" :rows="3" />
@@ -172,7 +184,9 @@
             <div class="card-title">检验申请</div>
             <el-form :model="labForm" label-width="90px">
               <el-form-item label="检验项目">
-                <el-input v-model="labForm.item" placeholder="例如：血常规 / 肝功 / 血糖" />
+                <el-select v-model="labForm.noDrugId" placeholder="请选择检验项目" filterable style="width: 100%">
+                  <el-option v-for="it in labDict" :key="it.id" :label="`${it.name}（${formatMoney(it.price)}元）`" :value="it.id" />
+                </el-select>
               </el-form-item>
               <el-form-item label="备注">
                 <el-input v-model="labForm.remark" placeholder="请输入备注" type="textarea" :rows="3" />
@@ -233,7 +247,27 @@
         <div v-else-if="activeWorkTab === 'herbal'">
           <div class="card">
             <div class="card-title">草药处方</div>
-            <div class="empty">当前系统未实现草药处方明细</div>
+            <el-form :model="herbalForm" label-width="100px">
+              <el-form-item label="治法">
+                <el-input v-model="herbalForm.therapy" />
+              </el-form-item>
+              <el-form-item label="治法详情">
+                <el-input v-model="herbalForm.therapyDetails" type="textarea" :rows="2" />
+              </el-form-item>
+              <el-form-item label="医嘱">
+                <el-input v-model="herbalForm.medicalAdvice" type="textarea" :rows="2" />
+              </el-form-item>
+            </el-form>
+            <div class="empty" v-if="!herbalItems.length">暂无草药明细（可先在后端补齐后再扩展前端编辑）</div>
+            <el-table :data="herbalItems" border style="width:100%" v-else>
+              <el-table-column prop="drugId" label="药品ID" width="120" />
+              <el-table-column prop="totalNum" label="总数量" width="120" />
+              <el-table-column prop="usageNum" label="单次用量" width="120" />
+              <el-table-column prop="medicalAdvice" label="医嘱" />
+            </el-table>
+            <div class="btn-row">
+              <el-button type="primary" @click="saveHerbalPrescription">保存草药处方</el-button>
+            </div>
           </div>
         </div>
 
@@ -247,7 +281,12 @@
         <div v-else-if="activeWorkTab === 'bill'">
           <div class="card">
             <div class="card-title">患者账单</div>
-            <div class="empty">当前系统未实现患者账单</div>
+            <el-descriptions border :column="1">
+              <el-descriptions-item label="检查/检验金额">{{ formatMoney(billSummary.examAmount) }} 元</el-descriptions-item>
+              <el-descriptions-item label="成药处方金额">{{ formatMoney(billSummary.medicineAmount) }} 元</el-descriptions-item>
+              <el-descriptions-item label="草药处方金额">{{ formatMoney(billSummary.herbalAmount) }} 元</el-descriptions-item>
+              <el-descriptions-item label="总金额"><strong>{{ formatMoney(billSummary.totalAmount) }} 元</strong></el-descriptions-item>
+            </el-descriptions>
           </div>
         </div>
       </div>
@@ -323,7 +362,19 @@
 </template>
 
 <script>
-import { finishDoctorDeskVisit, getDoctorDeskPatients, startDoctorDeskVisit } from '@/api/doctorDesk'
+import {
+  finishDoctorDeskVisit,
+  getDoctorDeskContext,
+  getDoctorDeskMedicines,
+  getDoctorDeskNonDrugDict,
+  getDoctorDeskPatients,
+  saveDoctorDeskCaseHistory,
+  saveDoctorDeskDiagnosis,
+  saveDoctorDeskHerbalPrescription,
+  saveDoctorDeskMedicinePrescription,
+  saveDoctorDeskNonDrugItem,
+  startDoctorDeskVisit
+} from '@/api/doctorDesk'
 
 export default {
   name: 'OutpatientDesk',
@@ -347,11 +398,11 @@ export default {
         onsetTime: ''
       },
       examForm: {
-        item: '',
+        noDrugId: null,
         remark: ''
       },
       labForm: {
-        item: '',
+        noDrugId: null,
         remark: ''
       },
       diagForm: {
@@ -364,17 +415,29 @@ export default {
       prescriptionDetailSearch: '',
       prescriptionItems: [],
       prescriptionDetailItems: [],
-      medicines: [
-        { name: '阿莫西林胶囊', price: 7.01, spec: '0.25g*12粒', usage: '口服' },
-        { name: '蒲地蓝消炎片', price: 25.16, spec: '0.25g*20片', usage: '口服' },
-        { name: '复方氨酚烷胺片', price: 40.62, spec: '每片0.5g', usage: '口服' },
-        { name: '布洛芬缓释片', price: 7.01, spec: '0.3g*10片', usage: '口服' },
-        { name: '维生素C片', price: 7.01, spec: '0.1g*20片', usage: '口服' }
-      ]
+      medicines: [],
+      examDict: [],
+      labDict: [],
+      herbalItems: [],
+      herbalForm: {
+        therapy: '',
+        therapyDetails: '',
+        medicalAdvice: '',
+        pairNum: 1,
+        frequency: 1,
+        usageMeans: 1
+      },
+      billSummary: {
+        examAmount: 0,
+        medicineAmount: 0,
+        herbalAmount: 0,
+        totalAmount: 0
+      }
     }
   },
   mounted() {
     this.fetchPatients()
+    this.loadDicts()
   },
   computed: {
     filteredMedicineList() {
@@ -392,6 +455,20 @@ export default {
     }
   },
   methods: {
+    async loadDicts() {
+      try {
+        const [medRes, examRes, labRes] = await Promise.all([
+          getDoctorDeskMedicines(),
+          getDoctorDeskNonDrugDict(1),
+          getDoctorDeskNonDrugDict(3)
+        ])
+        this.medicines = (medRes && medRes.data) || []
+        this.examDict = (examRes && examRes.data) || []
+        this.labDict = (labRes && labRes.data) || []
+      } catch (e) {
+        console.error(e)
+      }
+    },
     async fetchPatients() {
       this.loading = true
       this.selectedPatient = null
@@ -415,23 +492,79 @@ export default {
         this.loading = false
       }
     },
-    selectPatient(p) {
+    async selectPatient(p) {
       this.selectedPatient = p
       this.isFinished = p && p.endAttendance === 1
       // 切换患者时清空各类表单/处方（病历保存接口当前未实现）
       this.prescriptionItems = []
       this.prescriptionDetailItems = []
       this.recordForm = { complaint: '', history: '', treatment: '', pastHistory: '', allergy: '', exam: '', onsetTime: '' }
-      this.examForm = { item: '', remark: '' }
-      this.labForm = { item: '', remark: '' }
+      this.examForm = { noDrugId: null, remark: '' }
+      this.labForm = { noDrugId: null, remark: '' }
       this.diagForm = { diagnosis: '', basis: '' }
+      this.herbalItems = []
+      this.herbalForm = { therapy: '', therapyDetails: '', medicalAdvice: '', pairNum: 1, frequency: 1, usageMeans: 1 }
+      this.billSummary = { examAmount: 0, medicineAmount: 0, herbalAmount: 0, totalAmount: 0 }
+      await this.loadContext()
     },
-    saveRecord() {
+    async loadContext() {
+      if (!this.selectedPatient) return
+      try {
+        const res = await getDoctorDeskContext(this.selectedPatient.id)
+        if (!res || res.code !== 20000) return
+        const d = res.data || {}
+        const ch = d.caseHistory || {}
+        this.recordForm = {
+          complaint: ch.chiefComplaint || '',
+          history: ch.historyOfPresentIllness || '',
+          treatment: ch.historyOfTreatment || '',
+          pastHistory: ch.pastHistory || '',
+          allergy: ch.allergies || '',
+          exam: ch.healthCheckup || '',
+          onsetTime: ch.startDate || ''
+        }
+        this.diagForm = {
+          diagnosis: d.diagnosis || '',
+          basis: d.diagnosisBasis || ''
+        }
+        const exam = Array.isArray(d.examItems) && d.examItems.length ? d.examItems[0] : {}
+        const lab = Array.isArray(d.labItems) && d.labItems.length ? d.labItems[0] : {}
+        this.examForm = { noDrugId: exam.noDrugId || null, remark: exam.demand || '' }
+        this.labForm = { noDrugId: lab.noDrugId || null, remark: lab.demand || '' }
+        const medPres = Array.isArray(d.medicinePrescriptions) ? d.medicinePrescriptions : []
+        this.prescriptionItems = medPres.length ? (medPres[0].items || []) : []
+        const herbPres = Array.isArray(d.herbalPrescriptions) ? d.herbalPrescriptions : []
+        this.herbalItems = herbPres.length ? (herbPres[0].items || []) : []
+        if (herbPres.length) {
+          this.herbalForm.therapy = herbPres[0].therapy || ''
+          this.herbalForm.medicalAdvice = herbPres[0].medicalAdvice || ''
+        }
+        this.billSummary = d.billSummary || this.billSummary
+      } catch (e) {
+        console.error(e)
+      }
+    },
+    async saveRecord() {
       if (!this.selectedPatient) {
         this.$message.warning('请选择患者')
         return
       }
-      this.$message.warning('当前系统未实现病历保存接口')
+      const payload = {
+        chiefComplaint: this.recordForm.complaint,
+        historyOfPresentIllness: this.recordForm.history,
+        historyOfTreatment: this.recordForm.treatment,
+        pastHistory: this.recordForm.pastHistory,
+        allergies: this.recordForm.allergy,
+        healthCheckup: this.recordForm.exam,
+        startDate: this.recordForm.onsetTime
+      }
+      const res = await saveDoctorDeskCaseHistory(this.selectedPatient.id, payload)
+      if (res && res.code === 20000) {
+        this.$message.success('保存病历成功')
+        await this.loadContext()
+      } else {
+        this.$message.error((res && res.message) || '保存失败')
+      }
     },
     quickAction() {
       this.$message.info('快捷操作（示例）')
@@ -441,17 +574,78 @@ export default {
       if (noon === 1) return '下午'
       return '—'
     },
-    saveExam() {
-      this.$message.warning('当前系统未实现检查申请保存接口')
+    async saveExam() {
+      if (!this.selectedPatient) return
+      if (!this.examForm.noDrugId) {
+        this.$message.warning('请选择检查项目')
+        return
+      }
+      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
+        type: 1,
+        noDrugId: this.examForm.noDrugId,
+        remark: this.examForm.remark
+      })
+      if (res && res.code === 20000) {
+        this.$message.success('保存检查申请成功')
+        await this.loadContext()
+      } else {
+        this.$message.error((res && res.message) || '保存失败')
+      }
     },
-    saveLab() {
-      this.$message.warning('当前系统未实现检验申请保存接口')
+    async saveLab() {
+      if (!this.selectedPatient) return
+      if (!this.labForm.noDrugId) {
+        this.$message.warning('请选择检验项目')
+        return
+      }
+      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
+        type: 3,
+        noDrugId: this.labForm.noDrugId,
+        remark: this.labForm.remark
+      })
+      if (res && res.code === 20000) {
+        this.$message.success('保存检验申请成功')
+        await this.loadContext()
+      } else {
+        this.$message.error((res && res.message) || '保存失败')
+      }
     },
-    saveDiag() {
-      this.$message.warning('当前系统未实现确诊保存接口')
+    async saveDiag() {
+      if (!this.selectedPatient) return
+      const res = await saveDoctorDeskDiagnosis(this.selectedPatient.id, {
+        diagnosis: this.diagForm.diagnosis,
+        basis: this.diagForm.basis
+      })
+      if (res && res.code === 20000) {
+        this.$message.success('保存确诊成功')
+        await this.loadContext()
+      } else {
+        this.$message.error((res && res.message) || '保存失败')
+      }
     },
-    savePrescription() {
-      this.$message.warning('当前系统未实现处方保存接口')
+    async savePrescription() {
+      if (!this.selectedPatient) return
+      if (!this.prescriptionItems.length) {
+        this.$message.warning('请先添加处方明细')
+        return
+      }
+      const items = this.prescriptionItems.map(it => ({
+        drugId: it.drugId,
+        qty: it.qty || 1,
+        usageMeans: it.usageMeans || 1,
+        frequency: it.frequency || 1,
+        medicalAdvice: it.medicalAdvice || ''
+      }))
+      const res = await saveDoctorDeskMedicinePrescription(this.selectedPatient.id, {
+        name: this.selectedPatient.name,
+        items
+      })
+      if (res && res.code === 20000) {
+        this.$message.success('保存处方成功')
+        await this.loadContext()
+      } else {
+        this.$message.error((res && res.message) || '保存失败')
+      }
     },
     openPrescriptionDetail() {
       this.prescriptionDetailSearch = ''
@@ -460,11 +654,14 @@ export default {
     },
     addMedicineToDetail(med) {
       this.prescriptionDetailItems.push({
+        drugId: med.id,
         name: med.name,
-        spec: med.spec,
+        spec: med.format,
         qty: 1,
         unitPrice: med.price,
-        usage: med.usage
+        usage: med.unit || '',
+        usageMeans: 1,
+        frequency: 1
       })
     },
     removeDetailItem(index) {
@@ -477,6 +674,37 @@ export default {
     },
     removePrescriptionItem(index) {
       this.prescriptionItems.splice(index, 1)
+    },
+    async saveHerbalPrescription() {
+      if (!this.selectedPatient) return
+      if (!this.herbalItems.length) {
+        this.$message.warning('请先添加草药明细')
+        return
+      }
+      const items = this.herbalItems.map(it => ({
+        drugId: it.drugId,
+        totalNum: it.totalNum || 1,
+        usageNum: it.usageNum || 1,
+        usageNumUnit: it.usageNumUnit || 1,
+        medicalAdvice: it.medicalAdvice || '',
+        footnote: it.footnote || ''
+      }))
+      const res = await saveDoctorDeskHerbalPrescription(this.selectedPatient.id, {
+        name: this.selectedPatient.name,
+        therapy: this.herbalForm.therapy,
+        therapyDetails: this.herbalForm.therapyDetails,
+        medicalAdvice: this.herbalForm.medicalAdvice,
+        pairNum: this.herbalForm.pairNum,
+        frequency: this.herbalForm.frequency,
+        usageMeans: this.herbalForm.usageMeans,
+        items
+      })
+      if (res && res.code === 20000) {
+        this.$message.success('保存草药处方成功')
+        await this.loadContext()
+      } else {
+        this.$message.error((res && res.message) || '保存失败')
+      }
     },
     formatMoney(v) {
       const n = Number(v)
@@ -534,35 +762,58 @@ export default {
 <style scoped>
 .outpatient-desk {
   display: flex;
-  height: calc(100vh - 100px);
+  height: calc(100vh - 96px);
+  gap: 12px;
+  padding: 12px;
+  background: #f5f7fb;
 }
 .left-panel {
-  width: 320px;
-  border-right: 1px solid #e6e6e6;
+  width: 336px;
   padding: 12px;
-  background: #fff;
+  background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);
   box-sizing: border-box;
+  border-radius: 12px;
+  border: 1px solid #e9edf5;
+  box-shadow: 0 6px 20px rgba(32, 56, 85, 0.05);
+}
+.left-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2f3a4d;
+  margin-bottom: 10px;
 }
 .panel-header {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .patient-tabs {
   margin-bottom: 12px;
 }
 .patient-section {
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 .section-title {
   font-size: 13px;
   color: #409EFF;
   padding: 6px 2px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 .patient-list {
-  max-height: 200px;
+  max-height: 230px;
+  overflow: auto;
+  padding-right: 4px;
 }
 .patient-card {
   cursor: pointer;
   margin-bottom: 8px;
+  border-radius: 8px;
+  border: 1px solid #edf2fa;
+  transition: all .2s ease;
+}
+.patient-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(64, 90, 140, 0.12);
 }
 .patient-card.doing {
   background: #f6ffed;
@@ -572,41 +823,73 @@ export default {
   align-items: center;
   gap: 8px;
 }
-.patient-id { color: #666; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.patient-name { flex: 1; font-weight: 600 }
-.patient-age { width: 60px; text-align: right; color: #999 }
-.patient-card.selected { border: 1px solid #409EFF }
-.empty { padding: 12px; color: #999 }
+.patient-id { color: #8b95a8; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.patient-name { flex: 1; font-weight: 600; color: #2f3a4d; }
+.patient-age { width: 60px; text-align: right; color: #7f8aa1; font-size: 12px; }
+.patient-card.selected {
+  border: 1px solid #5b8ff9;
+  box-shadow: 0 0 0 2px rgba(91, 143, 249, .14);
+}
+.empty {
+  padding: 24px 12px;
+  color: #99a2b3;
+  text-align: center;
+  background: #fbfcfe;
+  border: 1px dashed #e6ebf2;
+  border-radius: 8px;
+}
 
 .right-panel {
   flex: 1;
-  padding: 12px 18px;
+  padding: 0;
   overflow: auto;
-  background: #f0f2f5;
+  background: transparent;
 }
-.top-info { display:flex; justify-content: space-between; align-items: center; margin-bottom: 12px }
-.info-left { display:flex; gap: 16px }
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #27364a;
+  margin-bottom: 12px;
+}
+.top-info { display:flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-radius: 12px; }
+.info-left { display:flex; gap: 16px; flex-wrap: wrap; }
 .info-left .field { display:flex; gap:6px; align-items:center }
-.info-left label { color: #999 }
-.work-tabs { margin-bottom: 12px }
-.work-area { background: #fff; padding: 16px; border-radius: 4px }
+.info-left label { color: #8c95a6 }
+.info-left span { color: #2f3a4d; font-weight: 500; }
+.info-right { display: flex; align-items: center; gap: 10px; }
+.work-tabs {
+  margin-bottom: 12px;
+  background: #fff;
+  border: 1px solid #e9edf5;
+  border-radius: 12px;
+  padding: 0 12px;
+}
+.work-area {
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e9edf5;
+  box-shadow: 0 6px 20px rgba(32, 56, 85, 0.04);
+  min-height: 420px;
+}
 .record-form .el-form-item { margin-bottom: 12px }
 
 .card {
-  border: 1px solid #ebeef5;
-  border-radius: 4px;
+  border: 1px solid #ebeff6;
+  border-radius: 10px;
   background: #fff;
-  padding: 12px;
+  padding: 14px;
 }
 .card-title {
   font-weight: 600;
   margin-bottom: 12px;
-  color: #333;
+  color: #2f3a4d;
+  font-size: 15px;
 }
 .btn-row {
   display:flex;
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 14px;
   justify-content: flex-end;
   flex-wrap: wrap;
 }
@@ -624,7 +907,7 @@ export default {
 }
 .divider {
   height: 1px;
-  background: #eee;
+  background: #edf1f7;
   margin: 14px 0;
 }
 .link-btn {
@@ -643,6 +926,10 @@ export default {
 }
 .dialog-left {
   padding-right: 8px;
+  background: #fafcff;
+  border: 1px solid #eef2f8;
+  border-radius: 8px;
+  padding: 10px;
 }
 .dialog-left-title {
   margin-top: 12px;
@@ -652,6 +939,9 @@ export default {
 }
 .dialog-right {
   padding-left: 4px;
+  border: 1px solid #eef2f8;
+  border-radius: 8px;
+  padding: 8px;
 }
 .dialog-right-toolbar {
   display: flex;
@@ -666,5 +956,20 @@ export default {
 }
 .dialog-footer {
   text-align: right;
+}
+
+.left-panel ::v-deep .el-tabs--border-card {
+  border: 1px solid #edf2fa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.work-tabs ::v-deep .el-tabs__item.is-active {
+  color: #2f6bff;
+  font-weight: 600;
+}
+
+.work-tabs ::v-deep .el-tabs__active-bar {
+  background-color: #2f6bff;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="role-permission-management">
+    <div class="page-title">角色与权限管理</div>
     <div class="page-header">
       <el-button type="primary" @click="openCreate">新增角色</el-button>
       <el-input v-model="keyword" placeholder="搜索角色" style="margin-left:12px; width:240px" @keyup.enter.native="onSearch" />
@@ -373,6 +374,38 @@ export default {
 </script>
 
 <style scoped>
-.role-permission-management .page-header { display:flex; align-items:center; gap:12px; margin-bottom:12px }
-.permissions-box { padding:12px; border:1px solid #eee; border-radius:4px }
+.role-permission-management {
+  padding: 0;
+}
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #27364a;
+  margin-bottom: 14px;
+}
+.role-permission-management .page-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  background: #fff;
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  padding: 12px;
+}
+.permissions-box {
+  padding: 14px;
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  background: #fff;
+}
+.permissions-box h3 {
+  margin-bottom: 12px;
+  color: #30435a;
+}
+.role-permission-management :deep(.el-table) {
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  overflow: hidden;
+}
 </style>

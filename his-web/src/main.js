@@ -10,6 +10,7 @@ Vue.use(ElementUI)
 
 // 导入全局样式
 import '@/style/css/reset.css'
+import '@/style/css/theme.css'
 
 import router from './router'
 import store from './store'

@@ -6,9 +6,9 @@
         :default-active="activeMenu"
         class="el-menu-vertical-demo"
         :collapse="isCollapse"
-        background-color="#304156"
-        text-color="#bfcbd9"
-        active-text-color="#409EFF"
+        background-color="#1f2a3d"
+        text-color="#c7d2e0"
+        active-text-color="#7cb3ff"
         mode="vertical"
         :default-openeds="defaultOpeneds"
     >
@@ -123,16 +123,33 @@ export default {
 .sidebar-container {
   height: 100%;
   transition: width 0.2s ease;
+  background: linear-gradient(180deg, #1f2a3d 0%, #162033 100%);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 2px 0 14px rgba(11, 22, 40, 0.22);
 }
 
 .el-menu-vertical-demo {
   width: 100%;
   height: 100%;
   border-right: none;
+  padding-top: 8px;
 }
 
 .el-menu-vertical-demo:not(.el-menu--collapse) {
   width: 180px;
   min-height: 400px;
+}
+
+.el-menu-vertical-demo :deep(.el-submenu__title),
+.el-menu-vertical-demo :deep(.el-menu-item) {
+  border-radius: 8px;
+  margin: 4px 8px;
+  height: 42px;
+  line-height: 42px;
+}
+
+.el-menu-vertical-demo :deep(.el-menu-item.is-active) {
+  background: rgba(124, 179, 255, 0.18) !important;
+  color: #dcebff !important;
 }
 </style>

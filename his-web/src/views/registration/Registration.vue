@@ -1,5 +1,6 @@
 <template>
   <div class="registration-container">
+    <div class="page-title">门诊挂号工作台</div>
     <!-- 表单区域 -->
     <el-form :model="form" label-width="100px" class="form-area">
       <el-row :gutter="20">
@@ -379,7 +380,13 @@ export default {
 
 <style scoped>
 .registration-container {
-  padding: 24px;
+  padding: 0;
+}
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #27364a;
+  margin-bottom: 14px;
 }
 .tabs {
   margin: 16px 0;
@@ -387,7 +394,9 @@ export default {
 .form-area {
   background: #fff;
   padding: 24px;
-  border-radius: 8px;
+  border-radius: 12px;
+  border: 1px solid #e8edf5;
+  box-shadow: 0 8px 22px rgba(31, 54, 84, 0.06);
 }
 
 /* 新增样式：顶部一行控件 */
@@ -399,9 +408,14 @@ export default {
 }
 .header-left {
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .invoice-input {
   width: 260px;
+}
+
+.registration-container :deep(.el-select),
+.registration-container :deep(.el-date-editor) {
+  width: 100%;
 }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div class="cancel-registration-container">
-    <div class="header-controls">
+    <div class="page-title">编辑挂号 / 退号</div>
+    <div class="header-controls card-head">
       <el-input v-model="search.patientId" placeholder="请输入患者ID或身份证号" class="patient-input" />
       <el-button type="primary" @click="fetchRegistrations(1, pageSize)" :loading="loading">查询</el-button>
       <el-button @click="clear">清除</el-button>
@@ -478,13 +479,25 @@ export default {
 
 <style scoped>
 .cancel-registration-container {
-  padding: 16px;
+  padding: 0;
+}
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #27364a;
+  margin-bottom: 14px;
 }
 .header-controls {
   display: flex;
   gap: 12px;
   margin-bottom: 12px;
   align-items: center;
+}
+.card-head {
+  background: #fff;
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  padding: 14px;
 }
 .patient-input {
   width: 360px;
@@ -496,5 +509,15 @@ export default {
 }
 .pagination-container {
   margin-top: 8px;
+  background: #fff;
+  border: 1px solid #e8edf5;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+.cancel-registration-container :deep(.el-table) {
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  overflow: hidden;
 }
 </style>

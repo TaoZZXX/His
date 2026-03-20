@@ -1,16 +1,24 @@
 <template>
   <div class="register-container">
-    <el-form
-      ref="registerForm"
-      :model="registerForm"
-      :rules="registerRules"
-      class="register-form"
-      auto-complete="on"
-      label-position="left"
-    >
-      <div class="title-container">
-        <h3 class="title">用户注册</h3>
+    <div class="register-hero">
+      <div class="hero-content">
+        <h2>欢迎加入 HIS</h2>
+        <p>创建账号后即可进入医院业务系统</p>
       </div>
+    </div>
+    <div class="register-panel">
+      <el-form
+        ref="registerForm"
+        :model="registerForm"
+        :rules="registerRules"
+        class="register-form"
+        auto-complete="on"
+        label-position="left"
+      >
+        <div class="title-container">
+          <h3 class="title">用户注册</h3>
+          <div class="sub-title">请填写账号信息</div>
+        </div>
 
       <el-form-item prop="username">
         <span class="svg-container">
@@ -56,14 +64,15 @@
         />
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:12px;" @click.native.prevent="handleRegister">
+      <el-button :loading="loading" type="primary" class="register-btn" @click.native.prevent="handleRegister">
         注册
       </el-button>
 
       <div class="link-row">
         <span class="link" @click="goLogin">已有账号？去登录</span>
       </div>
-    </el-form>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -145,7 +154,7 @@ export default {
 <style lang="scss">
 $bg:#2d3a4b;
 $light_gray:#fff;
-$cursor: #fff;
+$cursor: #2f3a4d;
 
 @supports (-webkit-mask: none) and (not (caret-color: $cursor)) {
   .register-container .el-input input {
@@ -157,53 +166,73 @@ $cursor: #fff;
 .register-container {
   .el-input {
     display: inline-block;
-    height: 47px;
-    width: 85%;
+    height: 44px;
+    width: 88%;
 
     input {
-      background: transparent;
+      background: #fff;
       border: 0px;
       -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $light_gray;
-      height: 47px;
+      border-radius: 8px;
+      padding: 10px 8px 10px 12px;
+      color: #2f3a4d;
+      height: 44px;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0px 1000px #fff inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
   }
 
   .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    border: 1px solid #e3eaf5;
+    background: #f8fbff;
+    border-radius: 10px;
     color: #454545;
   }
 }
 </style>
 
 <style lang="scss" scoped>
-$bg:#283443;
+$bg:#eef3fb;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 
 .register-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
+  background: linear-gradient(135deg, #edf3ff, #f7f9fd);
+  display: flex;
+  align-items: stretch;
   overflow: hidden;
 
+  .register-hero {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, #245fff, #69a5ff);
+    color: #fff;
+    .hero-content {
+      h2 { font-size: 34px; margin-bottom: 10px; }
+      p { font-size: 16px; opacity: .92; }
+    }
+  }
+
+  .register-panel {
+    width: 460px;
+    background: #fff;
+    box-shadow: -8px 0 26px rgba(40, 57, 87, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 34px;
+  }
+
   .register-form {
-    position: relative;
-    width: 520px;
-    max-width: 100%;
-    padding: 140px 35px 0;
-    margin: 0 auto;
-    overflow: hidden;
+    width: 100%;
   }
 
   .svg-container {
@@ -215,25 +244,33 @@ $light_gray:#eee;
   }
 
   .title-container {
-    position: relative;
+    margin-bottom: 20px;
 
     .title {
       font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
+      color: #26364a;
+      margin: 0px auto 6px auto;
       text-align: center;
-      font-weight: bold;
+      font-weight: 700;
     }
+    .sub-title { text-align: center; color: #8a97aa; margin-bottom: 8px; }
   }
 
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 9px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+
+  .register-btn {
+    width:100%;
+    margin-bottom:12px;
+    height: 44px;
+    border-radius: 10px;
   }
 
   .link-row {
@@ -246,7 +283,17 @@ $light_gray:#eee;
     }
 
     .link:hover {
-      color: #ffffff;
+      color: #3a7afe;
+    }
+  }
+}
+
+@media (max-width: 980px) {
+  .register-container {
+    .register-hero { display: none; }
+    .register-panel {
+      width: 100%;
+      box-shadow: none;
     }
   }
 }

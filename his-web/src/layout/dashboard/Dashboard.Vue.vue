@@ -169,7 +169,9 @@ export default {
 .app-sider-bar {
   flex-shrink: 0; /* 防止被挤压 */
   transition: width 0.2s ease; /* 宽度过渡动画 */
-  width: 150px; /* 展开状态宽度 */
+  width: 180px; /* 展开状态宽度（与 Sidebar 一致） */
+  position: relative;
+  z-index: 30; /* 避免主区表格层级盖住侧栏 */
 }
 
 /* 折叠状态下侧边栏宽度（匹配Element折叠后的64px） */
@@ -181,45 +183,47 @@ export default {
 
 /* 主容器：flex占满剩余宽度 */
 .app-main-container {
-  padding-left: 30px;
   flex: 1;
   height: 100%;
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
 }
 
 /* 顶部导航：核心修改 - 改为垂直布局，高度适配两行内容 */
 .app-top-nav {
-  /* 调整高度：适配两行内容，原60px不够，改为100px（可根据需求调整） */
-  height: 100px;
+  height: 92px;
   width: 100%;
   flex-shrink: 0;
-  /* 改为垂直布局，让子元素独占两行 */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 垂直居中 */
-  padding: 0 20px;
-  gap: 8px; /* 两行之间的间距 */
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
+  justify-content: center;
+  padding: 0 18px;
+  gap: 6px;
+  border-bottom: 1px solid #e9edf5;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  box-shadow: 0 4px 16px rgba(37, 64, 99, 0.06);
 }
 
 /* 折叠按钮样式 */
 .collapse-btn {
-  margin-right: 20px;
-  background-color: #409EFF;
-  color: #fff;
+  margin-right: 14px;
+  color: #3a7afe;
+  border: 1px solid #d8e4ff;
+  background: #f2f7ff;
 }
 
 /* 第一行：标题区域 */
 .app-top-nav-title {
-  /* 改为block，独占一行 */
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 40px; /* 第一行高度 */
-  line-height: 40px; /* 文字垂直居中 */
+  height: 38px;
+  line-height: 38px;
+  color: #2e3a4b;
+  font-weight: 600;
 }
 
 .left-panel {
@@ -228,14 +232,14 @@ export default {
 }
 
 .right-panel {
-  padding-right: 20px;
+  padding-right: 6px;
   font-size: 14px;
-  color: #606266;
+  color: #5f6f82;
 }
 
 .el-dropdown-link {
   cursor: pointer;
-  color: #409EFF;
+  color: #3a7afe;
 }
 
 .el-icon-caret-bottom {
@@ -244,18 +248,23 @@ export default {
 
 /* 第二行：历史区域 */
 .app-top-nav-history {
-  /* 改为block，独占一行 */
   display: block;
   width: 100%;
-  height: 30px; /* 第二行高度 */
-  line-height: 30px; /* 文字垂直居中 */
+  height: 30px;
+  line-height: 30px;
 }
 
 /* 主内容区 */
 .app-content {
   flex: 1;
   width: 100%;
-  padding: 30px;
+  padding: 16px;
   overflow: auto;
+  background: #f4f7fb;
+  min-width: 0;
+}
+
+.app-content :deep(.el-table) {
+  width: 100% !important;
 }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div class="user-role-management">
+    <div class="page-title">用户管理</div>
     <div class="page-header">
       <el-button type="primary" @click="openCreate">新增用户</el-button>
 
@@ -264,11 +265,36 @@ export default {
 </script>
 
 <style scoped>
+.user-role-management {
+  padding: 0;
+}
+.page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #27364a;
+  margin-bottom: 14px;
+}
 .user-role-management .page-header {
   display:flex;
   align-items:center;
   gap:12px;
   margin-bottom:12px;
+  background: #fff;
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  padding: 12px;
 }
-.pager { margin-top:12px; text-align:right }
+.pager {
+  margin-top: 12px;
+  text-align: right;
+  background: #fff;
+  border: 1px solid #e8edf5;
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.user-role-management :deep(.el-table) {
+  border: 1px solid #e8edf5;
+  border-radius: 12px;
+  overflow: hidden;
+}
 </style>
