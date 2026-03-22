@@ -12,6 +12,14 @@ export function getDepartments(params) {
   })
 }
 
+/** 挂号号别（普通/专家等，含后端定价） */
+export function listRegistrationRanks() {
+  return request({
+    url: '/sms/registration/registration-ranks',
+    method: 'get'
+  })
+}
+
 /**
  * 获取科室下医生列表
  * deptId: 科室 ID
@@ -155,6 +163,43 @@ export function getAllRegistrations(data) {
     url: '/sms/registration/getAllByPage',
     method: 'post',
     data
+  })
+}
+
+/** 收银台：缴清该挂号下所有未付明细（分项收费） */
+export function payRegistration(registrationId) {
+  return request({
+    url: `/sms/registration/registrations/${registrationId}/pay`,
+    method: 'post'
+  })
+}
+
+/** 分项收费：应收明细列表 */
+export function listRegistrationPayables(registrationId) {
+  return request({
+    url: `/sms/registration/registrations/${registrationId}/payables`,
+    method: 'get'
+  })
+}
+
+/**
+ * 分项缴费：payableItemIds 为空或未传则缴清全部未付
+ * @param {number} registrationId
+ * @param {number[]} payableItemIds
+ */
+export function payRegistrationItems(registrationId, payableItemIds) {
+  return request({
+    url: `/sms/registration/registrations/${registrationId}/pay-items`,
+    method: 'post',
+    data: { payableItemIds: payableItemIds && payableItemIds.length ? payableItemIds : [] }
+  })
+}
+
+/** 收银台：已缴费退费 */
+export function refundRegistration(registrationId) {
+  return request({
+    url: `/sms/registration/registrations/${registrationId}/refund`,
+    method: 'post'
   })
 }
 

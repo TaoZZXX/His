@@ -77,11 +77,6 @@
             <scope>provided</scope> <!-- provided 表示编译时使用，运行时无需打包（避免冲突） -->
         </dependency>
 
-        <!-- 权限 URL 缓存刷新需要 Redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
     </dependencies>
 
     <build>

@@ -13,16 +13,34 @@ public interface DmsRegistrationMapper {
 
     Integer insertDmsRegistration(DmsRegistration dmsRegistration);
 
+    DmsRegistration selectById(@Param("id") Long id);
+
     /**
      * 分页查询挂号记录，按挂号时间倒序，返回 VO
      */
     List<com.his.vo.RegistrationPageVo> selectByPage(@Param("offset") Integer offset,
-                                                     @Param("limit") Integer limit);
+                                                     @Param("limit") Integer limit,
+                                                     @Param("keyword") String keyword);
 
     /**
-     * 统计总记录数
+     * 统计总记录数（可选病历号/姓名模糊）
      */
-    Long countAll();
+    Long countAll(@Param("keyword") String keyword);
+
+    /**
+     * 就诊结束后标记已缴费
+     */
+    Integer markPaid(@Param("id") Long id);
+
+    /**
+     * 已缴费退回为未缴（退费）
+     */
+    Integer markUnpaid(@Param("id") Long id);
+
+    /**
+     * 直接设置收费标记（分项收费后按「是否仍有未缴明细」回写）
+     */
+    Integer updateBindStatus(@Param("id") Long id, @Param("bindStatus") Integer bindStatus);
 
     /**
      * 根据主键更新挂号的部分字段（科室、就诊日期等）
@@ -80,6 +98,30 @@ public interface DmsRegistrationMapper {
             @Param("staffId") Long staffId,
             @Param("endAttendance") Integer endAttendance,
             @Param("status") Integer status,
+            @Param("unfinishedEndAttendance") Integer unfinishedEndAttendance,
+            @Param("canceledStatus") Integer canceledStatus
+    );
+
+    /**
+     * 科室视图：同科室任一医生可结束就诊（不校验排班医生是否为本人）
+     */
+    Integer finishVisitByDeptId(
+            @Param("id") Long id,
+            @Param("deptId") Long deptId,
+            @Param("endAttendance") Integer endAttendance,
+            @Param("status") Integer status,
+            @Param("unfinishedEndAttendance") Integer unfinishedEndAttendance,
+            @Param("canceledStatus") Integer canceledStatus
+    );
+
+    /**
+     * 科室视图：同科室任一医生可开始诊疗
+     */
+    Integer startVisitByDeptId(
+            @Param("id") Long id,
+            @Param("deptId") Long deptId,
+            @Param("status") Integer status,
+            @Param("unfinishedStatus") Integer unfinishedStatus,
             @Param("unfinishedEndAttendance") Integer unfinishedEndAttendance,
             @Param("canceledStatus") Integer canceledStatus
     );

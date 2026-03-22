@@ -2,6 +2,14 @@
   <div class="outpatient-desk">
     <div class="left-panel">
       <div class="left-title">门诊队列</div>
+      <el-alert
+        v-if="activeTab === 'dept'"
+        title="科室视图：列表为本科室所有未结束就诊的挂号。在此 Tab 下「开始诊疗/诊毕」按科室权限处理，可操作非本人排班的挂号；切换到「本人」则仅本人排班。"
+        type="info"
+        :closable="false"
+        show-icon
+        class="scope-tip"
+      />
       <div class="panel-header">
         <el-input v-model="patientQuery" placeholder="患者名" size="small" clearable @clear="fetchPatients">
           <template v-slot:append>
@@ -95,6 +103,41 @@
       <div class="work-area">
         <div v-if="!selectedPatient" class="empty">请选择左侧患者后开始诊疗</div>
         <div v-else>
+          <div v-if="nonDrugResultRows.length" class="card exam-results-ref">
+            <div class="exam-results-title-row">
+              <div class="card-title">检查检验结果（医技回传）</div>
+              <el-button type="text" size="small" @click="loadContext">刷新</el-button>
+            </div>
+            <p class="exam-results-tip">开药前可参考以下结果；与「成药处方」无自动关联，药品需医生自行开立。医技刚回传时请点「刷新」。</p>
+            <div v-for="row in nonDrugResultRows" :key="row.id" class="exam-result-block">
+              <div class="exam-result-head">
+                <el-tag size="mini" type="primary">{{ row._kind }}</el-tag>
+                <span class="proj-name">{{ nonDrugProjectName(row) }}</span>
+                <el-tag size="mini" effect="plain">{{ nonDrugStatusLabel(row) }}</el-tag>
+              </div>
+              <div v-if="row.checkResult" class="exam-result-line">
+                <span class="rk">检查结果：</span>{{ row.checkResult }}
+              </div>
+              <div v-else-if="row.status === 1" class="exam-result-line muted">尚无文字结果</div>
+              <div v-if="row.clinicalDiagnosis" class="exam-result-line">
+                <span class="rk">临床诊断：</span>{{ row.clinicalDiagnosis }}
+              </div>
+              <div v-if="row.clinicalImpression" class="exam-result-line">
+                <span class="rk">临床印象：</span>{{ row.clinicalImpression }}
+              </div>
+              <div v-if="resultImgUrls(row).length" class="exam-result-imgs">
+                <el-image
+                  v-for="(u, i) in resultImgUrls(row)"
+                  :key="i"
+                  :src="resolveResultAssetUrl(u)"
+                  :preview-src-list="resultImgUrls(row).map(resolveResultAssetUrl)"
+                  fit="cover"
+                  class="rimg"
+                />
+              </div>
+            </div>
+          </div>
+
           <div v-if="activeWorkTab === 'record'">
           <el-row :gutter="18">
             <el-col :span="14">
@@ -163,6 +206,7 @@
         <div v-else-if="activeWorkTab === 'exam'">
           <div class="card">
             <div class="card-title">检查申请</div>
+            <p class="flow-tip">流程说明：开立检查后，请患者至<strong>门诊挂号工作台</strong>先完成缴费，医技执行完毕后可继续在本工作台查看结果、回诊处理（无需先诊毕再缴费）。</p>
             <el-form :model="examForm" label-width="90px">
               <el-form-item label="检查项目">
                 <el-select v-model="examForm.noDrugId" placeholder="请选择检查项目" filterable style="width: 100%">
@@ -182,6 +226,7 @@
         <div v-else-if="activeWorkTab === 'lab'">
           <div class="card">
             <div class="card-title">检验申请</div>
+            <p class="flow-tip">流程说明：开立检验后，请患者至<strong>门诊挂号工作台</strong>先完成缴费，结果回传后可继续回诊（诊中即可缴费）。</p>
             <el-form :model="labForm" label-width="90px">
               <el-form-item label="检验项目">
                 <el-select v-model="labForm.noDrugId" placeholder="请选择检验项目" filterable style="width: 100%">
@@ -281,6 +326,19 @@
         <div v-else-if="activeWorkTab === 'bill'">
           <div class="card">
             <div class="card-title">患者账单</div>
+            <p class="bill-tip">以下为本次挂号已开单项目；成药/草药保存处方后即计入下列明细与汇总。</p>
+            <el-table v-if="billLines.length" :data="billLines" border size="small" style="width:100%; margin-bottom:16px">
+              <el-table-column prop="category" label="类别" width="88" />
+              <el-table-column prop="itemName" label="项目名称" min-width="160" show-overflow-tooltip />
+              <el-table-column prop="quantity" label="数量" width="72" align="right" />
+              <el-table-column label="单价(元)" width="100" align="right">
+                <template slot-scope="{ row }">{{ formatMoney(row.unitPrice) }}</template>
+              </el-table-column>
+              <el-table-column label="金额(元)" width="110" align="right">
+                <template slot-scope="{ row }">{{ formatMoney(row.amount) }}</template>
+              </el-table-column>
+            </el-table>
+            <div v-else class="empty muted" style="margin-bottom:12px">暂无账单明细（未开检查/检验或处方）</div>
             <el-descriptions border :column="1">
               <el-descriptions-item label="检查/检验金额">{{ formatMoney(billSummary.examAmount) }} 元</el-descriptions-item>
               <el-descriptions-item label="成药处方金额">{{ formatMoney(billSummary.medicineAmount) }} 元</el-descriptions-item>
@@ -375,6 +433,7 @@ import {
   saveDoctorDeskNonDrugItem,
   startDoctorDeskVisit
 } from '@/api/doctorDesk'
+import { getToken } from '@/utils/auth'
 
 export default {
   name: 'OutpatientDesk',
@@ -432,7 +491,10 @@ export default {
         medicineAmount: 0,
         herbalAmount: 0,
         totalAmount: 0
-      }
+      },
+      billLines: [],
+      examItemList: [],
+      labItemList: []
     }
   },
   mounted() {
@@ -452,9 +514,50 @@ export default {
     prescriptionDetailTotal() {
       const items = this.prescriptionDetailItems || []
       return items.reduce((sum, it) => sum + (Number(it.qty) || 0) * (Number(it.unitPrice) || 0), 0)
+    },
+    nonDrugResultRows() {
+      const rows = []
+      const push = (list, kind) => {
+        ;(list || []).forEach(r => {
+          if (r && r.status !== 2) rows.push({ ...r, _kind: kind })
+        })
+      }
+      push(this.examItemList, '检查')
+      push(this.labItemList, '检验')
+      return rows.sort((a, b) => (a.id || 0) - (b.id || 0))
+    }
+  },
+  watch: {
+    activeWorkTab(v) {
+      if (v === 'bill' && this.selectedPatient) {
+        this.loadContext()
+      }
     }
   },
   methods: {
+    nonDrugProjectName(row) {
+      const dict = row.type === 3 ? this.labDict : this.examDict
+      const hit = (dict || []).find(x => x.id === row.noDrugId)
+      return hit ? hit.name : row.noDrugId ? `项目#${row.noDrugId}` : '—'
+    },
+    nonDrugStatusLabel(row) {
+      if (row.status === 2) return '已作废'
+      if (row.status === 1) return '已登记/已执行'
+      return '待医技登记'
+    },
+    resultImgUrls(row) {
+      const s = row && row.resultImgUrlList
+      if (!s || typeof s !== 'string') return []
+      return s.split(',').map(x => x.trim()).filter(Boolean)
+    },
+    resolveResultAssetUrl(path) {
+      if (!path) return ''
+      if (path.startsWith('http://') || path.startsWith('https://')) return path
+      const base = process.env.VUE_APP_BASE_API || ''
+      const tok = getToken() || ''
+      const sep = path.includes('?') ? '&' : '?'
+      return `${base}${path}${sep}token=${encodeURIComponent(tok)}`
+    },
     async loadDicts() {
       try {
         const [medRes, examRes, labRes] = await Promise.all([
@@ -505,6 +608,9 @@ export default {
       this.herbalItems = []
       this.herbalForm = { therapy: '', therapyDetails: '', medicalAdvice: '', pairNum: 1, frequency: 1, usageMeans: 1 }
       this.billSummary = { examAmount: 0, medicineAmount: 0, herbalAmount: 0, totalAmount: 0 }
+      this.billLines = []
+      this.examItemList = []
+      this.labItemList = []
       await this.loadContext()
     },
     async loadContext() {
@@ -527,8 +633,10 @@ export default {
           diagnosis: d.diagnosis || '',
           basis: d.diagnosisBasis || ''
         }
-        const exam = Array.isArray(d.examItems) && d.examItems.length ? d.examItems[0] : {}
-        const lab = Array.isArray(d.labItems) && d.labItems.length ? d.labItems[0] : {}
+        this.examItemList = Array.isArray(d.examItems) ? d.examItems : []
+        this.labItemList = Array.isArray(d.labItems) ? d.labItems : []
+        const exam = this.examItemList.length ? this.examItemList[0] : {}
+        const lab = this.labItemList.length ? this.labItemList[0] : {}
         this.examForm = { noDrugId: exam.noDrugId || null, remark: exam.demand || '' }
         this.labForm = { noDrugId: lab.noDrugId || null, remark: lab.demand || '' }
         const medPres = Array.isArray(d.medicinePrescriptions) ? d.medicinePrescriptions : []
@@ -539,10 +647,28 @@ export default {
           this.herbalForm.therapy = herbPres[0].therapy || ''
           this.herbalForm.medicalAdvice = herbPres[0].medicalAdvice || ''
         }
-        this.billSummary = d.billSummary || this.billSummary
+        this.billSummary = this.normalizeBillSummary(d.billSummary)
+        this.billLines = Array.isArray(d.billLines) ? d.billLines : []
       } catch (e) {
         console.error(e)
       }
+    },
+    normalizeBillSummary(bs) {
+      const n = (v) => {
+        const x = Number(v)
+        return Number.isFinite(x) ? x : 0
+      }
+      if (!bs || typeof bs !== 'object') {
+        return { examAmount: 0, medicineAmount: 0, herbalAmount: 0, totalAmount: 0 }
+      }
+      const exam = n(bs.examAmount)
+      const med = n(bs.medicineAmount)
+      const herb = n(bs.herbalAmount)
+      let total = n(bs.totalAmount)
+      if (!total && (exam || med || herb)) {
+        total = exam + med + herb
+      }
+      return { examAmount: exam, medicineAmount: med, herbalAmount: herb, totalAmount: total }
     },
     async saveRecord() {
       if (!this.selectedPatient) {
@@ -707,9 +833,13 @@ export default {
       }
     },
     formatMoney(v) {
-      const n = Number(v)
-      if (Number.isNaN(n)) return '0.00'
+      if (v === null || v === undefined || v === '') return '0.00'
+      const n = typeof v === 'number' ? v : Number(String(v).replace(/,/g, ''))
+      if (!Number.isFinite(n)) return '0.00'
       return n.toFixed(2)
+    },
+    deskScope() {
+      return this.activeTab === 'dept' ? 'dept' : 'self'
     },
     async startVisit() {
       if (!this.selectedPatient) {
@@ -717,7 +847,12 @@ export default {
         return
       }
       try {
-        await startDoctorDeskVisit(this.selectedPatient.id)
+        const res = await startDoctorDeskVisit(this.selectedPatient.id, this.deskScope())
+        // request 拦截器在业务失败时仍 resolve，必须看 code
+        if (!res || res.code !== 20000) {
+          this.$message.error((res && res.message) || '开始诊疗失败')
+          return
+        }
         this.$message.success('已开始诊疗')
         this.selectedPatient = null
         this.isFinished = false
@@ -735,7 +870,12 @@ export default {
       this.$confirm('确认结束本次就诊吗？', '提示', { type: 'warning' })
         .then(async () => {
           try {
-            await finishDoctorDeskVisit(this.selectedPatient.id)
+            const res = await finishDoctorDeskVisit(this.selectedPatient.id, this.deskScope())
+            if (!res || res.code !== 20000) {
+              this.$message.error((res && res.message) || '结束就诊失败')
+              this.isFinished = false
+              return
+            }
             this.$message.success('就诊已结束')
             this.selectedPatient = null
             this.isFinished = false
@@ -743,9 +883,12 @@ export default {
           } catch (e) {
             console.error(e)
             this.$message.error('结束就诊失败')
+            this.isFinished = false
           }
         })
-        .catch(() => {})
+        .catch(() => {
+          this.isFinished = false
+        })
     },
     onFinishedChange(checked) {
       if (!checked) {
@@ -781,6 +924,12 @@ export default {
   font-weight: 600;
   color: #2f3a4d;
   margin-bottom: 10px;
+}
+
+.scope-tip {
+  margin-bottom: 10px;
+  font-size: 12px;
+  line-height: 1.45;
 }
 .panel-header {
   margin-bottom: 10px;
@@ -948,6 +1097,12 @@ export default {
   justify-content: space-between;
   padding: 8px 0;
 }
+.bill-tip {
+  font-size: 13px;
+  color: #606266;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
 .muted {
   color: #999;
 }
@@ -956,6 +1111,76 @@ export default {
 }
 .dialog-footer {
   text-align: right;
+}
+
+.flow-tip {
+  font-size: 13px;
+  color: #606266;
+  line-height: 1.55;
+  margin: 0 0 14px;
+  padding: 10px 12px;
+  background: #f4f9ff;
+  border-radius: 6px;
+  border: 1px solid #d9ecff;
+}
+.exam-results-ref {
+  margin-bottom: 14px;
+  border-left: 3px solid #409eff;
+}
+.exam-results-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.exam-results-title-row .card-title {
+  margin-bottom: 0;
+}
+.exam-results-tip {
+  font-size: 12px;
+  color: #909399;
+  margin: 0 0 12px;
+  line-height: 1.5;
+}
+.exam-result-block {
+  padding: 10px 0;
+  border-top: 1px dashed #ebeef5;
+}
+.exam-result-block:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+.exam-result-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.exam-result-head .proj-name {
+  font-weight: 600;
+  color: #303133;
+}
+.exam-result-line {
+  font-size: 13px;
+  color: #606266;
+  margin: 4px 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+.exam-result-line .rk {
+  color: #909399;
+}
+.exam-result-imgs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+}
+.exam-result-imgs .rimg {
+  width: 64px;
+  height: 64px;
+  border-radius: 4px;
+  border: 1px solid #ebeef5;
 }
 
 .left-panel ::v-deep .el-tabs--border-card {

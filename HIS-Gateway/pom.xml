@@ -63,11 +63,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- 权限 URL 缓存到 Redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
         <!-- 测试依赖（可选） -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

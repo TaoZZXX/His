@@ -18,7 +18,9 @@ public class RegistrationDto {
     private String contact; // 联系电话
     private String department; // 科室名称
     private Long departmentId; // 科室ID
-    private String level; // 就诊级别
+    /** 号别主键 sms_registration_rank.id，优先据此取挂号费 */
+    private Long rankId;
+    private String level; // 就诊级别（展示名，可与号别名称一致）
     private LocalDate registrationDate; // 挂号日期
     private String payment; // 支付方式
     private String session; // 就诊时间段

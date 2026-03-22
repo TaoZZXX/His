@@ -16,12 +16,14 @@
     <bytecodeTargetLevel>
       <module name="his-gateway" target="1.7" />
       <module name="HIS-master" target="17" />
+      <module name="HIS-Redis" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="HIS-Business" options="-parameters" />
       <module name="HIS-Gateway" options="-parameters" />
+      <module name="HIS-Redis" options="-parameters" />
       <module name="HIS-Statistics" options="-parameters" />
       <module name="HIS-System" options="-parameters" />
       <module name="HIS-common" options="-parameters" />

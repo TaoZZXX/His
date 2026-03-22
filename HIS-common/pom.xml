@@ -13,6 +13,18 @@
     <artifactId>HIS-common</artifactId>
     <name>HIS-common</name>
     <description>HIS-common</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
             <!-- common 模块不需要打成可执行 jar，禁用 repackage -->

@@ -6,11 +6,11 @@ import com.his.domain.SmsRole;
 import com.his.enums.ResultCode;
 import com.his.exception.BusinessException;
 import com.his.mapper.SmsRoleMapper;
+import com.his.redis.PermissionUrlRedisCache;
 import com.his.service.IRoleService;
 import com.his.vo.PermissionNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -21,21 +21,14 @@ import java.util.Map;
 @Service
 public class RoleService implements IRoleService {
 
-    private static final String PERM_VERSION_KEY = "his:permission:cache:ver";
-
     @Autowired
     private SmsRoleMapper roleMapper;
 
-    @Autowired(required = false)
-    private StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    private PermissionUrlRedisCache permissionUrlRedisCache;
 
     private void bumpPermissionCacheVersion() {
-        try {
-            if (stringRedisTemplate == null) return;
-            stringRedisTemplate.opsForValue().increment(PERM_VERSION_KEY);
-        } catch (Exception e) {
-            // redis 不可用不影响主流程
-        }
+        permissionUrlRedisCache.bumpPermissionCacheVersion();
     }
 
     @Override

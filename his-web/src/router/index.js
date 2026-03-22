@@ -6,10 +6,16 @@ import { getToken } from '@/utils/auth'
 import Home from '@/views/home/Home.vue';
 import Registration from '@/views/registration/Registration.vue';
 import EditRegistration from '@/views/registration/EditRegistration.vue';
+import CashierDesk from '@/views/cashier/CashierDesk.vue';
+import DailySettlementPage from '@/views/finance/DailySettlementPage.vue';
 import OutpatientDesk from '@/views/doctor/OutpatientDesk.vue';
 import DoctorScheduleManagement from '@/views/doctor/DoctorScheduleManagement.vue';
 import StaffRoleManagement from '@/views/user/StaffRoleManagement.vue';
 import RolePermissionManagement from '@/views/user/RolePermissionManagement.vue';
+import DeptManagement from '@/views/admin/DeptManagement.vue';
+import MedTechWorkbench from '@/views/examLab/MedTechWorkbench.vue';
+import PharmacyWorkbench from '@/views/pharmacy/PharmacyWorkbench.vue';
+import PharmacyDrugManage from '@/views/pharmacy/PharmacyDrugManage.vue';
 
 Vue.use(VueRouter)
 
@@ -44,6 +50,12 @@ const routes = [
             name: 'role-permission-management',
             component: RolePermissionManagement,
             meta: { title: '角色权限管理', breadcrumb: ['首页', '系统管理', '角色权限管理'] }
+          },
+          {
+            path: 'departments',
+            name: 'dept-management',
+            component: DeptManagement,
+            meta: { title: '科室管理', breadcrumb: ['首页', '系统管理', '科室管理'] }
           }
         ]
       },
@@ -68,6 +80,43 @@ const routes = [
         ]
       },
       {
+        path: 'cashier',
+        name: 'cashier',
+        component: { render: h => h('router-view') },
+        meta: { title: '收费与财务', breadcrumb: ['首页', '收费与财务'] },
+        redirect: { name: 'cashier-workbench' },
+        children: [
+          {
+            path: 'workbench',
+            name: 'cashier-workbench',
+            component: CashierDesk,
+            meta: { title: '门诊收费台', breadcrumb: ['首页', '收费与财务', '门诊收费台'] }
+          },
+          {
+            path: 'daily-settlement/history',
+            name: 'daily-settlement-history',
+            component: DailySettlementPage,
+            meta: {
+              title: '门诊历史日结',
+              breadcrumb: ['首页', '收费与财务', '历史日结'],
+              settlementMode: 'history'
+            }
+          },
+          {
+            path: 'daily-settlement/audit',
+            name: 'daily-settlement-audit',
+            component: DailySettlementPage,
+            meta: {
+              title: '门诊日结核对',
+              breadcrumb: ['首页', '收费与财务', '日结核对'],
+              settlementMode: 'audit'
+            }
+          }
+        ]
+      },
+      { path: 'finance/daily-settlement/history', redirect: '/cashier/daily-settlement/history' },
+      { path: 'finance/daily-settlement/audit', redirect: '/cashier/daily-settlement/audit' },
+      {
         path: 'doctor',
         name: 'doctor',
         component: { render: h => h('router-view') },
@@ -84,6 +133,44 @@ const routes = [
             name: 'doctor-schedule-management',
             component: DoctorScheduleManagement,
             meta: { title: '医生排班管理', breadcrumb: ['首页', '医生排班管理'] }
+          }
+        ]
+      },
+      {
+        path: 'exam-lab',
+        name: 'exam-lab',
+        component: { render: h => h('router-view') },
+        meta: { title: '检查检验', breadcrumb: ['首页', '检查检验'] },
+        redirect: { name: 'exam-lab-workbench' },
+        children: [
+          {
+            path: 'workbench',
+            name: 'exam-lab-workbench',
+            component: MedTechWorkbench,
+            meta: { title: '门诊医技工作台', breadcrumb: ['首页', '检查检验', '门诊医技工作台'] }
+          },
+          { path: 'execute', redirect: { name: 'exam-lab-workbench' } },
+          { path: 'result', redirect: { name: 'exam-lab-workbench' } }
+        ]
+      },
+      {
+        path: 'pharmacy',
+        name: 'pharmacy',
+        component: { render: h => h('router-view') },
+        meta: { title: '药房', breadcrumb: ['首页', '药房'] },
+        redirect: { name: 'pharmacy-workbench' },
+        children: [
+          {
+            path: 'workbench',
+            name: 'pharmacy-workbench',
+            component: PharmacyWorkbench,
+            meta: { title: '药房工作台', breadcrumb: ['首页', '药房', '药房工作台'] }
+          },
+          {
+            path: 'drugs',
+            name: 'pharmacy-drugs',
+            component: PharmacyDrugManage,
+            meta: { title: '药品维护', breadcrumb: ['首页', '药房', '药品维护'] }
           }
         ]
       }

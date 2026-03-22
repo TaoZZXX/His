@@ -6,14 +6,30 @@
 <mapper namespace="com.his.mapper.DmsRegistrationMapper">
 
 
-    <insert id="insertDmsRegistration" parameterType="com.his.domain.DmsRegistration">
+    <insert id="insertDmsRegistration" parameterType="com.his.domain.DmsRegistration" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into dms_registration
-        (id, patient_id, create_time, end_attendance, status, skd_id, need_book, bind_status,
+        (patient_id, create_time, end_attendance, status, skd_id, need_book, bind_status,
         dept_id, attendance_date, patient_age_str)
         values
-        (#{id}, #{patientId}, #{createTime}, #{endAttendance}, #{status}, #{skdId}, #{needBook}, #{bindStatus},
+        (#{patientId}, #{createTime}, #{endAttendance}, #{status}, #{skdId}, #{needBook}, #{bindStatus},
          #{deptId}, #{attendanceDate}, #{patientAgeStr})
     </insert>
+
+    <select id="selectById" resultType="com.his.domain.DmsRegistration">
+        select id,
+               patient_id          as patientId,
+               create_time         as createTime,
+               end_attendance      as endAttendance,
+               status,
+               skd_id              as skdId,
+               need_book           as needBook,
+               bind_status         as bindStatus,
+               dept_id             as deptId,
+               attendance_date     as attendanceDate,
+               patient_age_str     as patientAgeStr
+        from dms_registration
+        where id = #{id}
+    </select>
 
     <!-- 分页查询挂号记录，按创建时间（挂号时间）倒序，联表取患者姓名和科室名称，返回 VO -->
     <select id="selectByPage" resultType="com.his.vo.RegistrationPageVo">
@@ -30,6 +46,9 @@
             dr.attendance_date as attendanceDate,
             dr.patient_age_str as patientAgeStr,
             p.name             as patientName,
+            p.medical_record_no as medicalRecordNo,
+            p.date_of_birth    as dateOfBirth,
+            case when p.gender = 1 then '男' when p.gender = 0 then '女' else '—' end as genderStr,
             d.name             as deptName,
             skd.staff_id       as doctorId,
             s.name             as doctorName,
@@ -39,14 +58,51 @@
         left join sms_dept d on dr.dept_id = d.id
         left join sms_skd skd on dr.skd_id = skd.id
         left join sms_staff s on skd.staff_id = s.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (p.name like concat('%', #{keyword}, '%')
+                or p.medical_record_no like concat('%', #{keyword}, '%'))
+            </if>
+        </where>
         order by dr.create_time desc
         limit #{limit} offset #{offset}
     </select>
 
     <!-- 统计总数 -->
     <select id="countAll" resultType="long">
-        select count(1) from dms_registration
+        select count(1)
+        from dms_registration dr
+        left join pms_patient p on dr.patient_id = p.id
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (p.name like concat('%', #{keyword}, '%')
+                or p.medical_record_no like concat('%', #{keyword}, '%'))
+            </if>
+        </where>
     </select>
+
+    <!-- 已开始诊疗（诊中或诊毕）且未缴 -> 已缴。不要求先诊毕，支持「开检查/开药 → 收费处先缴费 → 再继续回诊」 -->
+    <update id="markPaid">
+        update dms_registration
+        set bind_status = 1
+        where id = #{id}
+          and status = 1
+          and (bind_status is null or bind_status = 0)
+    </update>
+
+    <!-- 已缴 -> 未缴（退费） -->
+    <update id="markUnpaid">
+        update dms_registration
+        set bind_status = 0
+        where id = #{id}
+          and bind_status = 1
+    </update>
+
+    <update id="updateBindStatus">
+        update dms_registration
+        set bind_status = #{bindStatus}
+        where id = #{id}
+    </update>
 
     <!-- 根据主键更新部分字段 -->
     <update id="updateById" parameterType="com.his.domain.DmsRegistration">
@@ -134,6 +190,29 @@
             dr.status = #{status}
         where dr.id = #{id}
           and skd.staff_id = #{staffId}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null)
+          and dr.status &lt;&gt; #{canceledStatus}
+    </update>
+
+    <!-- 门诊医生工作台：结束就诊（科室模式，按挂号科室校验） -->
+    <update id="finishVisitByDeptId">
+        update dms_registration dr
+        set
+            dr.end_attendance = #{endAttendance},
+            dr.status = #{status}
+        where dr.id = #{id}
+          and dr.dept_id = #{deptId}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null)
+          and dr.status &lt;&gt; #{canceledStatus}
+    </update>
+
+    <!-- 门诊医生工作台：开始诊疗（科室模式） -->
+    <update id="startVisitByDeptId">
+        update dms_registration dr
+        set dr.status = #{status}
+        where dr.id = #{id}
+          and dr.dept_id = #{deptId}
+          and dr.status = #{unfinishedStatus}
           and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null)
           and dr.status &lt;&gt; #{canceledStatus}
     </update>
