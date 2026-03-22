@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.DmsMedicinePrescriptionRecordMapper">
+
+    <insert id="insert" parameterType="com.his.domain.DmsMedicinePrescriptionRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into dms_medicine_prescription_record
+        (status, create_time, amount, name, registration_id, refund_status, type, create_staff_id)
+        values
+            (#{status}, #{createTime}, #{amount}, #{name}, #{registrationId}, #{refundStatus}, #{type}, #{createStaffId})
+    </insert>
+
+    <select id="selectById" resultType="com.his.domain.DmsMedicinePrescriptionRecord">
+        select * from dms_medicine_prescription_record where id = #{id}
+    </select>
+
+    <select id="selectByRegistrationId" resultType="com.his.domain.DmsMedicinePrescriptionRecord">
+        select *
+        from dms_medicine_prescription_record
+        where registration_id = #{registrationId}
+          and (status is null or status &lt;&gt; 2)
+          and (refund_status is null or refund_status = 0)
+        order by id desc
+    </select>
+
+    <select id="sumAmountByRegistrationId" resultType="java.math.BigDecimal">
+        select COALESCE(sum(amount), 0)
+        from dms_medicine_prescription_record
+        where registration_id = #{registrationId}
+          and (status is null or status &lt;&gt; 2)
+          and (refund_status is null or refund_status = 0)
+    </select>
+
+</mapper>
+

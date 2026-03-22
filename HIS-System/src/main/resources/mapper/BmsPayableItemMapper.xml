@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.BmsPayableItemMapper">
+
+    <insert id="insert" parameterType="com.his.domain.BmsPayableItem" useGeneratedKeys="true" keyProperty="id">
+        insert into bms_payable_item
+        (registration_id, item_type, source_id, item_name, amount, paid_amount, status, create_time, update_time)
+        values
+        (#{registrationId}, #{itemType}, #{sourceId}, #{itemName}, #{amount}, #{paidAmount}, #{status}, #{createTime}, #{updateTime})
+    </insert>
+
+    <select id="selectById" resultType="com.his.domain.BmsPayableItem">
+        select id,
+               registration_id   as registrationId,
+               item_type         as itemType,
+               source_id         as sourceId,
+               item_name         as itemName,
+               amount,
+               paid_amount       as paidAmount,
+               status,
+               create_time       as createTime,
+               update_time       as updateTime
+        from bms_payable_item where id = #{id}
+    </select>
+
+    <select id="selectByRegistrationId" resultType="com.his.domain.BmsPayableItem">
+        select id,
+               registration_id   as registrationId,
+               item_type         as itemType,
+               source_id         as sourceId,
+               item_name         as itemName,
+               amount,
+               paid_amount       as paidAmount,
+               status,
+               create_time       as createTime,
+               update_time       as updateTime
+        from bms_payable_item
+        where registration_id = #{registrationId}
+        order by id asc
+    </select>
+
+    <select id="selectByRegistrationTypeSource" resultType="com.his.domain.BmsPayableItem">
+        select id,
+               registration_id   as registrationId,
+               item_type         as itemType,
+               source_id         as sourceId,
+               item_name         as itemName,
+               amount,
+               paid_amount       as paidAmount,
+               status,
+               create_time       as createTime,
+               update_time       as updateTime
+        from bms_payable_item
+        where registration_id = #{registrationId}
+          and item_type = #{itemType}
+          and source_id = #{sourceId}
+        limit 1
+    </select>
+
+    <select id="countUnpaidByRegistrationId" resultType="int">
+        select count(1)
+        from bms_payable_item
+        where registration_id = #{registrationId}
+          and status &lt;&gt; 1
+    </select>
+
+    <update id="updatePaidProgress">
+        update bms_payable_item
+        set paid_amount = #{paidAmount},
+            status      = #{status},
+            update_time = now()
+        where id = #{id}
+    </update>
+</mapper>

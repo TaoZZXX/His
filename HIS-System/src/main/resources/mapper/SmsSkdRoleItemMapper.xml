@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.SmsSkdRuleItemMapper">
+
+    <insert id="insertBatch">
+        insert into sms_skd_rule_item
+        (staff_id, days_of_week, status, sk_limit, sk_rule_id)
+        values
+        <foreach collection="items" item="it" separator=",">
+            (#{it.staffId}, #{it.daysOfWeek}, #{it.status}, #{it.skLimit}, #{it.skRuleId})
+        </foreach>
+    </insert>
+
+    <select id="selectByRuleId" resultType="com.his.domain.SmsSkdRuleItem">
+        select
+            id,
+            staff_id as staffId,
+            days_of_week as daysOfWeek,
+            status,
+            sk_limit as skLimit,
+            sk_rule_id as skRuleId
+        from sms_skd_rule_item
+        where sk_rule_id = #{skRuleId}
+        order by staff_id asc
+    </select>
+
+    <delete id="deleteByRuleId">
+        delete from sms_skd_rule_item where sk_rule_id = #{skRuleId}
+    </delete>
+
+</mapper>
+

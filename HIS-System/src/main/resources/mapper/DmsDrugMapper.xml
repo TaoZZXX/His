@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.DmsDrugMapper">
+
+    <select id="selectEnabledByKeyword" resultType="com.his.domain.DmsDrug">
+        select *
+        from dms_drug
+        where status = 1
+        <if test="keyword != null and keyword != ''">
+            and (name like concat('%', #{keyword}, '%')
+                 or code like concat('%', #{keyword}, '%')
+                 or mnemonic_code like concat('%', #{keyword}, '%'))
+        </if>
+        order by name
+    </select>
+
+    <select id="selectById" resultType="com.his.domain.DmsDrug">
+        select *
+        from dms_drug
+        where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.his.domain.DmsDrug" useGeneratedKeys="true" keyProperty="id">
+        insert into dms_drug
+        (code, name, format, price, unit, manufacturer, dosage_id, type_id, mnemonic_code, stock, generic_name, status, create_date)
+        values
+        (#{code}, #{name}, #{format}, #{price}, #{unit}, #{manufacturer}, #{dosageId}, #{typeId}, #{mnemonicCode},
+         #{stock}, #{genericName}, #{status}, #{createDate})
+    </insert>
+
+    <update id="updateById" parameterType="com.his.domain.DmsDrug">
+        update dms_drug
+        set code = #{code},
+            name = #{name},
+            format = #{format},
+            price = #{price},
+            unit = #{unit},
+            manufacturer = #{manufacturer},
+            dosage_id = #{dosageId},
+            type_id = #{typeId},
+            mnemonic_code = #{mnemonicCode},
+            stock = #{stock},
+            generic_name = #{genericName},
+            status = #{status}
+        where id = #{id}
+    </update>
+
+    <select id="countForAdmin" resultType="long">
+        select count(1)
+        from dms_drug
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat('%', #{keyword}, '%')
+                or code like concat('%', #{keyword}, '%')
+                or mnemonic_code like concat('%', #{keyword}, '%')
+                or generic_name like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectPage" resultType="com.his.domain.DmsDrug">
+        select *
+        from dms_drug
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (name like concat('%', #{keyword}, '%')
+                or code like concat('%', #{keyword}, '%')
+                or mnemonic_code like concat('%', #{keyword}, '%')
+                or generic_name like concat('%', #{keyword}, '%'))
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+        order by id desc
+        limit #{limit} offset #{offset}
+    </select>
+
+</mapper>
+

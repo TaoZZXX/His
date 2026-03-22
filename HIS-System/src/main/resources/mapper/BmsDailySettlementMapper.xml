@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.BmsDailySettlementMapper">
+
+    <resultMap id="BaseMap" type="com.his.domain.BmsDailySettlement">
+        <id column="id" property="id"/>
+        <result column="operator_id" property="operatorId"/>
+        <result column="operator_name" property="operatorName"/>
+        <result column="range_start" property="rangeStart"/>
+        <result column="range_end" property="rangeEnd"/>
+        <result column="report_time" property="reportTime"/>
+        <result column="status" property="status"/>
+        <result column="audit_time" property="auditTime"/>
+        <result column="auditor_id" property="auditorId"/>
+        <result column="auditor_name" property="auditorName"/>
+        <result column="amt_registration" property="amtRegistration"/>
+        <result column="amt_exam" property="amtExam"/>
+        <result column="amt_lab" property="amtLab"/>
+        <result column="amt_medicine" property="amtMedicine"/>
+        <result column="amt_herbal" property="amtHerbal"/>
+        <result column="amt_treatment" property="amtTreatment"/>
+        <result column="amt_total" property="amtTotal"/>
+        <result column="pay_cash" property="payCash"/>
+        <result column="pay_insurance" property="payInsurance"/>
+        <result column="pay_bank" property="payBank"/>
+        <result column="pay_alipay" property="payAlipay"/>
+        <result column="pay_wechat" property="payWechat"/>
+        <result column="pay_creditcard" property="payCreditcard"/>
+        <result column="pay_other" property="payOther"/>
+        <result column="pay_channel_total" property="payChannelTotal"/>
+        <result column="invoice_normal" property="invoiceNormal"/>
+        <result column="invoice_red" property="invoiceRed"/>
+        <result column="invoice_reprint" property="invoiceReprint"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.his.domain.BmsDailySettlement" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO bms_daily_settlement (
+            operator_id, operator_name, range_start, range_end, report_time, status,
+            amt_registration, amt_exam, amt_lab, amt_medicine, amt_herbal, amt_treatment, amt_total,
+            pay_cash, pay_insurance, pay_bank, pay_alipay, pay_wechat, pay_creditcard, pay_other, pay_channel_total,
+            invoice_normal, invoice_red, invoice_reprint, remark, create_time
+        ) VALUES (
+            #{operatorId}, #{operatorName}, #{rangeStart}, #{rangeEnd}, #{reportTime}, #{status},
+            #{amtRegistration}, #{amtExam}, #{amtLab}, #{amtMedicine}, #{amtHerbal}, #{amtTreatment}, #{amtTotal},
+            #{payCash}, #{payInsurance}, #{payBank}, #{payAlipay}, #{payWechat}, #{payCreditcard}, #{payOther}, #{payChannelTotal},
+            #{invoiceNormal}, #{invoiceRed}, #{invoiceReprint}, #{remark}, #{createTime}
+        )
+    </insert>
+
+    <select id="selectById" resultMap="BaseMap">
+        SELECT * FROM bms_daily_settlement WHERE id = #{id}
+    </select>
+
+    <select id="selectByReportTimeRange" resultMap="BaseMap">
+        SELECT * FROM bms_daily_settlement
+        WHERE report_time &gt;= #{start} AND report_time &lt;= #{end}
+        ORDER BY report_time DESC, id DESC
+    </select>
+
+    <update id="updateAudit">
+        UPDATE bms_daily_settlement
+        SET status = #{status},
+            auditor_id = #{auditorId},
+            auditor_name = #{auditorName},
+            audit_time = #{auditTime}
+        WHERE id = #{id}
+    </update>
+</mapper>

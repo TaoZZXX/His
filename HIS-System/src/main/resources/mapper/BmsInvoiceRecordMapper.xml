@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.BmsInvoiceRecordMapper">
+
+    <insert id="insert" parameterType="com.his.domain.BmsInvoiceRecord" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into bms_invoice_record
+        (create_time, invoice_no, bill_id, amount, freeze_status, associate_id, operator_id,
+         settlement_cat_id, settle_record_id, item_list, type)
+        values
+        (#{createTime}, #{invoiceNo}, #{billId}, #{amount}, #{freezeStatus}, #{associateId}, #{operatorId},
+         #{settlementCatId}, #{settleRecordId}, #{itemList}, #{type})
+    </insert>
+</mapper>

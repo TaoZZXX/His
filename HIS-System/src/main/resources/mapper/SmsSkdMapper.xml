@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.SmsSkdMapper">
+
+    <select id="selectByStaffDeptAndDateRange" resultType="com.his.domain.SmsSkd">
+        select
+            id,
+            date,
+            status,
+            remain,
+            noon,
+            staff_id as staffId,
+            dept_id as deptId,
+            sk_limit as skLimit
+        from sms_skd
+        where staff_id = #{staffId}
+          and dept_id = #{deptId}
+          and date &gt;= #{start}
+          and date &lt; #{end}
+        <if test="noon != null">
+          and noon = #{noon}
+        </if>
+        order by date asc
+    </select>
+
+    <!-- 查询某天某科室可挂号医生ID列表（有排班且剩余号源） -->
+    <select id="selectAvailableStaffIds" resultType="long">
+        select distinct staff_id
+        from sms_skd
+        where dept_id = #{deptId}
+          and date &gt;= #{start}
+          and date &lt; #{end}
+          and status = 1
+          and remain &gt; 0
+        <if test="noon != null">
+          and noon = #{noon}
+        </if>
+    </select>
+
+    <!-- 批量插入排班 -->
+    <insert id="insertBatch">
+        insert into sms_skd
+        (date, status, remain, noon, staff_id, dept_id, sk_limit)
+        values
+        <foreach collection="list" item="it" separator=",">
+            (#{it.date}, #{it.status}, #{it.remain},
+             #{it.noon}, #{it.staffId}, #{it.deptId}, #{it.skLimit})
+        </foreach>
+    </insert>
+
+</mapper>
+
