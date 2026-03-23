@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.HomeDashboardMapper">
+
+    <select id="countPersonalRegistrationsOnDate" resultType="long">
+        select count(1)
+        from dms_registration dr
+        inner join sms_skd skd on dr.skd_id = skd.id
+        where dr.attendance_date = #{day}
+          and dr.status &lt;&gt; #{canceledStatus}
+          and skd.staff_id = #{staffId}
+    </select>
+
+    <select id="countDeptRegistrationsOnDate" resultType="long">
+        select count(1)
+        from dms_registration dr
+        where dr.attendance_date = #{day}
+          and dr.status &lt;&gt; #{canceledStatus}
+          and dr.dept_id = #{deptId}
+    </select>
+
+    <select id="countHospitalRegistrationsOnDate" resultType="long">
+        select count(1)
+        from dms_registration dr
+        where dr.attendance_date = #{day}
+          and dr.status &lt;&gt; #{canceledStatus}
+    </select>
+
+    <select id="selectHospitalRegistrationCountByDay" resultType="map">
+        select dr.attendance_date as dt, count(1) as cnt
+        from dms_registration dr
+        where dr.attendance_date between #{start} and #{end}
+          and dr.status &lt;&gt; #{canceledStatus}
+        group by dr.attendance_date
+        order by dr.attendance_date
+    </select>
+
+    <select id="selectFeeByItemTypeInPayTimeRange" resultType="map">
+        select pi.item_type as itemType, coalesce(sum(pa.amount), 0) as total
+        from bms_payment_allocation pa
+        inner join bms_payment_record pr on pr.id = pa.payment_id
+        inner join bms_payable_item pi on pi.id = pa.payable_item_id
+        where pr.pay_time &gt;= #{start}
+          and pr.pay_time &lt; #{end}
+        group by pi.item_type
+    </select>
+
+    <select id="selectDeptItemTypeFeeInPayTimeRange" resultType="map">
+        select dr.dept_id as deptId,
+               d.name as deptName,
+               pi.item_type as itemType,
+               coalesce(sum(pa.amount), 0) as total
+        from bms_payment_allocation pa
+        inner join bms_payment_record pr on pr.id = pa.payment_id
+        inner join bms_payable_item pi on pi.id = pa.payable_item_id
+        inner join dms_registration dr on dr.id = pr.registration_id
+        inner join sms_dept d on d.id = dr.dept_id
+        where pr.pay_time &gt;= #{start}
+          and pr.pay_time &lt; #{end}
+        group by dr.dept_id, d.name, pi.item_type
+    </select>
+</mapper>

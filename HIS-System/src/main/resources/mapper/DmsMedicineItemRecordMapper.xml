@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.his.mapper.DmsMedicineItemRecordMapper">
+
+    <insert id="insertBatch">
+        insert into dms_medicine_item_record
+        (drug_id, status, prescription_id, medicine_usage, frequency, days, num, medical_advice, refund_num, usage_num, usage_means, usage_num_unit, current_num)
+        values
+        <foreach collection="list" item="it" separator=",">
+            (#{it.drugId}, #{it.status}, #{it.prescriptionId}, #{it.medicineUsage}, #{it.frequency}, #{it.days}, #{it.num},
+             #{it.medicalAdvice}, #{it.refundNum}, #{it.usageNum}, #{it.usageMeans}, #{it.usageNumUnit}, #{it.currentNum})
+        </foreach>
+    </insert>
+
+    <select id="selectByPrescriptionId" resultType="com.his.domain.DmsMedicineItemRecord">
+        select *
+        from dms_medicine_item_record
+        where prescription_id = #{prescriptionId}
+          and (status is null or status &lt;&gt; 2)
+        order by id asc
+    </select>
+
+    <select id="selectById" resultType="com.his.domain.DmsMedicineItemRecord">
+        select * from dms_medicine_item_record where id = #{id}
+    </select>
+
+    <select id="selectByIds" resultType="com.his.domain.DmsMedicineItemRecord">
+        select * from dms_medicine_item_record
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <update id="dispenseByIds">
+        update dms_medicine_item_record
+        set current_num = 0
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+          and (status is null or status &lt;&gt; 2)
+          and COALESCE(current_num, 0) &gt; 0
+    </update>
+
+    <update id="refundLineByIds">
+        update dms_medicine_item_record
+        set refund_num = COALESCE(num, 0),
+            current_num = 0,
+            status = 2
+        where id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+          and (status is null or status &lt;&gt; 2)
+    </update>
+
+</mapper>
+
