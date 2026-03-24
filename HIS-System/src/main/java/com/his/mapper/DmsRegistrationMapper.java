@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface DmsRegistrationMapper {
@@ -125,5 +126,9 @@ public interface DmsRegistrationMapper {
             @Param("unfinishedEndAttendance") Integer unfinishedEndAttendance,
             @Param("canceledStatus") Integer canceledStatus
     );
+
+    Integer countOperatePermission(@Param("registrationId") Long registrationId, @Param("staffId") Long staffId);
+
+    Map<String, Object> selectPatientBaseByRegistrationId(@Param("registrationId") Long registrationId);
 
 }

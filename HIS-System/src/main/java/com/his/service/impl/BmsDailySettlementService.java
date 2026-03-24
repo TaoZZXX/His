@@ -5,10 +5,11 @@ import com.his.enums.PayableItemType;
 import com.his.enums.ResultCode;
 import com.his.exception.BusinessException;
 import com.his.mapper.BmsDailySettlementMapper;
+import com.his.mapper.BmsPaymentRecordMapper;
+import com.his.mapper.SmsStaffMapper;
 import com.his.service.IBmsDailySettlementService;
 import com.his.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,10 +23,13 @@ import java.util.Map;
 public class BmsDailySettlementService implements IBmsDailySettlementService {
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private BmsDailySettlementMapper bmsDailySettlementMapper;
 
     @Autowired
-    private BmsDailySettlementMapper bmsDailySettlementMapper;
+    private BmsPaymentRecordMapper bmsPaymentRecordMapper;
+
+    @Autowired
+    private SmsStaffMapper smsStaffMapper;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -54,11 +58,7 @@ public class BmsDailySettlementService implements IBmsDailySettlementService {
             return "—";
         }
         try {
-            String n = jdbcTemplate.queryForObject(
-                    "SELECT COALESCE(name, username, '') FROM sms_staff WHERE id = ? LIMIT 1",
-                    String.class,
-                    staffId
-            );
+            String n = smsStaffMapper.selectStaffDisplayNameById(staffId);
             return n != null && !n.isEmpty() ? n : String.valueOf(staffId);
         } catch (Exception e) {
             return String.valueOf(staffId);
@@ -91,13 +91,7 @@ public class BmsDailySettlementService implements IBmsDailySettlementService {
         BigDecimal amtHerb = BigDecimal.ZERO;
         BigDecimal amtTreat = BigDecimal.ZERO;
 
-        String allocSql =
-                "SELECT pi.item_type AS itemType, pi.item_name AS itemName, a.amount AS amt " +
-                        "FROM bms_payment_allocation a " +
-                        "INNER JOIN bms_payment_record pr ON pr.id = a.payment_id " +
-                        "INNER JOIN bms_payable_item pi ON pi.id = a.payable_item_id " +
-                        "WHERE pr.pay_time >= ? AND pr.pay_time <= ?";
-        List<Map<String, Object>> allocRows = jdbcTemplate.queryForList(allocSql, rangeStart, rangeEnd);
+        List<Map<String, Object>> allocRows = bmsDailySettlementMapper.selectAllocationRowsInPayRange(rangeStart, rangeEnd);
 
         for (Map<String, Object> row : allocRows) {
             Object tObj = row.get("itemType");
@@ -131,10 +125,7 @@ public class BmsDailySettlementService implements IBmsDailySettlementService {
         BigDecimal payCc = BigDecimal.ZERO;
         BigDecimal payOth = BigDecimal.ZERO;
 
-        String paySql =
-                "SELECT pay_method AS m, COALESCE(SUM(total_amount),0) AS s FROM bms_payment_record " +
-                        "WHERE pay_time >= ? AND pay_time <= ? GROUP BY pay_method";
-        List<Map<String, Object>> payRows = jdbcTemplate.queryForList(paySql, rangeStart, rangeEnd);
+        List<Map<String, Object>> payRows = bmsPaymentRecordMapper.selectPayMethodSummaryInRange(rangeStart, rangeEnd);
         for (Map<String, Object> row : payRows) {
             Object mObj = row.get("m");
             if (mObj == null) {

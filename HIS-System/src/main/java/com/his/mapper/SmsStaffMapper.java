@@ -49,4 +49,8 @@ public interface SmsStaffMapper {
     // 更新员工（传入 SmsStaff, 只更新非 null 字段）
     Integer updateSmsStaff(SmsStaff smsStaff);
 
+    Integer selectDeptIdById(@Param("id") Long id);
+
+    String selectStaffDisplayNameById(@Param("id") Long id);
+
 }

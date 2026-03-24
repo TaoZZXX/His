@@ -8,4 +8,22 @@
         values
         (#{registrationId}, #{totalAmount}, #{payTime}, #{operatorId}, #{payMethod}, #{remark}, #{createTime})
     </insert>
+
+    <select id="selectIdsByRegistrationId" resultType="long">
+        select id
+        from bms_payment_record
+        where registration_id = #{registrationId}
+    </select>
+
+    <delete id="deleteByRegistrationId">
+        delete from bms_payment_record where registration_id = #{registrationId}
+    </delete>
+
+    <select id="selectPayMethodSummaryInRange" resultType="map">
+        select pay_method as m, coalesce(sum(total_amount), 0) as s
+        from bms_payment_record
+        where pay_time &gt;= #{rangeStart}
+          and pay_time &lt;= #{rangeEnd}
+        group by pay_method
+    </select>
 </mapper>

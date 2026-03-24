@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.SmsLoginLogMapper">
+
+    <insert id="insert" parameterType="com.his.domain.SmsLoginLog" useGeneratedKeys="true" keyProperty="id">
+        insert into sms_login_log (user_id, create_time, ip)
+        values (#{userId}, #{createTime}, #{ip})
+    </insert>
+</mapper>

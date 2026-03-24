@@ -86,4 +86,12 @@
         delete from sms_staff where username = #{username}
     </delete>
 
+    <select id="selectDeptIdById" resultType="int">
+        select dept_id from sms_staff where id = #{id} limit 1
+    </select>
+
+    <select id="selectStaffDisplayNameById" resultType="string">
+        SELECT COALESCE(name, username, '') FROM sms_staff WHERE id = #{id} LIMIT 1
+    </select>
+
 </mapper>

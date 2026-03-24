@@ -71,4 +71,12 @@
             update_time = now()
         where id = #{id}
     </update>
+
+    <update id="resetByRegistrationId">
+        update bms_payable_item
+        set paid_amount = 0,
+            status = 0,
+            update_time = now()
+        where registration_id = #{registrationId}
+    </update>
 </mapper>

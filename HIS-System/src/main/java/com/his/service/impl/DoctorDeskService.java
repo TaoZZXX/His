@@ -22,13 +22,13 @@ import com.his.mapper.DmsMedicinePrescriptionRecordMapper;
 import com.his.mapper.DmsNonDrugItemRecordMapper;
 import com.his.mapper.DmsNonDrugMapper;
 import com.his.mapper.DmsRegistrationMapper;
+import com.his.mapper.SmsStaffMapper;
 import com.his.service.IBmsCashierService;
 import com.his.service.IDoctorDeskService;
 import com.his.utils.JwtUtil;
 import com.his.vo.OutpatientDeskVo;
 import com.his.vo.OutpatientPatientVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,10 +50,10 @@ public class DoctorDeskService implements IDoctorDeskService {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private DmsRegistrationMapper dmsRegistrationMapper;
 
     @Autowired
-    private DmsRegistrationMapper dmsRegistrationMapper;
+    private SmsStaffMapper smsStaffMapper;
 
     @Autowired
     private DmsCaseHistoryMapper dmsCaseHistoryMapper;
@@ -91,11 +91,7 @@ public class DoctorDeskService implements IDoctorDeskService {
 
         Integer deptId;
         try {
-            deptId = jdbcTemplate.queryForObject(
-                    "select dept_id from sms_staff where id = ?",
-                    Integer.class,
-                    staffId
-            );
+            deptId = smsStaffMapper.selectDeptIdById(staffId);
         } catch (Exception e) {
             deptId = null;
         }
@@ -547,11 +543,7 @@ public class DoctorDeskService implements IDoctorDeskService {
             return null;
         }
         try {
-            Integer deptId = jdbcTemplate.queryForObject(
-                    "select dept_id from sms_staff where id = ?",
-                    Integer.class,
-                    staffId
-            );
+            Integer deptId = smsStaffMapper.selectDeptIdById(staffId);
             return deptId == null ? null : deptId.longValue();
         } catch (Exception e) {
             return null;
@@ -561,14 +553,7 @@ public class DoctorDeskService implements IDoctorDeskService {
     private boolean canOperateRegistration(Long staffId, Long registrationId) {
         if (staffId == null || registrationId == null) return false;
         try {
-            Integer cnt = jdbcTemplate.queryForObject(
-                    "select count(1) from dms_registration dr " +
-                            "left join sms_skd skd on dr.skd_id = skd.id " +
-                            "where dr.id = ? and skd.staff_id = ?",
-                    Integer.class,
-                    registrationId,
-                    staffId
-            );
+            Integer cnt = dmsRegistrationMapper.countOperatePermission(registrationId, staffId);
             return cnt != null && cnt > 0;
         } catch (Exception e) {
             return false;
@@ -577,12 +562,7 @@ public class DoctorDeskService implements IDoctorDeskService {
 
     private void fillPatientBase(DmsCaseHistory ch, Long registrationId) {
         try {
-            Map<String, Object> row = jdbcTemplate.queryForMap(
-                    "select p.id as patientId, p.name as name, p.gender as gender, " +
-                            "TIMESTAMPDIFF(YEAR, p.date_of_birth, dr.attendance_date) as age " +
-                            "from dms_registration dr left join pms_patient p on dr.patient_id = p.id where dr.id = ?",
-                    registrationId
-            );
+            Map<String, Object> row = dmsRegistrationMapper.selectPatientBaseByRegistrationId(registrationId);
             ch.setPatientId(asLong(row.get("patientId")));
             ch.setName(asString(row.get("name")));
             Integer g = asInteger(row.get("gender"));

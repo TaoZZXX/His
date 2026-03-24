@@ -174,6 +174,7 @@
 
                 <div class="btn-row">
                   <el-button type="primary" @click="saveRecord">保存病历</el-button>
+                  <el-button @click="openCaseModelDialog">选择病历模板</el-button>
                   <el-button @click="quickAction">快捷操作</el-button>
                   <el-button
                     type="success"
@@ -218,6 +219,7 @@
               </el-form-item>
             </el-form>
             <div class="btn-row">
+              <el-button @click="openNonDrugModelDialog(1)">选择检查模板</el-button>
               <el-button type="primary" @click="saveExam">保存检查申请</el-button>
             </div>
           </div>
@@ -238,6 +240,7 @@
               </el-form-item>
             </el-form>
             <div class="btn-row">
+              <el-button @click="openNonDrugModelDialog(3)">选择检验模板</el-button>
               <el-button type="primary" @click="saveLab">保存检验申请</el-button>
             </div>
           </div>
@@ -264,6 +267,7 @@
           <div class="card">
             <div class="card-title">成药处方</div>
             <div class="presc-top">
+              <el-button size="small" @click="openMedicineModelDialog">选择处方模板</el-button>
               <el-button type="primary" size="small" :disabled="!selectedPatient" @click="openPrescriptionDetail">处方详情</el-button>
               <span class="presc-total">处方总计: {{ formatMoney(prescriptionItemsTotal) }} 元</span>
             </div>
@@ -311,6 +315,7 @@
               <el-table-column prop="medicalAdvice" label="医嘱" />
             </el-table>
             <div class="btn-row">
+              <el-button @click="openHerbalModelDialog">选择草药模板</el-button>
               <el-button type="primary" @click="saveHerbalPrescription">保存草药处方</el-button>
             </div>
           </div>
@@ -349,6 +354,59 @@
         </div>
       </div>
       </div>
+
+      <el-dialog title="病历模板" :visible.sync="caseModelDialogVisible" width="700px">
+        <el-table :data="caseModels" border size="small" height="420" @row-dblclick="confirmCaseModel">
+          <el-table-column prop="id" label="ID" width="90" />
+          <el-table-column prop="name" label="模板名称" min-width="180" />
+          <el-table-column prop="chiefComplaint" label="主诉" min-width="180" show-overflow-tooltip />
+          <el-table-column label="操作" width="90">
+            <template slot-scope="{ row }">
+              <el-button type="text" size="small" @click="confirmCaseModel(row)">套用</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+
+      <el-dialog :title="nonDrugModelDialogTitle" :visible.sync="nonDrugModelDialogVisible" width="700px">
+        <el-table :data="nonDrugModels" border size="small" height="420" @row-dblclick="confirmNonDrugModel">
+          <el-table-column prop="id" label="ID" width="90" />
+          <el-table-column prop="name" label="模板名称" min-width="180" />
+          <el-table-column prop="type" label="类型" width="100" />
+          <el-table-column prop="remark" label="备注" min-width="180" show-overflow-tooltip />
+          <el-table-column label="操作" width="90">
+            <template slot-scope="{ row }">
+              <el-button type="text" size="small" @click="confirmNonDrugModel(row)">套用</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+
+      <el-dialog title="成药处方模板" :visible.sync="medicineModelDialogVisible" width="760px">
+        <el-table :data="medicineModels" border size="small" height="420" @row-dblclick="confirmMedicineModel">
+          <el-table-column prop="id" label="ID" width="90" />
+          <el-table-column prop="name" label="模板名称" min-width="220" />
+          <el-table-column prop="scope" label="范围" width="90" />
+          <el-table-column label="操作" width="90">
+            <template slot-scope="{ row }">
+              <el-button type="text" size="small" @click="confirmMedicineModel(row)">套用</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
+
+      <el-dialog title="草药处方模板" :visible.sync="herbalModelDialogVisible" width="760px">
+        <el-table :data="herbalModels" border size="small" height="420" @row-dblclick="confirmHerbalModel">
+          <el-table-column prop="id" label="ID" width="90" />
+          <el-table-column prop="name" label="模板名称" min-width="220" />
+          <el-table-column prop="scope" label="范围" width="90" />
+          <el-table-column label="操作" width="90">
+            <template slot-scope="{ row }">
+              <el-button type="text" size="small" @click="confirmHerbalModel(row)">套用</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-dialog>
 
       <!-- 处方详情弹窗（按模板图 3） -->
       <el-dialog title="处方详情" :visible.sync="prescriptionDialogVisible" width="96%">
@@ -433,6 +491,7 @@ import {
   saveDoctorDeskNonDrugItem,
   startDoctorDeskVisit
 } from '@/api/doctorDesk'
+import { pageBackfillRows } from '@/api/moduleBackfill'
 import { getToken } from '@/utils/auth'
 
 export default {
@@ -494,7 +553,21 @@ export default {
       },
       billLines: [],
       examItemList: [],
-      labItemList: []
+      labItemList: [],
+      caseModelDialogVisible: false,
+      caseModels: [],
+      nonDrugModelDialogVisible: false,
+      nonDrugModelMode: 1,
+      nonDrugModels: [],
+      medicineModelDialogVisible: false,
+      medicineModels: [],
+      medicineModelItems: [],
+      herbalModelDialogVisible: false,
+      herbalModels: [],
+      herbalModelItems: []
+      ,
+      examTemplateIds: [],
+      labTemplateIds: []
     }
   },
   mounted() {
@@ -514,6 +587,9 @@ export default {
     prescriptionDetailTotal() {
       const items = this.prescriptionDetailItems || []
       return items.reduce((sum, it) => sum + (Number(it.qty) || 0) * (Number(it.unitPrice) || 0), 0)
+    },
+    nonDrugModelDialogTitle() {
+      return this.nonDrugModelMode === 1 ? '检查模板' : '检验模板'
     },
     nonDrugResultRows() {
       const rows = []
@@ -535,6 +611,165 @@ export default {
     }
   },
   methods: {
+    toNum(v, d = 0) {
+      const n = Number(v)
+      return Number.isFinite(n) ? n : d
+    },
+    toText(v, d = '') {
+      if (v === null || v === undefined) return d
+      return String(v)
+    },
+    async loadTemplateTable(table, size = 200) {
+      const res = await pageBackfillRows(table, 1, size)
+      if (!res || res.code !== 20000) {
+        throw new Error((res && res.message) || '加载模板失败')
+      }
+      return (res.data && res.data.records) || []
+    },
+    async openCaseModelDialog() {
+      try {
+        const all = await this.loadTemplateTable('dms_case_model')
+        this.caseModels = all.filter(r => Number(r.status) === 1 || r.status === null || r.status === undefined)
+        this.caseModelDialogVisible = true
+      } catch (e) {
+        this.$message.error(e.message || '加载病历模板失败')
+      }
+    },
+    confirmCaseModel(row) {
+      if (!row) return
+      // strict mapping: dms_case_model columns
+      this.recordForm.complaint = this.toText(row.chief_complaint, '')
+      this.recordForm.history = this.toText(row.history_of_present_illness, '')
+      this.recordForm.treatment = this.toText(row.history_of_treatment, '')
+      this.recordForm.pastHistory = this.toText(row.past_history, '')
+      this.recordForm.allergy = this.toText(row.allergies, '')
+      this.recordForm.exam = this.toText(row.health_checkup, '')
+      // 初步诊断直接带入确诊页文本（医生可再编辑）
+      const prelim = this.toText(row.priliminary_dise_str_list, '').trim()
+      if (prelim) {
+        this.diagForm.diagnosis = prelim
+      }
+      this.caseModelDialogVisible = false
+      this.$message.success('病历模板已套用')
+    },
+    async openNonDrugModelDialog(type) {
+      this.nonDrugModelMode = type === 3 ? 3 : 1
+      try {
+        const all = await this.loadTemplateTable('dms_non_drug_model')
+        this.nonDrugModels = all.filter(r => (Number(r.status) === 1 || r.status == null) && this.toNum(r.type, -1) === this.nonDrugModelMode)
+        this.nonDrugModelDialogVisible = true
+      } catch (e) {
+        this.$message.error(e.message || '加载模板失败')
+      }
+    },
+    confirmNonDrugModel(row) {
+      if (!row) return
+      // strict mapping: dms_non_drug_model.non_drug_id_list + aim
+      const ids = this.toText(row.non_drug_id_list, '')
+        .split(',')
+        .map(s => this.toNum(s.trim(), 0))
+        .filter(n => n > 0)
+      if (!ids.length) {
+        this.$message.warning('该模板未配置 non_drug_id_list')
+        return
+      }
+      const noDrugId = ids[0]
+      const remark = this.toText(row.aim, '')
+      if (this.nonDrugModelMode === 1) {
+        this.examTemplateIds = ids
+        if (noDrugId > 0) this.examForm.noDrugId = noDrugId
+        this.examForm.remark = remark
+      } else {
+        this.labTemplateIds = ids
+        if (noDrugId > 0) this.labForm.noDrugId = noDrugId
+        this.labForm.remark = remark
+      }
+      this.nonDrugModelDialogVisible = false
+      this.$message.success(`模板已套用（共 ${ids.length} 项）`)
+    },
+    async openMedicineModelDialog() {
+      try {
+        const all = await this.loadTemplateTable('dms_drug_model')
+        // dms_drug_model.type: 0 西药 / 1 草药
+        this.medicineModels = all.filter(r => (Number(r.status) === 1 || r.status == null) && this.toNum(r.type, 0) === 0)
+        this.medicineModelItems = (await this.loadTemplateTable('dms_medicine_model_item', 500))
+          .filter(r => Number(r.status) === 1 || r.status == null)
+        this.medicineModelDialogVisible = true
+      } catch (e) {
+        this.$message.error(e.message || '加载处方模板失败')
+      }
+    },
+    confirmMedicineModel(row) {
+      if (!row) return
+      const modelId = this.toNum(row.id, 0)
+      const lines = (this.medicineModelItems || []).filter(it => {
+        return this.toNum(it.model_id, -1) === modelId
+      })
+      if (!lines.length) {
+        this.$message.warning('该模板未配置明细')
+        return
+      }
+      this.prescriptionItems = lines.map(it => {
+        const drugId = this.toNum(it.drug_id, 0)
+        const dict = (this.medicines || []).find(m => m.id === drugId) || {}
+        const qty = this.toNum(it.num, 1)
+        const unitPrice = this.toNum(dict.price, 0)
+        return {
+          drugId,
+          name: dict.name || `药品#${drugId}`,
+          spec: dict.format || '',
+          qty,
+          unitPrice,
+          usage: this.toText(it.medicine_usage, ''),
+          days: this.toNum(it.days, 1),
+          usageNum: this.toNum(it.usage_num, 1),
+          usageNumUnit: this.toNum(it.usage_num_unit, 1),
+          usageMeans: this.toNum(it.usage_means, 1),
+          frequency: this.toNum(it.frequency, 1),
+          medicalAdvice: this.toText(it.medical_advice, '')
+        }
+      })
+      this.medicineModelDialogVisible = false
+      this.$message.success('成药模板已套用')
+    },
+    async openHerbalModelDialog() {
+      try {
+        const all = await this.loadTemplateTable('dms_drug_model')
+        this.herbalModels = all.filter(r => (Number(r.status) === 1 || r.status == null) && this.toNum(r.type, 0) === 1)
+        this.herbalModelItems = (await this.loadTemplateTable('dms_herbal_model_item', 500))
+          .filter(r => Number(r.status) === 1 || r.status == null)
+        this.herbalModelDialogVisible = true
+      } catch (e) {
+        this.$message.error(e.message || '加载草药模板失败')
+      }
+    },
+    confirmHerbalModel(row) {
+      if (!row) return
+      const modelId = this.toNum(row.id, 0)
+      const lines = (this.herbalModelItems || []).filter(it => {
+        return this.toNum(it.model_id, -1) === modelId
+      })
+      if (!lines.length) {
+        this.$message.warning('该模板未配置草药明细')
+        return
+      }
+      const pairNum = this.toNum(row.pair_num, 1)
+      this.herbalItems = lines.map(it => ({
+        drugId: this.toNum(it.drug_id, 0),
+        totalNum: this.toNum(it.usage_num, 1) * pairNum,
+        usageNum: this.toNum(it.usage_num, 1),
+        usageNumUnit: this.toNum(it.usage_num_unit, 1),
+        medicalAdvice: this.toText(row.medical_advice, ''),
+        footnote: this.toText(it.footnote, '')
+      }))
+      this.herbalForm.therapy = this.toText(row.therapy, '')
+      this.herbalForm.therapyDetails = this.toText(row.therapy_details, '')
+      this.herbalForm.medicalAdvice = this.toText(row.medical_advice, '')
+      this.herbalForm.pairNum = pairNum
+      this.herbalForm.frequency = this.toNum(row.frequency, 1)
+      this.herbalModelDialogVisible = false
+      this.$message.success('草药模板已套用')
+    },
     nonDrugProjectName(row) {
       const dict = row.type === 3 ? this.labDict : this.examDict
       const hit = (dict || []).find(x => x.id === row.noDrugId)
@@ -604,6 +839,8 @@ export default {
       this.recordForm = { complaint: '', history: '', treatment: '', pastHistory: '', allergy: '', exam: '', onsetTime: '' }
       this.examForm = { noDrugId: null, remark: '' }
       this.labForm = { noDrugId: null, remark: '' }
+      this.examTemplateIds = []
+      this.labTemplateIds = []
       this.diagForm = { diagnosis: '', basis: '' }
       this.herbalItems = []
       this.herbalForm = { therapy: '', therapyDetails: '', medicalAdvice: '', pairNum: 1, frequency: 1, usageMeans: 1 }
@@ -706,17 +943,20 @@ export default {
         this.$message.warning('请选择检查项目')
         return
       }
-      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
-        type: 1,
-        noDrugId: this.examForm.noDrugId,
-        remark: this.examForm.remark
-      })
-      if (res && res.code === 20000) {
-        this.$message.success('保存检查申请成功')
-        await this.loadContext()
-      } else {
-        this.$message.error((res && res.message) || '保存失败')
+      const ids = (this.examTemplateIds && this.examTemplateIds.length) ? this.examTemplateIds : [this.examForm.noDrugId]
+      for (let i = 0; i < ids.length; i += 1) {
+        const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
+          type: 1,
+          noDrugId: ids[i],
+          remark: this.examForm.remark
+        })
+        if (!res || res.code !== 20000) {
+          this.$message.error((res && res.message) || '保存失败')
+          return
+        }
       }
+      this.$message.success(`保存检查申请成功（${ids.length} 项）`)
+      await this.loadContext()
     },
     async saveLab() {
       if (!this.selectedPatient) return
@@ -724,17 +964,20 @@ export default {
         this.$message.warning('请选择检验项目')
         return
       }
-      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
-        type: 3,
-        noDrugId: this.labForm.noDrugId,
-        remark: this.labForm.remark
-      })
-      if (res && res.code === 20000) {
-        this.$message.success('保存检验申请成功')
-        await this.loadContext()
-      } else {
-        this.$message.error((res && res.message) || '保存失败')
+      const ids = (this.labTemplateIds && this.labTemplateIds.length) ? this.labTemplateIds : [this.labForm.noDrugId]
+      for (let i = 0; i < ids.length; i += 1) {
+        const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
+          type: 3,
+          noDrugId: ids[i],
+          remark: this.labForm.remark
+        })
+        if (!res || res.code !== 20000) {
+          this.$message.error((res && res.message) || '保存失败')
+          return
+        }
       }
+      this.$message.success(`保存检验申请成功（${ids.length} 项）`)
+      await this.loadContext()
     },
     async saveDiag() {
       if (!this.selectedPatient) return
@@ -942,7 +1185,7 @@ export default {
 }
 .section-title {
   font-size: 13px;
-  color: #409EFF;
+  color: #8b5cf6;
   padding: 6px 2px;
   display: flex;
   align-items: center;
@@ -976,8 +1219,8 @@ export default {
 .patient-name { flex: 1; font-weight: 600; color: #2f3a4d; }
 .patient-age { width: 60px; text-align: right; color: #7f8aa1; font-size: 12px; }
 .patient-card.selected {
-  border: 1px solid #5b8ff9;
-  box-shadow: 0 0 0 2px rgba(91, 143, 249, .14);
+  border: 1px solid #b79bf8;
+  box-shadow: 0 0 0 2px rgba(183, 155, 248, .22);
 }
 .empty {
   padding: 24px 12px;
@@ -1062,7 +1305,7 @@ export default {
 .link-btn {
   padding: 0;
   margin: 6px 0;
-  color: #409EFF;
+  color: #8b5cf6;
 }
 .presc-top {
   display: flex;
@@ -1119,13 +1362,13 @@ export default {
   line-height: 1.55;
   margin: 0 0 14px;
   padding: 10px 12px;
-  background: #f4f9ff;
+  background: #f4f0ff;
   border-radius: 6px;
-  border: 1px solid #d9ecff;
+  border: 1px solid #ddd6f3;
 }
 .exam-results-ref {
   margin-bottom: 14px;
-  border-left: 3px solid #409eff;
+  border-left: 3px solid #8b5cf6;
 }
 .exam-results-title-row {
   display: flex;
@@ -1190,11 +1433,11 @@ export default {
 }
 
 .work-tabs ::v-deep .el-tabs__item.is-active {
-  color: #2f6bff;
+  color: #8b5cf6;
   font-weight: 600;
 }
 
 .work-tabs ::v-deep .el-tabs__active-bar {
-  background-color: #2f6bff;
+  background-color: #8b5cf6;
 }
 </style>

@@ -6,13 +6,13 @@ import com.his.dto.DashboardVisitPoint;
 import com.his.enums.RegistrationStatusCode;
 import com.his.enums.ResultCode;
 import com.his.mapper.HomeDashboardMapper;
+import com.his.mapper.SmsStaffMapper;
 import com.his.service.IHomeDashboardService;
 import com.his.utils.JwtUtil;
 import com.his.vo.DeptFeeBarChartVo;
 import com.his.vo.DeptFeeSeriesVo;
 import com.his.vo.HomeDashboardVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,10 +39,10 @@ public class HomeDashboardService implements IHomeDashboardService {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private HomeDashboardMapper homeDashboardMapper;
 
     @Autowired
-    private HomeDashboardMapper homeDashboardMapper;
+    private SmsStaffMapper smsStaffMapper;
 
     @Override
     public Result<HomeDashboardVo> loadDashboard(String token) {
@@ -76,11 +76,7 @@ public class HomeDashboardService implements IHomeDashboardService {
 
     private Long resolveDeptId(Long staffId) {
         try {
-            Integer id = jdbcTemplate.queryForObject(
-                    "select dept_id from sms_staff where id = ?",
-                    Integer.class,
-                    staffId
-            );
+            Integer id = smsStaffMapper.selectDeptIdById(staffId);
             return id == null ? null : id.longValue();
         } catch (Exception e) {
             return null;

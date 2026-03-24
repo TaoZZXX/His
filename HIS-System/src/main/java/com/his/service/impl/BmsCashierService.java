@@ -10,6 +10,7 @@ import com.his.enums.PayableItemType;
 import com.his.exception.BusinessException;
 import com.his.enums.ResultCode;
 import com.his.mapper.BmsInvoiceRecordMapper;
+import com.his.mapper.BmsInvoiceSequenceMapper;
 import com.his.mapper.BmsPayableItemMapper;
 import com.his.mapper.BmsPaymentAllocationMapper;
 import com.his.mapper.BmsPaymentRecordMapper;
@@ -17,7 +18,6 @@ import com.his.mapper.DmsNonDrugItemRecordMapper;
 import com.his.mapper.DmsRegistrationMapper;
 import com.his.service.IBmsCashierService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,10 +48,10 @@ public class BmsCashierService implements IBmsCashierService {
     private DmsNonDrugItemRecordMapper dmsNonDrugItemRecordMapper;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private BmsInvoiceRecordMapper bmsInvoiceRecordMapper;
 
     @Autowired
-    private BmsInvoiceRecordMapper bmsInvoiceRecordMapper;
+    private BmsInvoiceSequenceMapper bmsInvoiceSequenceMapper;
 
     private static BigDecimal nz(BigDecimal v) {
         return v == null ? BigDecimal.ZERO : v;
@@ -65,14 +65,12 @@ public class BmsCashierService implements IBmsCashierService {
      * MySQL：UPDATE ... SET current_value = LAST_INSERT_ID(current_value + 1)，再 SELECT LAST_INSERT_ID() 取新号。
      */
     private long allocateNextInvoiceNo() {
-        int updated = jdbcTemplate.update(
-                "UPDATE bms_invoice_sequence SET current_value = LAST_INSERT_ID(current_value + 1) WHERE seq_name = ?",
-                "GLOBAL");
+        int updated = bmsInvoiceSequenceMapper.allocateNext("GLOBAL");
         if (updated != 1) {
             throw new BusinessException(ResultCode.SERVER_ERROR,
                     "发票序列未初始化，请执行 document/sql/bms_invoice_sequence.sql 后重启服务");
         }
-        Long v = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
+        Long v = bmsInvoiceSequenceMapper.selectLastInsertId();
         if (v == null) {
             throw new BusinessException(ResultCode.SERVER_ERROR, "生成发票号失败");
         }
@@ -361,19 +359,14 @@ public class BmsCashierService implements IBmsCashierService {
         if (registrationId == null) {
             return;
         }
-        List<Long> paymentIds = jdbcTemplate.query(
-                "select id from bms_payment_record where registration_id = ?",
-                (rs, i) -> rs.getLong(1),
-                registrationId);
+        List<Long> paymentIds = bmsPaymentRecordMapper.selectIdsByRegistrationId(registrationId);
         if (paymentIds != null && !paymentIds.isEmpty()) {
             for (Long pid : paymentIds) {
-                jdbcTemplate.update("delete from bms_payment_allocation where payment_id = ?", pid);
+                bmsPaymentAllocationMapper.deleteByPaymentId(pid);
             }
-            jdbcTemplate.update("delete from bms_payment_record where registration_id = ?", registrationId);
+            bmsPaymentRecordMapper.deleteByRegistrationId(registrationId);
         }
-        jdbcTemplate.update(
-                "update bms_payable_item set paid_amount = 0, status = 0, update_time = now() where registration_id = ?",
-                registrationId);
+        bmsPayableItemMapper.resetByRegistrationId(registrationId);
         dmsRegistrationMapper.updateBindStatus(registrationId, 0);
     }
 }

@@ -13,6 +13,12 @@ import DoctorScheduleManagement from '@/views/doctor/DoctorScheduleManagement.vu
 import StaffRoleManagement from '@/views/user/StaffRoleManagement.vue';
 import RolePermissionManagement from '@/views/user/RolePermissionManagement.vue';
 import DeptManagement from '@/views/admin/DeptManagement.vue';
+import OperationLogPage from '@/views/admin/OperationLogPage.vue';
+import ModuleBackfill from '@/views/admin/ModuleBackfill.vue';
+import DoctorTemplateCenter from '@/views/admin/DoctorTemplateCenter.vue';
+import DiagnosisManagement from '@/views/admin/DiagnosisManagement.vue';
+import FinanceExtensionPage from '@/views/finance/FinanceExtensionPage.vue';
+import AuditOpsPage from '@/views/admin/AuditOpsPage.vue';
 import MedTechWorkbench from '@/views/examLab/MedTechWorkbench.vue';
 import PharmacyWorkbench from '@/views/pharmacy/PharmacyWorkbench.vue';
 import PharmacyDrugManage from '@/views/pharmacy/PharmacyDrugManage.vue';
@@ -56,6 +62,30 @@ const routes = [
             name: 'dept-management',
             component: DeptManagement,
             meta: { title: '科室管理', breadcrumb: ['首页', '系统管理', '科室管理'] }
+          },
+          {
+            path: 'module-backfill',
+            name: 'module-backfill',
+            component: ModuleBackfill,
+            meta: { title: '模块补齐工作台', breadcrumb: ['首页', '系统管理', '模块补齐工作台'] }
+          },
+          {
+            path: 'audit-ops',
+            name: 'audit-ops',
+            component: AuditOpsPage,
+            meta: { title: '系统审计与运营', breadcrumb: ['首页', '系统管理', '系统审计与运营'] }
+          },
+          {
+            path: 'login-logs',
+            name: 'login-logs',
+            component: AuditOpsPage,
+            meta: { title: '登录日志查看', breadcrumb: ['首页', '系统管理', '登录日志查看'], loginOnly: true }
+          },
+          {
+            path: 'operation-logs',
+            name: 'operation-logs',
+            component: OperationLogPage,
+            meta: { title: '操作日志', breadcrumb: ['首页', '系统管理', '操作日志'] }
           }
         ]
       },
@@ -111,6 +141,12 @@ const routes = [
               breadcrumb: ['首页', '收费与财务', '日结核对'],
               settlementMode: 'audit'
             }
+          },
+          {
+            path: 'extension',
+            name: 'finance-extension',
+            component: FinanceExtensionPage,
+            meta: { title: '财务扩展', breadcrumb: ['首页', '收费与财务', '财务扩展'] }
           }
         ]
       },
@@ -133,6 +169,18 @@ const routes = [
             name: 'doctor-schedule-management',
             component: DoctorScheduleManagement,
             meta: { title: '医生排班管理', breadcrumb: ['首页', '医生排班管理'] }
+          },
+          {
+            path: 'template-center',
+            name: 'doctor-template-center',
+            component: DoctorTemplateCenter,
+            meta: { title: '医生模板中心', breadcrumb: ['首页', '门诊医生', '医生模板中心'] }
+          },
+          {
+            path: 'diagnosis-management',
+            name: 'diagnosis-management',
+            component: DiagnosisManagement,
+            meta: { title: '诊断目录管理', breadcrumb: ['首页', '门诊医生', '诊断目录管理'] }
           }
         ]
       },

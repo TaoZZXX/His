@@ -600,7 +600,7 @@ export default {
 }
 
 .refresh-link {
-  color: #409eff;
+  color: #8b5cf6;
 }
 
 .layout-split {
@@ -662,14 +662,14 @@ export default {
 }
 
 .patient-item:hover {
-  border-color: #c6e2ff;
-  background: #f0f9ff;
+  border-color: #d2c5fb;
+  background: #f4f0ff;
 }
 
 .patient-item.active {
-  border-color: #409eff;
-  background: #ecf5ff;
-  box-shadow: 0 0 0 1px rgba(64, 158, 255, 0.2);
+  border-color: #b79bf8;
+  background: #f1ebff;
+  box-shadow: 0 0 0 1px rgba(183, 155, 248, 0.28);
 }
 
 .patient-item-top {

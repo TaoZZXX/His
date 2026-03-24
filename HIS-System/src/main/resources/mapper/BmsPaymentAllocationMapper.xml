@@ -14,4 +14,17 @@
             (#{it.paymentId}, #{it.payableItemId}, #{it.amount})
         </foreach>
     </insert>
+
+    <delete id="deleteByPaymentId">
+        delete from bms_payment_allocation where payment_id = #{paymentId}
+    </delete>
+
+    <select id="selectAllocationRowsInPayRange" resultType="map">
+        select pi.item_type as itemType, pi.item_name as itemName, a.amount as amt
+        from bms_payment_allocation a
+        inner join bms_payment_record pr on pr.id = a.payment_id
+        inner join bms_payable_item pi on pi.id = a.payable_item_id
+        where pr.pay_time &gt;= #{rangeStart}
+          and pr.pay_time &lt;= #{rangeEnd}
+    </select>
 </mapper>

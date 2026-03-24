@@ -1,15 +1,15 @@
 :root {
-  --bg-page: #f4f7fb;
+  --bg-page: #f7f5ff;
   --bg-card: #ffffff;
-  --text-main: #243447;
-  --text-secondary: #5b6b7b;
-  --border-soft: #e8edf5;
-  --brand: #3a7afe;
-  --brand-soft: #eaf1ff;
-  --success: #21ba45;
-  --warning: #ff9f1a;
+  --text-main: #2f2a3a;
+  --text-secondary: #625b73;
+  --border-soft: #ddd6f3;
+  --brand: #8b5cf6;
+  --brand-soft: #f1ebff;
+  --success: #67c23a;
+  --warning: #e6a23c;
   --danger: #f56c6c;
-  --shadow-soft: 0 8px 24px rgba(32, 56, 85, 0.07);
+  --shadow-soft: none;
 }
 
 html,
@@ -30,67 +30,71 @@ body {
 
 .el-card {
   border: 1px solid var(--border-soft) !important;
-  border-radius: 12px !important;
-  box-shadow: var(--shadow-soft);
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .el-table {
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
 }
 
 .el-table th.el-table__cell {
-  background: #f7faff !important;
-  color: #3e4c5d;
-  font-weight: 600;
+  background: #f4f0ff !important;
+  color: #534c66;
+  font-weight: 500;
 }
 
 .el-table .el-table__row:hover > td {
-  background: #f5f9ff !important;
+  background: #f7f5ff !important;
 }
 
 .el-input__inner,
 .el-textarea__inner,
 .el-select .el-input__inner {
-  border: 1px solid #dbe4f3 !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease;
+  border: 1px solid #ddd6f3 !important;
+  border-radius: 0 !important;
+  transition: none;
 }
 
 .el-input__inner:focus,
 .el-textarea__inner:focus {
-  border-color: var(--brand) !important;
-  box-shadow: 0 0 0 3px rgba(58, 122, 254, 0.12);
+  border-color: #b79bf8 !important;
+  box-shadow: none !important;
 }
 
 .el-form-item__label {
-  color: #556476;
-  font-weight: 600;
+  color: #534c66;
+  font-weight: 500;
 }
 
 .el-button {
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-  transition: all 0.2s ease;
+  border-radius: 0 !important;
+  font-weight: 400 !important;
+  transition: none;
 }
 
 .el-button--primary {
-  background: linear-gradient(135deg, #3a7afe, #5b8cff) !important;
-  border-color: #3a7afe !important;
+  background: #f4f0ff !important;
+  border-color: #d2c5fb !important;
+  color: #4a3d74 !important;
 }
 
 .el-button--primary:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(58, 122, 254, 0.35);
+  background: #ece4ff !important;
+  border-color: #b79bf8 !important;
+  color: #2f2a3a !important;
 }
 
 .el-dialog {
-  border-radius: 14px !important;
+  border-radius: 0 !important;
   overflow: hidden;
+  box-shadow: none !important;
+  border: 1px solid #ddd6f3;
 }
 
 .el-dialog__header {
-  background: #f7faff;
+  background: #f4f0ff;
   border-bottom: 1px solid var(--border-soft);
 }
 
@@ -99,15 +103,86 @@ body {
 }
 
 .el-tabs__item.is-active {
-  color: var(--brand) !important;
-  font-weight: 700;
+  color: #2f2a3a !important;
+  font-weight: 500;
 }
 
 .el-tabs__active-bar {
-  background: var(--brand) !important;
+  background: #9b7cf7 !important;
 }
 
 .el-tag {
-  border-radius: 999px !important;
+  border-radius: 0 !important;
+}
+
+.el-pagination.is-background .btn-next,
+.el-pagination.is-background .btn-prev,
+.el-pagination.is-background .el-pager li {
+  border-radius: 0 !important;
+}
+
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background: #f1ebff !important;
+  color: #2f2a3a !important;
+  border: 1px solid #d2c5fb;
+}
+
+.el-menu,
+.el-submenu__title,
+.el-menu-item {
+  border-radius: 0 !important;
+}
+
+.el-menu-item.is-active {
+  color: #2f2a3a !important;
+  background: #f1ebff !important;
+}
+
+.el-checkbox__inner,
+.el-radio__inner {
+  border-radius: 0 !important;
+}
+
+/* Unified interaction/page conventions */
+.ui-page-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 12px;
+}
+
+.ui-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 12px;
+  flex-wrap: wrap;
+}
+
+.ui-card {
+  border: 1px solid var(--border-soft);
+  background: var(--bg-card);
+  border-radius: 0;
+}
+
+.ui-table-wrap {
+  border: 1px solid var(--border-soft);
+  background: var(--bg-card);
+  border-radius: 0;
+  padding: 10px;
+}
+
+.ui-pager {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ui-danger {
+  color: var(--danger) !important;
+}
+
+.ui-muted {
+  color: var(--text-secondary);
 }
 

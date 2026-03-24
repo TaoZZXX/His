@@ -2,12 +2,14 @@ package com.his.service.impl;
 
 import com.his.domain.PageResult;
 import com.his.domain.SmsDept;
+import com.his.domain.SmsLoginLog;
 import com.his.domain.SmsStaff;
 import com.his.dto.SmsStaffLoginDTO;
 import com.his.dto.SmsStaffRegisterDTO;
 import com.his.enums.ResultCode;
 import com.his.exception.BusinessException;
 import com.his.mapper.SmsDeptMapper;
+import com.his.mapper.SmsLoginLogMapper;
 import com.his.mapper.SmsStaffMapper;
 import com.his.service.ISmsStaffService;
 import com.his.utils.JwtUtil;
@@ -15,7 +17,10 @@ import com.his.vo.SmsStaffLoginVo;
 import com.his.vo.StaffPageVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -30,6 +35,9 @@ public class SmsStaffService implements ISmsStaffService {
 
     @Autowired
     private SmsDeptMapper smsDeptMapper;
+
+    @Autowired
+    private SmsLoginLogMapper smsLoginLogMapper;
 
     @Override
     public SmsStaffLoginVo getInfo(String token) {
@@ -119,17 +127,24 @@ public class SmsStaffService implements ISmsStaffService {
     @Override
     public SmsStaffLoginVo login(SmsStaffLoginDTO smsStaffLoginDTO) {
         if (smsStaffLoginDTO == null) {
+            writeLoginLog(null);
             throw new BusinessException(ResultCode.PARAM_ERROR, "参数错误");
         }
 
         // 检查账号密码是否正确
         SmsStaff smsStall = smsStallMapper.selectSmsStaffByUsername(smsStaffLoginDTO.getUsername());
+        if (smsStall == null) {
+            writeLoginLog(null);
+            throw new BusinessException(ResultCode.LOGIN_FAILED, "账号或密码错误");
+        }
         if (!smsStaffLoginDTO.getPassword().equals(smsStall.getPassword())) {
+            writeLoginLog(null);
             throw new BusinessException(ResultCode.LOGIN_FAILED, "账号或密码错误");
         }
 
         // 生成 token
         String token = jwtUtil.generateToken(smsStall.getId(), smsStall.getUsername());
+        writeLoginLog(smsStall.getId());
 
         SmsStaffLoginVo smsStaffLoginVo = new SmsStaffLoginVo();
         smsStaffLoginVo.setId(smsStall.getId());
@@ -137,6 +152,55 @@ public class SmsStaffService implements ISmsStaffService {
         smsStaffLoginVo.setName(smsStall.getName() == null ? "用户" : smsStall.getName());
         smsStaffLoginVo.setToken(token);
         return smsStaffLoginVo;
+    }
+
+    private void writeLoginLog(Long userId) {
+        if (userId == null) {
+            return;
+        }
+        try {
+            SmsLoginLog log = new SmsLoginLog();
+            log.setUserId(userId);
+            log.setCreateTime(LocalDateTime.now());
+            log.setIp(resolveClientIp());
+            smsLoginLogMapper.insert(log);
+        } catch (Exception ignored) {
+        }
+    }
+
+    private String resolveClientIp() {
+        try {
+            ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            if (attrs == null) {
+                return "unknown";
+            }
+            HttpServletRequest request = attrs.getRequest();
+            if (request == null) {
+                return "unknown";
+            }
+            String ip = firstForwardedIp(request.getHeader("X-Forwarded-For"));
+            if (isBlankIp(ip)) {
+                ip = request.getHeader("X-Real-IP");
+            }
+            if (isBlankIp(ip)) {
+                ip = request.getRemoteAddr();
+            }
+            return isBlankIp(ip) ? "unknown" : ip;
+        } catch (Exception e) {
+            return "unknown";
+        }
+    }
+
+    private String firstForwardedIp(String xff) {
+        if (xff == null || xff.trim().isEmpty()) {
+            return null;
+        }
+        String[] parts = xff.split(",");
+        return parts.length == 0 ? null : parts[0].trim();
+    }
+
+    private boolean isBlankIp(String ip) {
+        return ip == null || ip.trim().isEmpty() || "unknown".equalsIgnoreCase(ip.trim());
     }
 
     @Override

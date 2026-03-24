@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public interface BmsDailySettlementMapper {
 
@@ -22,4 +23,8 @@ public interface BmsDailySettlementMapper {
             @Param("auditorId") Long auditorId,
             @Param("auditorName") String auditorName,
             @Param("auditTime") LocalDateTime auditTime);
+
+    List<Map<String, Object>> selectAllocationRowsInPayRange(
+            @Param("rangeStart") LocalDateTime rangeStart,
+            @Param("rangeEnd") LocalDateTime rangeEnd);
 }

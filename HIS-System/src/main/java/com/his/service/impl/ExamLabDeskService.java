@@ -4,12 +4,12 @@ import com.his.domain.DmsNonDrugItemRecord;
 import com.his.domain.Result;
 import com.his.enums.ResultCode;
 import com.his.mapper.DmsNonDrugItemRecordMapper;
+import com.his.mapper.SmsStaffMapper;
 import com.his.service.IBmsCashierService;
 import com.his.service.IExamLabDeskService;
 import com.his.utils.JwtUtil;
 import com.his.vo.ExamLabItemRowVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,10 +25,10 @@ public class ExamLabDeskService implements IExamLabDeskService {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private DmsNonDrugItemRecordMapper dmsNonDrugItemRecordMapper;
 
     @Autowired
-    private DmsNonDrugItemRecordMapper dmsNonDrugItemRecordMapper;
+    private SmsStaffMapper smsStaffMapper;
 
     @Autowired
     private IBmsCashierService bmsCashierService;
@@ -45,11 +45,7 @@ public class ExamLabDeskService implements IExamLabDeskService {
             return null;
         }
         try {
-            Integer deptId = jdbcTemplate.queryForObject(
-                    "select dept_id from sms_staff where id = ?",
-                    Integer.class,
-                    staffId
-            );
+            Integer deptId = smsStaffMapper.selectDeptIdById(staffId);
             return deptId == null ? null : deptId.longValue();
         } catch (Exception e) {
             return null;

@@ -216,4 +216,23 @@
           and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null)
           and dr.status &lt;&gt; #{canceledStatus}
     </update>
+
+    <select id="countOperatePermission" resultType="int">
+        select count(1)
+        from dms_registration dr
+        left join sms_skd skd on dr.skd_id = skd.id
+        where dr.id = #{registrationId}
+          and skd.staff_id = #{staffId}
+    </select>
+
+    <select id="selectPatientBaseByRegistrationId" resultType="map">
+        select p.id as patientId,
+               p.name as name,
+               p.gender as gender,
+               TIMESTAMPDIFF(YEAR, p.date_of_birth, dr.attendance_date) as age
+        from dms_registration dr
+        left join pms_patient p on dr.patient_id = p.id
+        where dr.id = #{registrationId}
+        limit 1
+    </select>
 </mapper>

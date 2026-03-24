@@ -1,0 +1,679 @@
+Index: his-web/src/router/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import Vue from 'vue'\r\nimport VueRouter from 'vue-router'\r\n\r\nimport DashboardVue from \"@/layout/dashboard/Dashboard.Vue.vue\";\r\nimport { getToken } from '@/utils/auth'\r\nimport Home from '@/views/home/Home.vue';\r\nimport Registration from '@/views/registration/Registration.vue';\r\nimport EditRegistration from '@/views/registration/EditRegistration.vue';\r\nimport CashierDesk from '@/views/cashier/CashierDesk.vue';\r\nimport DailySettlementPage from '@/views/finance/DailySettlementPage.vue';\r\nimport OutpatientDesk from '@/views/doctor/OutpatientDesk.vue';\r\nimport DoctorScheduleManagement from '@/views/doctor/DoctorScheduleManagement.vue';\r\nimport StaffRoleManagement from '@/views/user/StaffRoleManagement.vue';\r\nimport RolePermissionManagement from '@/views/user/RolePermissionManagement.vue';\r\nimport DeptManagement from '@/views/admin/DeptManagement.vue';\r\nimport MedTechWorkbench from '@/views/examLab/MedTechWorkbench.vue';\r\nimport PharmacyWorkbench from '@/views/pharmacy/PharmacyWorkbench.vue';\r\nimport PharmacyDrugManage from '@/views/pharmacy/PharmacyDrugManage.vue';\r\n\r\nVue.use(VueRouter)\r\n\r\nconst routes = [\r\n  {\r\n    path: '/',\r\n    name: 'dashboard',\r\n    component: DashboardVue,\r\n    redirect: '/home',\r\n    meta: { title: '主页' },\r\n    children: [\r\n      {\r\n        path: 'home',\r\n        name: 'home',\r\n        component: Home,\r\n        meta: { title: '主页' }\r\n      },\r\n      {\r\n        path: 'admin',\r\n        name: 'admin',\r\n        component: { render: h => h('router-view') },\r\n        meta: { title: '系统管理', breadcrumb: ['首页', '系统管理'] },\r\n        children: [\r\n          {\r\n            path: 'staff',\r\n            name: 'staff-role-management',\r\n            component: StaffRoleManagement,\r\n            meta: { title: '用户管理/角色权限管理', breadcrumb: ['首页', '系统管理', '用户管理'] }\r\n          },\r\n          {\r\n            path: 'roles',\r\n            name: 'role-permission-management',\r\n            component: RolePermissionManagement,\r\n            meta: { title: '角色权限管理', breadcrumb: ['首页', '系统管理', '角色权限管理'] }\r\n          },\r\n          {\r\n            path: 'departments',\r\n            name: 'dept-management',\r\n            component: DeptManagement,\r\n            meta: { title: '科室管理', breadcrumb: ['首页', '系统管理', '科室管理'] }\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        path: 'charge',\r\n        name: 'charge',\r\n        component: { render: h => h('router-view') },\r\n        meta: { title: '门诊收费挂号', breadcrumb: ['首页', '门诊收费挂号'] },\r\n        children: [\r\n          {\r\n            path: 'registration',\r\n            name: 'registration',\r\n            component: Registration,\r\n            meta: { title: '门诊挂号工作台', breadcrumb: ['首页', '门诊收费挂号', '门诊挂号工作台'] }\r\n          },\r\n          {\r\n            path: 'registration/editRegistration',\r\n            name: 'cancel-registration',\r\n            component: EditRegistration,\r\n            meta: { title: '退号', breadcrumb: ['首页', '门诊收费挂号', '退号'] }\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        path: 'cashier',\r\n        name: 'cashier',\r\n        component: { render: h => h('router-view') },\r\n        meta: { title: '收费与财务', breadcrumb: ['首页', '收费与财务'] },\r\n        redirect: { name: 'cashier-workbench' },\r\n        children: [\r\n          {\r\n            path: 'workbench',\r\n            name: 'cashier-workbench',\r\n            component: CashierDesk,\r\n            meta: { title: '门诊收费台', breadcrumb: ['首页', '收费与财务', '门诊收费台'] }\r\n          },\r\n          {\r\n            path: 'daily-settlement/history',\r\n            name: 'daily-settlement-history',\r\n            component: DailySettlementPage,\r\n            meta: {\r\n              title: '门诊历史日结',\r\n              breadcrumb: ['首页', '收费与财务', '历史日结'],\r\n              settlementMode: 'history'\r\n            }\r\n          },\r\n          {\r\n            path: 'daily-settlement/audit',\r\n            name: 'daily-settlement-audit',\r\n            component: DailySettlementPage,\r\n            meta: {\r\n              title: '门诊日结核对',\r\n              breadcrumb: ['首页', '收费与财务', '日结核对'],\r\n              settlementMode: 'audit'\r\n            }\r\n          }\r\n        ]\r\n      },\r\n      { path: 'finance/daily-settlement/history', redirect: '/cashier/daily-settlement/history' },\r\n      { path: 'finance/daily-settlement/audit', redirect: '/cashier/daily-settlement/audit' },\r\n      {\r\n        path: 'doctor',\r\n        name: 'doctor',\r\n        component: { render: h => h('router-view') },\r\n        meta: { title: '门诊医生', breadcrumb: ['首页', '门诊医生'] },\r\n        children: [\r\n          {\r\n            path: 'outpatient',\r\n            name: 'outpatient-desk',\r\n            component: OutpatientDesk,\r\n            meta: { title: '门诊医生工作台', breadcrumb: ['首页', '门诊医生', '门诊医生工作台'] }\r\n          },\r\n          {\r\n            path: 'schedule',\r\n            name: 'doctor-schedule-management',\r\n            component: DoctorScheduleManagement,\r\n            meta: { title: '医生排班管理', breadcrumb: ['首页', '医生排班管理'] }\r\n          }\r\n        ]\r\n      },\r\n      {\r\n        path: 'exam-lab',\r\n        name: 'exam-lab',\r\n        component: { render: h => h('router-view') },\r\n        meta: { title: '检查检验', breadcrumb: ['首页', '检查检验'] },\r\n        redirect: { name: 'exam-lab-workbench' },\r\n        children: [\r\n          {\r\n            path: 'workbench',\r\n            name: 'exam-lab-workbench',\r\n            component: MedTechWorkbench,\r\n            meta: { title: '门诊医技工作台', breadcrumb: ['首页', '检查检验', '门诊医技工作台'] }\r\n          },\r\n          { path: 'execute', redirect: { name: 'exam-lab-workbench' } },\r\n          { path: 'result', redirect: { name: 'exam-lab-workbench' } }\r\n        ]\r\n      },\r\n      {\r\n        path: 'pharmacy',\r\n        name: 'pharmacy',\r\n        component: { render: h => h('router-view') },\r\n        meta: { title: '药房', breadcrumb: ['首页', '药房'] },\r\n        redirect: { name: 'pharmacy-workbench' },\r\n        children: [\r\n          {\r\n            path: 'workbench',\r\n            name: 'pharmacy-workbench',\r\n            component: PharmacyWorkbench,\r\n            meta: { title: '药房工作台', breadcrumb: ['首页', '药房', '药房工作台'] }\r\n          },\r\n          {\r\n            path: 'drugs',\r\n            name: 'pharmacy-drugs',\r\n            component: PharmacyDrugManage,\r\n            meta: { title: '药品维护', breadcrumb: ['首页', '药房', '药品维护'] }\r\n          }\r\n        ]\r\n      }\r\n    ]\r\n  },\r\n  {\r\n    path: '/login',\r\n    name: 'login',\r\n    component: () => import('@/views/login/LoginVue.vue'),\r\n    meta: { title: '登录' }\r\n  },\r\n  {\r\n    path: '/register',\r\n    name: 'register',\r\n    component: () => import('@/views/register/RegisterVue.vue'),\r\n    meta: { title: '注册' }\r\n  }\r\n]\r\n\r\nfunction createRouter() {\r\n  return new VueRouter({\r\n    mode: 'history',\r\n    base: process.env.BASE_URL,\r\n    routes\r\n  })\r\n}\r\n\r\nconst router = createRouter()\r\n\r\nrouter.beforeEach((to, from, next) => {\r\n  if (to.meta.title) {\r\n    document.title = to.meta.title\r\n  }\r\n\r\n  // 登录白名单\r\n  const whiteList = ['/login', '/register']\r\n  const hasToken = getToken()\r\n\r\n  if (hasToken) {\r\n    // 已登录，访问登录页则跳转主页\r\n    if (to.path === '/login') {\r\n      next({ path: '/' })\r\n    } else {\r\n      next()\r\n    }\r\n  } else {\r\n    // 未登录，访问白名单以外页面则跳转登录页\r\n    if (whiteList.includes(to.path)) {\r\n      next()\r\n    } else {\r\n      next({ path: '/login', query: { redirect: to.fullPath } })\r\n    }\r\n  }\r\n})\r\n\r\nexport function resetRouter() {\r\n  const newRouter = createRouter()\r\n  router.matcher = newRouter.matcher // reset router\r\n}\r\n\r\nexport default router\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/his-web/src/router/index.js b/his-web/src/router/index.js
+--- a/his-web/src/router/index.js	(revision 93df8a2514626835bb4d0b5d6cb5cd59713adea2)
++++ b/his-web/src/router/index.js	(date 1774257556991)
+@@ -13,6 +13,10 @@
+ import StaffRoleManagement from '@/views/user/StaffRoleManagement.vue';
+ import RolePermissionManagement from '@/views/user/RolePermissionManagement.vue';
+ import DeptManagement from '@/views/admin/DeptManagement.vue';
++import ModuleBackfill from '@/views/admin/ModuleBackfill.vue';
++import DoctorTemplateCenter from '@/views/admin/DoctorTemplateCenter.vue';
++import FinanceExtensionPage from '@/views/finance/FinanceExtensionPage.vue';
++import AuditOpsPage from '@/views/admin/AuditOpsPage.vue';
+ import MedTechWorkbench from '@/views/examLab/MedTechWorkbench.vue';
+ import PharmacyWorkbench from '@/views/pharmacy/PharmacyWorkbench.vue';
+ import PharmacyDrugManage from '@/views/pharmacy/PharmacyDrugManage.vue';
+@@ -56,6 +60,18 @@
+             name: 'dept-management',
+             component: DeptManagement,
+             meta: { title: '科室管理', breadcrumb: ['首页', '系统管理', '科室管理'] }
++          },
++          {
++            path: 'module-backfill',
++            name: 'module-backfill',
++            component: ModuleBackfill,
++            meta: { title: '模块补齐工作台', breadcrumb: ['首页', '系统管理', '模块补齐工作台'] }
++          },
++          {
++            path: 'audit-ops',
++            name: 'audit-ops',
++            component: AuditOpsPage,
++            meta: { title: '系统审计与运营', breadcrumb: ['首页', '系统管理', '系统审计与运营'] }
+           }
+         ]
+       },
+@@ -111,6 +127,12 @@
+               breadcrumb: ['首页', '收费与财务', '日结核对'],
+               settlementMode: 'audit'
+             }
++          },
++          {
++            path: 'extension',
++            name: 'finance-extension',
++            component: FinanceExtensionPage,
++            meta: { title: '财务扩展', breadcrumb: ['首页', '收费与财务', '财务扩展'] }
+           }
+         ]
+       },
+@@ -133,6 +155,12 @@
+             name: 'doctor-schedule-management',
+             component: DoctorScheduleManagement,
+             meta: { title: '医生排班管理', breadcrumb: ['首页', '医生排班管理'] }
++          },
++          {
++            path: 'template-center',
++            name: 'doctor-template-center',
++            component: DoctorTemplateCenter,
++            meta: { title: '医生模板中心', breadcrumb: ['首页', '门诊医生', '医生模板中心'] }
+           }
+         ]
+       },
+Index: his-web/src/layout/dashboard/component/Sidebar.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><template>\r\n  <div class=\"sidebar-container\">\r\n    <!-- Element UI 折叠菜单 -->\r\n    <el-menu\r\n        ref=\"menu\"\r\n        :default-active=\"activeMenu\"\r\n        class=\"el-menu-vertical-demo\"\r\n        :collapse=\"isCollapse\"\r\n        background-color=\"#1f2a3d\"\r\n        text-color=\"#c7d2e0\"\r\n        active-text-color=\"#7cb3ff\"\r\n        mode=\"vertical\"\r\n        :default-openeds=\"defaultOpeneds\"\r\n    >\r\n      <el-submenu index=\"1\" @mouseenter.native=\"handleMenuMouseEnter('1')\" @mouseleave.native=\"handleMenuMouseLeave('1')\">\r\n        <template slot=\"title\">\r\n          <i class=\"el-icon-s-home\"></i>\r\n          <span slot=\"title\">首页</span>\r\n        </template>\r\n          <el-menu-item index=\"/charge/registration\" @click=\"goTo('/charge/registration')\">\r\n            门诊挂号工作台\r\n          </el-menu-item>\r\n          <el-menu-item index=\"/charge/registration/editRegistration\" @click=\"goTo('/charge/registration/editRegistration')\">\r\n            退号/编辑\r\n          </el-menu-item>\r\n      </el-submenu>\r\n\r\n      <el-submenu index=\"7\" @mouseenter.native=\"handleMenuMouseEnter('7')\" @mouseleave.native=\"handleMenuMouseLeave('7')\">\r\n        <template slot=\"title\">\r\n          <i class=\"el-icon-money\"></i>\r\n          <span slot=\"title\">收费与财务</span>\r\n        </template>\r\n        <el-menu-item index=\"/cashier/workbench\" @click=\"goTo('/cashier/workbench')\">\r\n          门诊收费台\r\n        </el-menu-item>\r\n        <el-menu-item index=\"/cashier/daily-settlement/history\" @click=\"goTo('/cashier/daily-settlement/history')\">\r\n          历史日结\r\n        </el-menu-item>\r\n        <el-menu-item index=\"/cashier/daily-settlement/audit\" @click=\"goTo('/cashier/daily-settlement/audit')\">\r\n          日结核对\r\n        </el-menu-item>\r\n      </el-submenu>\r\n\r\n      <el-submenu index=\"2\" @mouseenter.native=\"handleMenuMouseEnter('2')\" @mouseleave.native=\"handleMenuMouseLeave('2')\">\r\n        <template slot=\"title\">\r\n          <i class=\"el-icon-s-cooperation\"></i>\r\n          <span slot=\"title\">门诊医生</span>\r\n        </template>\r\n\r\n        <el-menu-item index=\"/doctor/outpatient\" @click=\"goTo('/doctor/outpatient')\">\r\n          门诊医生工作台\r\n        </el-menu-item>\r\n        <el-menu-item index=\"/doctor/schedule\" @click=\"goTo('/doctor/schedule')\">\r\n          医生排班管理\r\n        </el-menu-item>\r\n      </el-submenu>\r\n\r\n      <el-submenu index=\"5\" class=\"nav-group--exam\" @mouseenter.native=\"handleMenuMouseEnter('5')\" @mouseleave.native=\"handleMenuMouseLeave('5')\">\r\n        <template slot=\"title\">\r\n          <i class=\"el-icon-document\"></i>\r\n          <span slot=\"title\">检查检验</span>\r\n        </template>\r\n        <el-menu-item index=\"/exam-lab/workbench\" @click=\"goTo('/exam-lab/workbench')\">\r\n          门诊医技工作台\r\n        </el-menu-item>\r\n      </el-submenu>\r\n\r\n      <el-submenu index=\"6\" class=\"nav-group--pharmacy\" @mouseenter.native=\"handleMenuMouseEnter('6')\" @mouseleave.native=\"handleMenuMouseLeave('6')\">\r\n        <template slot=\"title\">\r\n          <i class=\"el-icon-s-management\"></i>\r\n          <span slot=\"title\">药房</span>\r\n        </template>\r\n        <el-menu-item index=\"/pharmacy/workbench\" @click=\"goTo('/pharmacy/workbench')\">\r\n          药房工作台\r\n        </el-menu-item>\r\n        <el-menu-item index=\"/pharmacy/drugs\" @click=\"goTo('/pharmacy/drugs')\">\r\n          药品维护\r\n        </el-menu-item>\r\n      </el-submenu>\r\n\r\n      <el-submenu index=\"4\" @mouseenter.native=\"handleMenuMouseEnter('4')\" @mouseleave.native=\"handleMenuMouseLeave('4')\">\r\n        <template slot=\"title\">\r\n          <i class=\"el-icon-s-home\"></i>\r\n          <span slot=\"title\">系统管理</span>\r\n        </template>\r\n        <el-menu-item index=\"/admin/staff\" @click=\"goTo('/admin/staff')\">\r\n          角色权限管理\r\n        </el-menu-item>\r\n        <el-menu-item index=\"/admin/roles\" @click=\"goTo('/admin/roles')\">\r\n          权限分配\r\n        </el-menu-item>\r\n        <el-menu-item index=\"/admin/departments\" @click=\"goTo('/admin/departments')\">\r\n          科室管理\r\n        </el-menu-item>\r\n      </el-submenu>\r\n    </el-menu>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nexport default {\r\n  name: 'Sidebar',\r\n  props: {\r\n    isCollapse: {\r\n      type: Boolean,\r\n      default: false\r\n    }\r\n  },\r\n  data() {\r\n    return {\r\n      // 须同时展开「首页」与「门诊收费挂号」，否则第二层下的「门诊挂号工作台」默认折叠，容易以为没有收银入口\r\n      defaultOpeneds: ['1', '6', '7']\r\n    };\r\n  },\r\n  computed: {\r\n    // 与 el-menu-item 的 index（路由 path）一致，高亮才正确；不要填子菜单的 index（如 1-1）\r\n    activeMenu() {\r\n      return this.$route.path\r\n    }\r\n  },\r\n  methods: {\r\n    goTo(path) {\r\n      if (this.$route.path !== path) {\r\n        this.$router.push(path);\r\n      }\r\n    },\r\n    handleMenuMouseEnter(index) {\r\n      if (this.isCollapse) return;\r\n      this.$refs.menu.open(index);\r\n    },\r\n    handleMenuMouseLeave(index) {\r\n      if (this.isCollapse) return;\r\n      this.$refs.menu.close(index);\r\n    }\r\n  }\r\n};\r\n</script>\r\n\r\n<style scoped>\r\n.sidebar-container {\r\n  height: 100%;\r\n  transition: width 0.2s ease;\r\n  background: linear-gradient(180deg, #1f2a3d 0%, #162033 100%);\r\n  border-right: 1px solid rgba(255, 255, 255, 0.08);\r\n  box-shadow: 2px 0 14px rgba(11, 22, 40, 0.22);\r\n}\r\n\r\n.el-menu-vertical-demo {\r\n  width: 100%;\r\n  height: 100%;\r\n  border-right: none;\r\n  padding-top: 8px;\r\n}\r\n\r\n.el-menu-vertical-demo:not(.el-menu--collapse) {\r\n  width: 180px;\r\n  min-height: 400px;\r\n}\r\n\r\n.el-menu-vertical-demo :deep(.el-submenu__title),\r\n.el-menu-vertical-demo :deep(.el-menu-item) {\r\n  border-radius: 8px;\r\n  margin: 4px 8px;\r\n  height: 42px;\r\n  line-height: 42px;\r\n}\r\n\r\n/* 嵌套子菜单区域背景：与一级区分 */\r\n.el-menu-vertical-demo :deep(.el-submenu .el-menu) {\r\n  background: rgba(12, 22, 38, 0.72) !important;\r\n  margin: 4px 6px 8px;\r\n  padding: 6px 0 8px;\r\n  border-radius: 10px;\r\n  border: 1px solid rgba(255, 255, 255, 0.06);\r\n}\r\n\r\n/* 再嵌一层（如 首页 > 门诊收费挂号）更深一点 */\r\n.el-menu-vertical-demo :deep(.el-submenu .el-submenu .el-menu) {\r\n  background: rgba(8, 16, 30, 0.88) !important;\r\n  border-color: rgba(124, 179, 255, 0.12);\r\n}\r\n\r\n.el-menu-vertical-demo :deep(.el-submenu .el-menu-item) {\r\n  margin: 3px 10px;\r\n  background: transparent !important;\r\n}\r\n\r\n.el-menu-vertical-demo :deep(.el-submenu .el-menu-item:hover) {\r\n  background: rgba(124, 179, 255, 0.12) !important;\r\n}\r\n\r\n.el-menu-vertical-demo :deep(.el-menu-item.is-active) {\r\n  background: rgba(124, 179, 255, 0.18) !important;\r\n  color: #dcebff !important;\r\n}\r\n\r\n.el-menu-vertical-demo :deep(.el-submenu .el-menu-item.is-active) {\r\n  background: rgba(124, 179, 255, 0.22) !important;\r\n}\r\n</style>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/his-web/src/layout/dashboard/component/Sidebar.vue b/his-web/src/layout/dashboard/component/Sidebar.vue
+--- a/his-web/src/layout/dashboard/component/Sidebar.vue	(revision 93df8a2514626835bb4d0b5d6cb5cd59713adea2)
++++ b/his-web/src/layout/dashboard/component/Sidebar.vue	(date 1774257562506)
+@@ -39,6 +39,9 @@
+         <el-menu-item index="/cashier/daily-settlement/audit" @click="goTo('/cashier/daily-settlement/audit')">
+           日结核对
+         </el-menu-item>
++        <el-menu-item index="/cashier/extension" @click="goTo('/cashier/extension')">
++          财务扩展
++        </el-menu-item>
+       </el-submenu>
+ 
+       <el-submenu index="2" @mouseenter.native="handleMenuMouseEnter('2')" @mouseleave.native="handleMenuMouseLeave('2')">
+@@ -52,6 +55,9 @@
+         </el-menu-item>
+         <el-menu-item index="/doctor/schedule" @click="goTo('/doctor/schedule')">
+           医生排班管理
++        </el-menu-item>
++        <el-menu-item index="/doctor/template-center" @click="goTo('/doctor/template-center')">
++          医生模板中心
+         </el-menu-item>
+       </el-submenu>
+ 
+@@ -91,6 +97,12 @@
+         </el-menu-item>
+         <el-menu-item index="/admin/departments" @click="goTo('/admin/departments')">
+           科室管理
++        </el-menu-item>
++        <el-menu-item index="/admin/module-backfill" @click="goTo('/admin/module-backfill')">
++          模块补齐工作台
++        </el-menu-item>
++        <el-menu-item index="/admin/audit-ops" @click="goTo('/admin/audit-ops')">
++          系统审计与运营
+         </el-menu-item>
+       </el-submenu>
+     </el-menu>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"cbcee335-7436-40a5-b2a9-986c45abc52c\" name=\"Changes\" comment=\"25-3-19\">\r\n      <change afterPath=\"$PROJECT_DIR$/.idea/data_source_mapping.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/compiler.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/compiler.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-Gateway/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-Gateway/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsDeptController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsDeptController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsDeptService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsDeptService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/RoleService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/RoleService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsDeptService.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsDeptService.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-common/pom.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-common/pom.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/EndAttendanceCode.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/EndAttendanceCode.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/RegistrationStatusCode.java\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/RegistrationStatusCode.java\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/his-web/package-lock.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/his-web/package-lock.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/his-web/package.json\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/his-web/package.json\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/his-web/src/api/registService.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/his-web/src/api/registService.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/his-web/src/router/index.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/his-web/src/router/index.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/his-web/src/views/registration/Registration.vue\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/his-web/src/views/registration/Registration.vue\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"ExternalProjectsManager\">\r\n    <system id=\"GRADLE\">\r\n      <state>\r\n        <projects_view>\r\n          <tree_state>\r\n            <expand />\r\n            <select />\r\n          </tree_state>\r\n        </projects_view>\r\n      </state>\r\n    </system>\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JavaScript File\" />\r\n        <option value=\"AnnotationType\" />\r\n        <option value=\"Exception\" />\r\n        <option value=\"Enum\" />\r\n        <option value=\"Interface\" />\r\n        <option value=\"Class\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;TaoZZXX&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/TaoZZXX/His.git&quot;,\r\n    &quot;accountId&quot;: &quot;ea5a8bd2-2fb3-4320-b582-416b83b69259&quot;\r\n  }\r\n}</component>\r\n  <component name=\"HighlightingSettingsPerFile\">\r\n    <setting file=\"file://$PROJECT_DIR$/HIS-master/test.java\" root0=\"SKIP_INSPECTION\" />\r\n  </component>\r\n  <component name=\"MarkdownSettingsMigration\">\r\n    <option name=\"stateVersion\" value=\"1\" />\r\n  </component>\r\n  <component name=\"MavenRunner\">\r\n    <option name=\"jreName\" value=\"dragonwell-ex-1.8\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 6\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"37Q2CKyNlSNdjzsJox8i0EczPY9\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor\": \"Run\",\r\n    \"RequestMappingsPanelOrder0\": \"0\",\r\n    \"RequestMappingsPanelOrder1\": \"1\",\r\n    \"RequestMappingsPanelWidth0\": \"75\",\r\n    \"RequestMappingsPanelWidth1\": \"75\",\r\n    \"RunOnceActivity.OpenProjectViewOnStart\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"RunOnceActivity.typescript.service.memoryLimit.init\": \"true\",\r\n    \"SHARE_PROJECT_CONFIGURATION_FILES\": \"true\",\r\n    \"Spring Boot.HisGatewayApplication.executor\": \"Debug\",\r\n    \"Spring Boot.HisSystemApplication.executor\": \"Debug\",\r\n    \"Spring Boot.Unnamed.executor\": \"Run\",\r\n    \"WebServerToolWindowFactoryState\": \"false\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"jdk.selected.JAVA_MODULE\": \"ms-21\",\r\n    \"kotlin-language-version-configured\": \"true\",\r\n    \"last_opened_file_path\": \"G:/workspace-java/HIS/HIS-System/src/main/resources/mapper\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_interpreter_path\": \"C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"project.structure.last.edited\": \"Modules\",\r\n    \"project.structure.proportion\": \"0.15\",\r\n    \"project.structure.side.proportion\": \"0.2\",\r\n    \"run.configurations.included.in.services\": \"true\",\r\n    \"settings.editor.selected.configurable\": \"editor.preferences.tabs\",\r\n    \"ts.external.directory.path\": \"D:\\\\IntelliJ IDEA 2025.3.1\\\\plugins\\\\javascript-plugin\\\\jsLanguageServicesImpl\\\\external\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  },\r\n  \"keyToStringList\": {\r\n    \"DatabaseDriversLRU\": [\r\n      \"mysql\"\r\n    ]\r\n  }\r\n}]]></component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"G:\\workspace-java\\HIS\\HIS-System\\src\\main\\resources\\mapper\" />\r\n      <recent name=\"G:\\workspace-java\\HIS\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"G:\\workspace-java\\HIS\\his-web\\src\\layout\\dashboard\\component\" />\r\n      <recent name=\"G:\\workspace-java\\HIS\\his-web\\src\" />\r\n      <recent name=\"G:\\workspace-java\\HIS\\his-web\\src\\style\" />\r\n      <recent name=\"G:\\workspace-java\\HIS\\his-web\\src\\views\\login\" />\r\n      <recent name=\"G:\\workspace-java\\HIS\\HIS-System\\src\\main\\java\\com\\his\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunDashboard\">\r\n    <option name=\"configurationTypes\">\r\n      <set>\r\n        <option value=\"KtorApplicationConfigurationType\" />\r\n        <option value=\"MicronautRunConfigurationType\" />\r\n        <option value=\"QuarkusRunConfigurationType\" />\r\n        <option value=\"SpringBootApplicationConfigurationType\" />\r\n      </set>\r\n    </option>\r\n    <option name=\"configurationStatuses\">\r\n      <map>\r\n        <entry key=\"SpringBootApplicationConfigurationType\">\r\n          <value>\r\n            <map>\r\n              <entry key=\"HisGatewayApplication\" value=\"STOPPED\" />\r\n              <entry key=\"HisSystemApplication\" value=\"STOPPED\" />\r\n            </map>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Spring Boot.HisSystemApplication\">\r\n    <configuration name=\"dms_drug_test_data.sql\" type=\"DatabaseScript\" editBeforeRun=\"true\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <script-file value=\"$PROJECT_DIR$/document/sql/dms_drug_test_data.sql\" />\r\n      <script-mode>FILE</script-mode>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Debug Application\" type=\"JavascriptDebugType\" uri=\"http://localhost:5173\">\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"HisBusinessApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"HIS-Business\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.his.HisBusinessApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"HisCommonApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"HIS-common\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.his.HisCommonApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"HisGatewayApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\">\r\n      <module name=\"HIS-Gateway\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.his.HisGatewayApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"HisStatisticsApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"HIS-Statistics\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.his.HisStatisticsApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"HisSystemApplication\" type=\"SpringBootApplicationConfigurationType\" factoryName=\"Spring Boot\" nameIsGenerated=\"true\">\r\n      <module name=\"HIS-System\" />\r\n      <option name=\"SPRING_BOOT_MAIN_CLASS\" value=\"com.his.HisSystemApplication\" />\r\n      <method v=\"2\">\r\n        <option name=\"Make\" enabled=\"true\" />\r\n      </method>\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Database Script.dms_drug_test_data.sql\" />\r\n      <item itemvalue=\"JavaScript Debug.Debug Application\" />\r\n      <item itemvalue=\"Spring Boot.HisBusinessApplication\" />\r\n      <item itemvalue=\"Spring Boot.HisCommonApplication\" />\r\n      <item itemvalue=\"Spring Boot.HisGatewayApplication\" />\r\n      <item itemvalue=\"Spring Boot.HisStatisticsApplication\" />\r\n      <item itemvalue=\"Spring Boot.HisSystemApplication\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Database Script.dms_drug_test_data.sql\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138\" />\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-9b0f141eb926-JavaScript-IU-253.29346.138\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"cbcee335-7436-40a5-b2a9-986c45abc52c\" name=\"Changes\" comment=\"\" />\r\n      <created>1766820845877</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1766820845877</updated>\r\n      <workItem from=\"1766820846889\" duration=\"2637000\" />\r\n      <workItem from=\"1766823499664\" duration=\"3384000\" />\r\n      <workItem from=\"1766826896129\" duration=\"4073000\" />\r\n      <workItem from=\"1766836893937\" duration=\"135000\" />\r\n      <workItem from=\"1766837038482\" duration=\"143000\" />\r\n      <workItem from=\"1766837188236\" duration=\"122000\" />\r\n      <workItem from=\"1766837321161\" duration=\"3096000\" />\r\n      <workItem from=\"1766840441242\" duration=\"1178000\" />\r\n      <workItem from=\"1766841855017\" duration=\"1922000\" />\r\n      <workItem from=\"1766897415456\" duration=\"317000\" />\r\n      <workItem from=\"1766898244436\" duration=\"224000\" />\r\n      <workItem from=\"1766898495832\" duration=\"17089000\" />\r\n      <workItem from=\"1766981751884\" duration=\"858000\" />\r\n      <workItem from=\"1766982746549\" duration=\"1630000\" />\r\n      <workItem from=\"1766984446969\" duration=\"1843000\" />\r\n      <workItem from=\"1767000875237\" duration=\"1851000\" />\r\n      <workItem from=\"1767002757830\" duration=\"2028000\" />\r\n      <workItem from=\"1767004823859\" duration=\"2402000\" />\r\n      <workItem from=\"1767329652619\" duration=\"94000\" />\r\n      <workItem from=\"1767424779746\" duration=\"5000\" />\r\n      <workItem from=\"1767425386836\" duration=\"13000\" />\r\n      <workItem from=\"1767676098123\" duration=\"5162000\" />\r\n      <workItem from=\"1767684005144\" duration=\"672000\" />\r\n      <workItem from=\"1767690050822\" duration=\"1022000\" />\r\n      <workItem from=\"1767692060373\" duration=\"1118000\" />\r\n      <workItem from=\"1767698026792\" duration=\"208000\" />\r\n      <workItem from=\"1767698401434\" duration=\"424000\" />\r\n      <workItem from=\"1767699081554\" duration=\"2504000\" />\r\n      <workItem from=\"1767708552870\" duration=\"200000\" />\r\n      <workItem from=\"1767708791828\" duration=\"2837000\" />\r\n      <workItem from=\"1767770175727\" duration=\"12487000\" />\r\n      <workItem from=\"1767840180798\" duration=\"2150000\" />\r\n      <workItem from=\"1768741752992\" duration=\"8639000\" />\r\n      <workItem from=\"1768828115530\" duration=\"4042000\" />\r\n      <workItem from=\"1769519598468\" duration=\"1160000\" />\r\n      <workItem from=\"1769520859060\" duration=\"397000\" />\r\n      <workItem from=\"1769612369796\" duration=\"5002000\" />\r\n      <workItem from=\"1769863187651\" duration=\"1333000\" />\r\n      <workItem from=\"1769864540033\" duration=\"2154000\" />\r\n      <workItem from=\"1769946135618\" duration=\"11023000\" />\r\n      <workItem from=\"1772696846089\" duration=\"602000\" />\r\n      <workItem from=\"1773029427452\" duration=\"45000\" />\r\n      <workItem from=\"1773029872964\" duration=\"282000\" />\r\n      <workItem from=\"1773030328404\" duration=\"45000\" />\r\n      <workItem from=\"1773060155048\" duration=\"10187000\" />\r\n      <workItem from=\"1773146035477\" duration=\"3908000\" />\r\n      <workItem from=\"1773217092262\" duration=\"21000\" />\r\n      <workItem from=\"1773217601184\" duration=\"426000\" />\r\n      <workItem from=\"1773228675189\" duration=\"13240000\" />\r\n      <workItem from=\"1773286515680\" duration=\"383000\" />\r\n      <workItem from=\"1773393996069\" duration=\"61000\" />\r\n      <workItem from=\"1773488648397\" duration=\"10817000\" />\r\n      <workItem from=\"1773573175484\" duration=\"13370000\" />\r\n      <workItem from=\"1773748544666\" duration=\"12123000\" />\r\n      <workItem from=\"1773840061867\" duration=\"18304000\" />\r\n      <workItem from=\"1773940026475\" duration=\"9850000\" />\r\n      <workItem from=\"1774075269426\" duration=\"50000\" />\r\n      <workItem from=\"1774156469886\" duration=\"16695000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"1\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1766822678430</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1766822678430</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"1\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1766824022805</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1766824022805</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"1\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1766824055817</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1766824055817</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"1\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1766840299221</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1766840299221</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"25-1-6\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1767711345379</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1767711345379</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"25-1-18\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1768742114246</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1768742114246</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"25-1-19\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1768828184989</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1768828184989</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"25-2-1\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1769946433457</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1769946433457</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"25-3-10\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773129175776</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773129175776</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"25-3-11\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773241822842</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773241822842</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"25-3-15\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773574439823</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773574439823</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"25-3-16\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773633886037</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773633886037</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"25-3-17\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773842335096</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773842335096</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"25-3-18\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773895131565</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773895131565</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00015\" summary=\"25-3-19\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1773996719354</created>\r\n      <option name=\"number\" value=\"00015\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00015\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1773996719354</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"16\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"UnknownFeatures\">\r\n    <option featureType=\"dependencySupport\" implementationName=\"java:org.springframework:spring-core\" />\r\n    <option featureType=\"dependencySupport\" implementationName=\"javascript:npm:vue\" />\r\n    <option featureType=\"dependencySupport\" implementationName=\"java:org.springframework.boot:spring-boot\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"1\" />\r\n    <MESSAGE value=\".\" />\r\n    <MESSAGE value=\"25-12-29\" />\r\n    <MESSAGE value=\"25-1-6\" />\r\n    <MESSAGE value=\"25-1-18\" />\r\n    <MESSAGE value=\"25-1-19\" />\r\n    <MESSAGE value=\"25-2-1\" />\r\n    <MESSAGE value=\"25-3-10\" />\r\n    <MESSAGE value=\"25-3-11\" />\r\n    <MESSAGE value=\"25-3-15\" />\r\n    <MESSAGE value=\"25-3-16\" />\r\n    <MESSAGE value=\"25-3-17\" />\r\n    <MESSAGE value=\"25-3-18\" />\r\n    <MESSAGE value=\"25-3-19\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"25-3-19\" />\r\n  </component>\r\n  <component name=\"XSLT-Support.FileAssociations.UIState\">\r\n    <expand />\r\n    <select />\r\n  </component>\r\n  <component name=\"github-copilot-workspace\">\r\n    <instructionFileLocations>\r\n      <option value=\".github/instructions\" />\r\n    </instructionFileLocations>\r\n    <promptFileLocations>\r\n      <option value=\".github/prompts\" />\r\n    </promptFileLocations>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 93df8a2514626835bb4d0b5d6cb5cd59713adea2)
++++ b/.idea/workspace.xml	(date 1774258814670)
+@@ -4,35 +4,13 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-19">
+-      <change afterPath="$PROJECT_DIR$/.idea/data_source_mapping.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
++    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-23">
++      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-Gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsDeptController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsDeptController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsDeptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsDeptService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/RoleService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsDeptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsDeptService.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/pom.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/EndAttendanceCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/EndAttendanceCode.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/RegistrationStatusCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-common/src/main/java/com/his/enums/RegistrationStatusCode.java" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/his-web/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package-lock.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/his-web/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/package.json" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/his-web/src/api/registService.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/api/registService.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/security/PermissionZuulFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/security/PermissionZuulFilter.java" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/his-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/router/index.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/his-web/src/views/registration/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/registration/Registration.vue" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -98,47 +76,47 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    "Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor": "Run",
+-    "RequestMappingsPanelOrder0": "0",
+-    "RequestMappingsPanelOrder1": "1",
+-    "RequestMappingsPanelWidth0": "75",
+-    "RequestMappingsPanelWidth1": "75",
+-    "RunOnceActivity.OpenProjectViewOnStart": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+-    "RunOnceActivity.git.unshallow": "true",
+-    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+-    "Spring Boot.HisGatewayApplication.executor": "Debug",
+-    "Spring Boot.HisSystemApplication.executor": "Debug",
+-    "Spring Boot.Unnamed.executor": "Run",
+-    "WebServerToolWindowFactoryState": "false",
+-    "git-widget-placeholder": "main",
+-    "jdk.selected.JAVA_MODULE": "ms-21",
+-    "kotlin-language-version-configured": "true",
+-    "last_opened_file_path": "G:/workspace-java/HIS/HIS-System/src/main/resources/mapper",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_interpreter_path": "C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node",
+-    "nodejs_package_manager_path": "npm",
+-    "project.structure.last.edited": "Modules",
+-    "project.structure.proportion": "0.15",
+-    "project.structure.side.proportion": "0.2",
+-    "run.configurations.included.in.services": "true",
+-    "settings.editor.selected.configurable": "editor.preferences.tabs",
+-    "ts.external.directory.path": "D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor&quot;: &quot;Run&quot;,
++    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
++    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
++    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
++    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
++    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
++    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
++    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
++    &quot;Spring Boot.HisGatewayApplication.executor&quot;: &quot;Debug&quot;,
++    &quot;Spring Boot.HisSystemApplication.executor&quot;: &quot;Debug&quot;,
++    &quot;Spring Boot.Unnamed.executor&quot;: &quot;Run&quot;,
++    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;ms-21&quot;,
++    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
++    &quot;last_opened_file_path&quot;: &quot;G:/workspace-java/HIS/HIS-System/src/main/resources/mapper&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
++    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
++    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
++    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
++    &quot;ts.external.directory.path&quot;: &quot;D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   },
+-  "keyToStringList": {
+-    "DatabaseDriversLRU": [
+-      "mysql"
++  &quot;keyToStringList&quot;: {
++    &quot;DatabaseDriversLRU&quot;: [
++      &quot;mysql&quot;
+     ]
+   }
+-}]]></component>
++}</component>
+   <component name="RecentsManager">
+     <key name="CopyFile.RECENT_KEYS">
+       <recent name="G:\workspace-java\HIS\HIS-System\src\main\resources\mapper" />
+@@ -306,7 +284,10 @@
+       <workItem from="1773840061867" duration="18304000" />
+       <workItem from="1773940026475" duration="9850000" />
+       <workItem from="1774075269426" duration="50000" />
+-      <workItem from="1774156469886" duration="16695000" />
++      <workItem from="1774156469886" duration="17097000" />
++      <workItem from="1774197796626" duration="27000" />
++      <workItem from="1774197832816" duration="62000" />
++      <workItem from="1774251008372" duration="4568000" />
+     </task>
+     <task id="LOCAL-00001" summary="1">
+       <option name="closed" value="true" />
+@@ -428,7 +409,23 @@
+       <option name="project" value="LOCAL" />
+       <updated>1773996719354</updated>
+     </task>
+-    <option name="localTasksCounter" value="16" />
++    <task id="LOCAL-00016" summary="25-3-23">
++      <option name="closed" value="true" />
++      <created>1774197586234</created>
++      <option name="number" value="00016" />
++      <option name="presentableId" value="LOCAL-00016" />
++      <option name="project" value="LOCAL" />
++      <updated>1774197586234</updated>
++    </task>
++    <task id="LOCAL-00017" summary="25-3-23">
++      <option name="closed" value="true" />
++      <created>1774197676639</created>
++      <option name="number" value="00017" />
++      <option name="presentableId" value="LOCAL-00017" />
++      <option name="project" value="LOCAL" />
++      <updated>1774197676639</updated>
++    </task>
++    <option name="localTasksCounter" value="18" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -465,7 +462,8 @@
+     <MESSAGE value="25-3-17" />
+     <MESSAGE value="25-3-18" />
+     <MESSAGE value="25-3-19" />
+-    <option name="LAST_COMMIT_MESSAGE" value="25-3-19" />
++    <MESSAGE value="25-3-23" />
++    <option name="LAST_COMMIT_MESSAGE" value="25-3-23" />
+   </component>
+   <component name="XSLT-Support.FileAssociations.UIState">
+     <expand />
+Index: his-web/src/views/doctor/OutpatientDesk.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><template>\r\n  <div class=\"outpatient-desk\">\r\n    <div class=\"left-panel\">\r\n      <div class=\"left-title\">门诊队列</div>\r\n      <el-alert\r\n        v-if=\"activeTab === 'dept'\"\r\n        title=\"科室视图：列表为本科室所有未结束就诊的挂号。在此 Tab 下「开始诊疗/诊毕」按科室权限处理，可操作非本人排班的挂号；切换到「本人」则仅本人排班。\"\r\n        type=\"info\"\r\n        :closable=\"false\"\r\n        show-icon\r\n        class=\"scope-tip\"\r\n      />\r\n      <div class=\"panel-header\">\r\n        <el-input v-model=\"patientQuery\" placeholder=\"患者名\" size=\"small\" clearable @clear=\"fetchPatients\">\r\n          <template v-slot:append>\r\n            <el-button icon=\"el-icon-refresh\" @click=\"fetchPatients\" />\r\n          </template>\r\n        </el-input>\r\n      </div>\r\n\r\n      <el-tabs v-model=\"activeTab\" type=\"border-card\" class=\"patient-tabs\" @tab-click=\"fetchPatients\">\r\n        <el-tab-pane label=\"本人\" name=\"self\"></el-tab-pane>\r\n        <el-tab-pane label=\"科室\" name=\"dept\"></el-tab-pane>\r\n      </el-tabs>\r\n\r\n      <div class=\"patient-section\">\r\n        <div class=\"section-title\">\r\n          <span>待诊患者</span>\r\n          <el-tag size=\"mini\" type=\"warning\">{{ waitingPatients.length }}</el-tag>\r\n        </div>\r\n        <div class=\"patient-list\">\r\n          <el-card\r\n            v-for=\"p in waitingPatients\"\r\n            :key=\"p.id\"\r\n            class=\"patient-card\"\r\n            :body-style=\"{ padding: '8px' }\"\r\n            @click.native=\"selectPatient(p)\"\r\n            :class=\"{ selected: selectedPatient && selectedPatient.id === p.id }\"\r\n          >\r\n            <div class=\"patient-row\">\r\n              <div class=\"patient-id\">{{ p.medicalNo }}</div>\r\n              <div class=\"patient-name\">{{ p.name }}</div>\r\n              <div class=\"patient-age\">{{ p.age !== null && p.age !== undefined ? `${p.age}岁` : '—' }}</div>\r\n            </div>\r\n          </el-card>\r\n          <div v-if=\"!loading && waitingPatients.length === 0\" class=\"empty\">暂无数据</div>\r\n        </div>\r\n      </div>\r\n\r\n      <div class=\"patient-section\">\r\n        <div class=\"section-title\">\r\n          <span>诊中患者</span>\r\n          <el-tag size=\"mini\" type=\"success\">{{ doingPatients.length }}</el-tag>\r\n        </div>\r\n        <div class=\"patient-list\">\r\n          <el-card\r\n            v-for=\"p in doingPatients\"\r\n            :key=\"p.id\"\r\n            class=\"patient-card doing\"\r\n            :body-style=\"{ padding: '8px' }\"\r\n            @click.native=\"selectPatient(p)\"\r\n            :class=\"{ selected: selectedPatient && selectedPatient.id === p.id }\"\r\n          >\r\n            <div class=\"patient-row\">\r\n              <div class=\"patient-id\">{{ p.medicalNo }}</div>\r\n              <div class=\"patient-name\">{{ p.name }}</div>\r\n              <div class=\"patient-age\">{{ p.age !== null && p.age !== undefined ? `${p.age}岁` : '—' }}</div>\r\n            </div>\r\n          </el-card>\r\n          <div v-if=\"!loading && doingPatients.length === 0\" class=\"empty\">暂无数据</div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"right-panel\">\r\n      <div class=\"page-title\">门诊医生工作台</div>\r\n      <div class=\"top-info card\">\r\n        <div class=\"info-left\">\r\n          <div class=\"field\"><label>当前病人:</label> <span>{{ selectedPatient ? selectedPatient.name : '—' }}</span></div>\r\n          <div class=\"field\"><label>就诊号:</label> <span>{{ selectedPatient ? selectedPatient.medicalNo : '—' }}</span></div>\r\n          <div class=\"field\"><label>性别:</label> <span>{{ selectedPatient ? (selectedPatient.gender || '—') : '—' }}</span></div>\r\n          <div class=\"field\"><label>午别:</label> <span>{{ selectedPatient ? noonToText(selectedPatient.noon) : '—' }}</span></div>\r\n          <div class=\"field\"><label>年龄:</label> <span>{{ selectedPatient ? selectedPatient.age : '—' }}岁</span></div>\r\n        </div>\r\n        <div class=\"info-right\">\r\n          <el-tag v-if=\"selectedPatient && selectedPatient.status === 0\" type=\"warning\" size=\"small\">待诊</el-tag>\r\n          <el-tag v-else-if=\"selectedPatient\" type=\"success\" size=\"small\">诊中</el-tag>\r\n          <el-checkbox v-model=\"isFinished\" :disabled=\"!selectedPatient\" @change=\"onFinishedChange\">诊毕</el-checkbox>\r\n        </div>\r\n      </div>\r\n\r\n      <el-tabs v-model=\"activeWorkTab\" class=\"work-tabs\">\r\n        <el-tab-pane label=\"病历首页\" name=\"record\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n        <el-tab-pane label=\"检查申请\" name=\"exam\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n        <el-tab-pane label=\"检验申请\" name=\"lab\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n        <el-tab-pane label=\"门诊确诊\" name=\"diag\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n        <el-tab-pane label=\"成药处方\" name=\"prescription\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n        <el-tab-pane label=\"草药处方\" name=\"herbal\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n        <el-tab-pane label=\"处置申请\" name=\"proc\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n        <el-tab-pane label=\"患者账单\" name=\"bill\" :disabled=\"!selectedPatient\"></el-tab-pane>\r\n      </el-tabs>\r\n\r\n      <div class=\"work-area\">\r\n        <div v-if=\"!selectedPatient\" class=\"empty\">请选择左侧患者后开始诊疗</div>\r\n        <div v-else>\r\n          <div v-if=\"nonDrugResultRows.length\" class=\"card exam-results-ref\">\r\n            <div class=\"exam-results-title-row\">\r\n              <div class=\"card-title\">检查检验结果（医技回传）</div>\r\n              <el-button type=\"text\" size=\"small\" @click=\"loadContext\">刷新</el-button>\r\n            </div>\r\n            <p class=\"exam-results-tip\">开药前可参考以下结果；与「成药处方」无自动关联，药品需医生自行开立。医技刚回传时请点「刷新」。</p>\r\n            <div v-for=\"row in nonDrugResultRows\" :key=\"row.id\" class=\"exam-result-block\">\r\n              <div class=\"exam-result-head\">\r\n                <el-tag size=\"mini\" type=\"primary\">{{ row._kind }}</el-tag>\r\n                <span class=\"proj-name\">{{ nonDrugProjectName(row) }}</span>\r\n                <el-tag size=\"mini\" effect=\"plain\">{{ nonDrugStatusLabel(row) }}</el-tag>\r\n              </div>\r\n              <div v-if=\"row.checkResult\" class=\"exam-result-line\">\r\n                <span class=\"rk\">检查结果：</span>{{ row.checkResult }}\r\n              </div>\r\n              <div v-else-if=\"row.status === 1\" class=\"exam-result-line muted\">尚无文字结果</div>\r\n              <div v-if=\"row.clinicalDiagnosis\" class=\"exam-result-line\">\r\n                <span class=\"rk\">临床诊断：</span>{{ row.clinicalDiagnosis }}\r\n              </div>\r\n              <div v-if=\"row.clinicalImpression\" class=\"exam-result-line\">\r\n                <span class=\"rk\">临床印象：</span>{{ row.clinicalImpression }}\r\n              </div>\r\n              <div v-if=\"resultImgUrls(row).length\" class=\"exam-result-imgs\">\r\n                <el-image\r\n                  v-for=\"(u, i) in resultImgUrls(row)\"\r\n                  :key=\"i\"\r\n                  :src=\"resolveResultAssetUrl(u)\"\r\n                  :preview-src-list=\"resultImgUrls(row).map(resolveResultAssetUrl)\"\r\n                  fit=\"cover\"\r\n                  class=\"rimg\"\r\n                />\r\n              </div>\r\n            </div>\r\n          </div>\r\n\r\n          <div v-if=\"activeWorkTab === 'record'\">\r\n          <el-row :gutter=\"18\">\r\n            <el-col :span=\"14\">\r\n              <div class=\"card\">\r\n                <div class=\"card-title\">主诊信息</div>\r\n                <el-form :model=\"recordForm\" label-width=\"110px\" class=\"record-form\">\r\n                  <el-form-item label=\"主诉\">\r\n                    <el-input type=\"textarea\" v-model=\"recordForm.complaint\" :rows=\"2\" />\r\n                  </el-form-item>\r\n                  <el-form-item label=\"现病史\">\r\n                    <el-input type=\"textarea\" v-model=\"recordForm.history\" :rows=\"3\" />\r\n                  </el-form-item>\r\n                  <el-form-item label=\"现病治疗情况\">\r\n                    <el-input type=\"textarea\" v-model=\"recordForm.treatment\" :rows=\"2\" />\r\n                  </el-form-item>\r\n                  <el-form-item label=\"既往史\">\r\n                    <el-input type=\"textarea\" v-model=\"recordForm.pastHistory\" :rows=\"2\" />\r\n                  </el-form-item>\r\n                  <el-form-item label=\"过敏史\">\r\n                    <el-input type=\"textarea\" v-model=\"recordForm.allergy\" :rows=\"1\" />\r\n                  </el-form-item>\r\n                  <el-form-item label=\"体格检查\">\r\n                    <el-input type=\"textarea\" v-model=\"recordForm.exam\" :rows=\"2\" />\r\n                  </el-form-item>\r\n                  <el-form-item label=\"发病时间\">\r\n                    <el-date-picker\r\n                      v-model=\"recordForm.onsetTime\"\r\n                      type=\"date\"\r\n                      placeholder=\"选择日期\"\r\n                      style=\"width: 220px\"\r\n                    />\r\n                  </el-form-item>\r\n                </el-form>\r\n\r\n                <div class=\"btn-row\">\r\n                  <el-button type=\"primary\" @click=\"saveRecord\">保存病历</el-button>\r\n                  <el-button @click=\"quickAction\">快捷操作</el-button>\r\n                  <el-button\r\n                    type=\"success\"\r\n                    :disabled=\"!selectedPatient || selectedPatient.status !== 0\"\r\n                    @click=\"startVisit\"\r\n                  >开始诊疗</el-button>\r\n                  <el-button type=\"danger\" @click=\"finishVisit\">结束就诊</el-button>\r\n                </div>\r\n              </div>\r\n            </el-col>\r\n\r\n            <el-col :span=\"10\">\r\n              <div class=\"card\">\r\n                <div class=\"card-title\">诊疗概览</div>\r\n                <div class=\"summary-line\"><span class=\"k\">主诉:</span><span class=\"v\">{{ recordForm.complaint || '—' }}</span></div>\r\n                <div class=\"summary-line\"><span class=\"k\">现病史:</span><span class=\"v\">{{ recordForm.history || '—' }}</span></div>\r\n                <div class=\"summary-line\"><span class=\"k\">治疗情况:</span><span class=\"v\">{{ recordForm.treatment || '—' }}</span></div>\r\n                <div class=\"summary-line\"><span class=\"k\">既往史:</span><span class=\"v\">{{ recordForm.pastHistory || '—' }}</span></div>\r\n                <div class=\"summary-line\"><span class=\"k\">过敏史:</span><span class=\"v\">{{ recordForm.allergy || '—' }}</span></div>\r\n                <div class=\"summary-line\"><span class=\"k\">体格检查:</span><span class=\"v\">{{ recordForm.exam || '—' }}</span></div>\r\n                <div class=\"divider\" />\r\n                <el-button type=\"text\" class=\"link-btn\" @click=\"activeWorkTab='exam'\">填写检查申请</el-button>\r\n                <el-button type=\"text\" class=\"link-btn\" @click=\"activeWorkTab='lab'\">填写检验申请</el-button>\r\n                <el-button type=\"text\" class=\"link-btn\" @click=\"activeWorkTab='prescription'\">开成药处方</el-button>\r\n              </div>\r\n            </el-col>\r\n          </el-row>\r\n        </div>\r\n\r\n        <div v-else-if=\"activeWorkTab === 'exam'\">\r\n          <div class=\"card\">\r\n            <div class=\"card-title\">检查申请</div>\r\n            <p class=\"flow-tip\">流程说明：开立检查后，请患者至<strong>门诊挂号工作台</strong>先完成缴费，医技执行完毕后可继续在本工作台查看结果、回诊处理（无需先诊毕再缴费）。</p>\r\n            <el-form :model=\"examForm\" label-width=\"90px\">\r\n              <el-form-item label=\"检查项目\">\r\n                <el-select v-model=\"examForm.noDrugId\" placeholder=\"请选择检查项目\" filterable style=\"width: 100%\">\r\n                  <el-option v-for=\"it in examDict\" :key=\"it.id\" :label=\"`${it.name}（${formatMoney(it.price)}元）`\" :value=\"it.id\" />\r\n                </el-select>\r\n              </el-form-item>\r\n              <el-form-item label=\"备注\">\r\n                <el-input v-model=\"examForm.remark\" placeholder=\"请输入备注\" type=\"textarea\" :rows=\"3\" />\r\n              </el-form-item>\r\n            </el-form>\r\n            <div class=\"btn-row\">\r\n              <el-button type=\"primary\" @click=\"saveExam\">保存检查申请</el-button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div v-else-if=\"activeWorkTab === 'lab'\">\r\n          <div class=\"card\">\r\n            <div class=\"card-title\">检验申请</div>\r\n            <p class=\"flow-tip\">流程说明：开立检验后，请患者至<strong>门诊挂号工作台</strong>先完成缴费，结果回传后可继续回诊（诊中即可缴费）。</p>\r\n            <el-form :model=\"labForm\" label-width=\"90px\">\r\n              <el-form-item label=\"检验项目\">\r\n                <el-select v-model=\"labForm.noDrugId\" placeholder=\"请选择检验项目\" filterable style=\"width: 100%\">\r\n                  <el-option v-for=\"it in labDict\" :key=\"it.id\" :label=\"`${it.name}（${formatMoney(it.price)}元）`\" :value=\"it.id\" />\r\n                </el-select>\r\n              </el-form-item>\r\n              <el-form-item label=\"备注\">\r\n                <el-input v-model=\"labForm.remark\" placeholder=\"请输入备注\" type=\"textarea\" :rows=\"3\" />\r\n              </el-form-item>\r\n            </el-form>\r\n            <div class=\"btn-row\">\r\n              <el-button type=\"primary\" @click=\"saveLab\">保存检验申请</el-button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div v-else-if=\"activeWorkTab === 'diag'\">\r\n          <div class=\"card\">\r\n            <div class=\"card-title\">门诊确诊</div>\r\n            <el-form :model=\"diagForm\" label-width=\"90px\">\r\n              <el-form-item label=\"诊断\">\r\n                <el-input v-model=\"diagForm.diagnosis\" placeholder=\"请输入诊断结果\" />\r\n              </el-form-item>\r\n              <el-form-item label=\"依据\">\r\n                <el-input v-model=\"diagForm.basis\" placeholder=\"请输入诊断依据\" type=\"textarea\" :rows=\"3\" />\r\n              </el-form-item>\r\n            </el-form>\r\n            <div class=\"btn-row\">\r\n              <el-button type=\"primary\" @click=\"saveDiag\">保存确诊</el-button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div v-else-if=\"activeWorkTab === 'prescription'\">\r\n          <div class=\"card\">\r\n            <div class=\"card-title\">成药处方</div>\r\n            <div class=\"presc-top\">\r\n              <el-button type=\"primary\" size=\"small\" :disabled=\"!selectedPatient\" @click=\"openPrescriptionDetail\">处方详情</el-button>\r\n              <span class=\"presc-total\">处方总计: {{ formatMoney(prescriptionItemsTotal) }} 元</span>\r\n            </div>\r\n            <el-table :data=\"prescriptionItems\" border style=\"width:100%\" v-if=\"prescriptionItems.length\">\r\n              <el-table-column prop=\"name\" label=\"药品名称\" />\r\n              <el-table-column prop=\"spec\" label=\"规格\" width=\"120\" />\r\n              <el-table-column prop=\"qty\" label=\"数量\" width=\"90\" />\r\n              <el-table-column prop=\"unitPrice\" label=\"单价(元)\" width=\"120\" />\r\n              <el-table-column label=\"金额(元)\" width=\"130\">\r\n                <template slot-scope=\"{ row }\">{{ formatMoney(row.qty * row.unitPrice) }}</template>\r\n              </el-table-column>\r\n              <el-table-column prop=\"usage\" label=\"使用方法\" width=\"130\" />\r\n              <el-table-column label=\"操作\" width=\"90\">\r\n                <template slot-scope=\"{ $index }\">\r\n                  <el-button type=\"text\" size=\"small\" @click=\"removePrescriptionItem($index)\">删除</el-button>\r\n                </template>\r\n              </el-table-column>\r\n            </el-table>\r\n            <div v-else class=\"empty\">暂无处方条目</div>\r\n            <div class=\"btn-row\">\r\n              <el-button type=\"primary\" :disabled=\"!selectedPatient\" @click=\"savePrescription\">保存处方</el-button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div v-else-if=\"activeWorkTab === 'herbal'\">\r\n          <div class=\"card\">\r\n            <div class=\"card-title\">草药处方</div>\r\n            <el-form :model=\"herbalForm\" label-width=\"100px\">\r\n              <el-form-item label=\"治法\">\r\n                <el-input v-model=\"herbalForm.therapy\" />\r\n              </el-form-item>\r\n              <el-form-item label=\"治法详情\">\r\n                <el-input v-model=\"herbalForm.therapyDetails\" type=\"textarea\" :rows=\"2\" />\r\n              </el-form-item>\r\n              <el-form-item label=\"医嘱\">\r\n                <el-input v-model=\"herbalForm.medicalAdvice\" type=\"textarea\" :rows=\"2\" />\r\n              </el-form-item>\r\n            </el-form>\r\n            <div class=\"empty\" v-if=\"!herbalItems.length\">暂无草药明细（可先在后端补齐后再扩展前端编辑）</div>\r\n            <el-table :data=\"herbalItems\" border style=\"width:100%\" v-else>\r\n              <el-table-column prop=\"drugId\" label=\"药品ID\" width=\"120\" />\r\n              <el-table-column prop=\"totalNum\" label=\"总数量\" width=\"120\" />\r\n              <el-table-column prop=\"usageNum\" label=\"单次用量\" width=\"120\" />\r\n              <el-table-column prop=\"medicalAdvice\" label=\"医嘱\" />\r\n            </el-table>\r\n            <div class=\"btn-row\">\r\n              <el-button type=\"primary\" @click=\"saveHerbalPrescription\">保存草药处方</el-button>\r\n            </div>\r\n          </div>\r\n        </div>\r\n\r\n        <div v-else-if=\"activeWorkTab === 'proc'\">\r\n          <div class=\"card\">\r\n            <div class=\"card-title\">处置申请</div>\r\n            <div class=\"empty\">当前系统未实现处置申请</div>\r\n          </div>\r\n        </div>\r\n\r\n        <div v-else-if=\"activeWorkTab === 'bill'\">\r\n          <div class=\"card\">\r\n            <div class=\"card-title\">患者账单</div>\r\n            <p class=\"bill-tip\">以下为本次挂号已开单项目；成药/草药保存处方后即计入下列明细与汇总。</p>\r\n            <el-table v-if=\"billLines.length\" :data=\"billLines\" border size=\"small\" style=\"width:100%; margin-bottom:16px\">\r\n              <el-table-column prop=\"category\" label=\"类别\" width=\"88\" />\r\n              <el-table-column prop=\"itemName\" label=\"项目名称\" min-width=\"160\" show-overflow-tooltip />\r\n              <el-table-column prop=\"quantity\" label=\"数量\" width=\"72\" align=\"right\" />\r\n              <el-table-column label=\"单价(元)\" width=\"100\" align=\"right\">\r\n                <template slot-scope=\"{ row }\">{{ formatMoney(row.unitPrice) }}</template>\r\n              </el-table-column>\r\n              <el-table-column label=\"金额(元)\" width=\"110\" align=\"right\">\r\n                <template slot-scope=\"{ row }\">{{ formatMoney(row.amount) }}</template>\r\n              </el-table-column>\r\n            </el-table>\r\n            <div v-else class=\"empty muted\" style=\"margin-bottom:12px\">暂无账单明细（未开检查/检验或处方）</div>\r\n            <el-descriptions border :column=\"1\">\r\n              <el-descriptions-item label=\"检查/检验金额\">{{ formatMoney(billSummary.examAmount) }} 元</el-descriptions-item>\r\n              <el-descriptions-item label=\"成药处方金额\">{{ formatMoney(billSummary.medicineAmount) }} 元</el-descriptions-item>\r\n              <el-descriptions-item label=\"草药处方金额\">{{ formatMoney(billSummary.herbalAmount) }} 元</el-descriptions-item>\r\n              <el-descriptions-item label=\"总金额\"><strong>{{ formatMoney(billSummary.totalAmount) }} 元</strong></el-descriptions-item>\r\n            </el-descriptions>\r\n          </div>\r\n        </div>\r\n      </div>\r\n      </div>\r\n\r\n      <!-- 处方详情弹窗（按模板图 3） -->\r\n      <el-dialog title=\"处方详情\" :visible.sync=\"prescriptionDialogVisible\" width=\"96%\">\r\n        <el-row :gutter=\"14\">\r\n          <el-col :span=\"7\">\r\n            <div class=\"dialog-left\">\r\n              <el-input\r\n                v-model=\"prescriptionDetailSearch\"\r\n                size=\"small\"\r\n                placeholder=\"搜索药品/商品名\"\r\n                clearable\r\n              />\r\n              <div class=\"dialog-left-title\">常用药品</div>\r\n              <el-table\r\n                :data=\"filteredMedicineList\"\r\n                size=\"mini\"\r\n                border\r\n                height=\"520\"\r\n                style=\"margin-top:8px\"\r\n              >\r\n                <el-table-column prop=\"name\" label=\"商品名\" />\r\n                <el-table-column prop=\"price\" label=\"价格(元)\" width=\"100\" />\r\n                <el-table-column label=\"操作\" width=\"80\">\r\n                  <template slot-scope=\"{ row }\">\r\n                    <el-button type=\"text\" size=\"small\" @click=\"addMedicineToDetail(row)\">加入</el-button>\r\n                  </template>\r\n                </el-table-column>\r\n              </el-table>\r\n            </div>\r\n          </el-col>\r\n\r\n          <el-col :span=\"17\">\r\n            <div class=\"dialog-right\">\r\n              <div class=\"dialog-right-toolbar\">\r\n                <div class=\"muted\">当前已选: {{ prescriptionDetailItems.length }} 项</div>\r\n                <div class=\"muted\">合计: {{ formatMoney(prescriptionDetailTotal) }} 元</div>\r\n              </div>\r\n\r\n              <el-table :data=\"prescriptionDetailItems\" border style=\"width:100%\" height=\"500\">\r\n                <el-table-column prop=\"name\" label=\"药品名\" />\r\n                <el-table-column prop=\"spec\" label=\"规格\" width=\"120\" />\r\n                <el-table-column prop=\"qty\" label=\"数量\" width=\"90\" />\r\n                <el-table-column prop=\"unitPrice\" label=\"单价(元)\" width=\"120\" />\r\n                <el-table-column label=\"金额(元)\" width=\"130\">\r\n                  <template slot-scope=\"{ row }\">{{ formatMoney(row.qty * row.unitPrice) }}</template>\r\n                </el-table-column>\r\n                <el-table-column prop=\"usage\" label=\"使用方式\" width=\"140\" />\r\n                <el-table-column label=\"操作\" width=\"90\">\r\n                  <template slot-scope=\"{ $index }\">\r\n                    <el-button type=\"text\" size=\"small\" @click=\"removeDetailItem($index)\">删除</el-button>\r\n                  </template>\r\n                </el-table-column>\r\n              </el-table>\r\n\r\n              <div class=\"dialog-pagination\">\r\n                <el-pagination layout=\"prev, pager, next\" :total=\"187\" :page-size=\"10\" />\r\n              </div>\r\n\r\n              <span slot=\"footer\" class=\"dialog-footer\">\r\n                <el-button @click=\"prescriptionDialogVisible = false\">关闭</el-button>\r\n                <el-button type=\"primary\" @click=\"confirmPrescriptionDetail\">确认开方</el-button>\r\n              </span>\r\n            </div>\r\n          </el-col>\r\n        </el-row>\r\n      </el-dialog>\r\n    </div>\r\n  </div>\r\n</template>\r\n\r\n<script>\r\nimport {\r\n  finishDoctorDeskVisit,\r\n  getDoctorDeskContext,\r\n  getDoctorDeskMedicines,\r\n  getDoctorDeskNonDrugDict,\r\n  getDoctorDeskPatients,\r\n  saveDoctorDeskCaseHistory,\r\n  saveDoctorDeskDiagnosis,\r\n  saveDoctorDeskHerbalPrescription,\r\n  saveDoctorDeskMedicinePrescription,\r\n  saveDoctorDeskNonDrugItem,\r\n  startDoctorDeskVisit\r\n} from '@/api/doctorDesk'\r\nimport { getToken } from '@/utils/auth'\r\n\r\nexport default {\r\n  name: 'OutpatientDesk',\r\n  data() {\r\n    return {\r\n      loading: false,\r\n      patientQuery: '',\r\n      activeTab: 'self',\r\n      activeWorkTab: 'record',\r\n      waitingPatients: [],\r\n      doingPatients: [],\r\n      selectedPatient: null,\r\n      isFinished: false,\r\n      recordForm: {\r\n        complaint: '',\r\n        history: '',\r\n        treatment: '',\r\n        pastHistory: '',\r\n        allergy: '',\r\n        exam: '',\r\n        onsetTime: ''\r\n      },\r\n      examForm: {\r\n        noDrugId: null,\r\n        remark: ''\r\n      },\r\n      labForm: {\r\n        noDrugId: null,\r\n        remark: ''\r\n      },\r\n      diagForm: {\r\n        diagnosis: '',\r\n        basis: ''\r\n      },\r\n\r\n      // 处方详情弹窗\r\n      prescriptionDialogVisible: false,\r\n      prescriptionDetailSearch: '',\r\n      prescriptionItems: [],\r\n      prescriptionDetailItems: [],\r\n      medicines: [],\r\n      examDict: [],\r\n      labDict: [],\r\n      herbalItems: [],\r\n      herbalForm: {\r\n        therapy: '',\r\n        therapyDetails: '',\r\n        medicalAdvice: '',\r\n        pairNum: 1,\r\n        frequency: 1,\r\n        usageMeans: 1\r\n      },\r\n      billSummary: {\r\n        examAmount: 0,\r\n        medicineAmount: 0,\r\n        herbalAmount: 0,\r\n        totalAmount: 0\r\n      },\r\n      billLines: [],\r\n      examItemList: [],\r\n      labItemList: []\r\n    }\r\n  },\r\n  mounted() {\r\n    this.fetchPatients()\r\n    this.loadDicts()\r\n  },\r\n  computed: {\r\n    filteredMedicineList() {\r\n      const kw = (this.prescriptionDetailSearch || '').trim()\r\n      if (!kw) return this.medicines\r\n      return (this.medicines || []).filter(m => (m.name || '').includes(kw))\r\n    },\r\n    prescriptionItemsTotal() {\r\n      const items = this.prescriptionItems || []\r\n      return items.reduce((sum, it) => sum + (Number(it.qty) || 0) * (Number(it.unitPrice) || 0), 0)\r\n    },\r\n    prescriptionDetailTotal() {\r\n      const items = this.prescriptionDetailItems || []\r\n      return items.reduce((sum, it) => sum + (Number(it.qty) || 0) * (Number(it.unitPrice) || 0), 0)\r\n    },\r\n    nonDrugResultRows() {\r\n      const rows = []\r\n      const push = (list, kind) => {\r\n        ;(list || []).forEach(r => {\r\n          if (r && r.status !== 2) rows.push({ ...r, _kind: kind })\r\n        })\r\n      }\r\n      push(this.examItemList, '检查')\r\n      push(this.labItemList, '检验')\r\n      return rows.sort((a, b) => (a.id || 0) - (b.id || 0))\r\n    }\r\n  },\r\n  watch: {\r\n    activeWorkTab(v) {\r\n      if (v === 'bill' && this.selectedPatient) {\r\n        this.loadContext()\r\n      }\r\n    }\r\n  },\r\n  methods: {\r\n    nonDrugProjectName(row) {\r\n      const dict = row.type === 3 ? this.labDict : this.examDict\r\n      const hit = (dict || []).find(x => x.id === row.noDrugId)\r\n      return hit ? hit.name : row.noDrugId ? `项目#${row.noDrugId}` : '—'\r\n    },\r\n    nonDrugStatusLabel(row) {\r\n      if (row.status === 2) return '已作废'\r\n      if (row.status === 1) return '已登记/已执行'\r\n      return '待医技登记'\r\n    },\r\n    resultImgUrls(row) {\r\n      const s = row && row.resultImgUrlList\r\n      if (!s || typeof s !== 'string') return []\r\n      return s.split(',').map(x => x.trim()).filter(Boolean)\r\n    },\r\n    resolveResultAssetUrl(path) {\r\n      if (!path) return ''\r\n      if (path.startsWith('http://') || path.startsWith('https://')) return path\r\n      const base = process.env.VUE_APP_BASE_API || ''\r\n      const tok = getToken() || ''\r\n      const sep = path.includes('?') ? '&' : '?'\r\n      return `${base}${path}${sep}token=${encodeURIComponent(tok)}`\r\n    },\r\n    async loadDicts() {\r\n      try {\r\n        const [medRes, examRes, labRes] = await Promise.all([\r\n          getDoctorDeskMedicines(),\r\n          getDoctorDeskNonDrugDict(1),\r\n          getDoctorDeskNonDrugDict(3)\r\n        ])\r\n        this.medicines = (medRes && medRes.data) || []\r\n        this.examDict = (examRes && examRes.data) || []\r\n        this.labDict = (labRes && labRes.data) || []\r\n      } catch (e) {\r\n        console.error(e)\r\n      }\r\n    },\r\n    async fetchPatients() {\r\n      this.loading = true\r\n      this.selectedPatient = null\r\n      try {\r\n        const scope = this.activeTab === 'dept' ? 'dept' : 'self'\r\n        const res = await getDoctorDeskPatients({\r\n          scope,\r\n          keyword: this.patientQuery\r\n        })\r\n        if (!res || res.code !== 20000) {\r\n          this.$message.error((res && res.message) || '获取患者列表失败')\r\n          return\r\n        }\r\n        const data = res.data || {}\r\n        this.waitingPatients = data.waitingPatients || []\r\n        this.doingPatients = data.doingPatients || []\r\n      } catch (e) {\r\n        console.error(e)\r\n        this.$message.error('获取患者列表失败，请稍后重试')\r\n      } finally {\r\n        this.loading = false\r\n      }\r\n    },\r\n    async selectPatient(p) {\r\n      this.selectedPatient = p\r\n      this.isFinished = p && p.endAttendance === 1\r\n      // 切换患者时清空各类表单/处方（病历保存接口当前未实现）\r\n      this.prescriptionItems = []\r\n      this.prescriptionDetailItems = []\r\n      this.recordForm = { complaint: '', history: '', treatment: '', pastHistory: '', allergy: '', exam: '', onsetTime: '' }\r\n      this.examForm = { noDrugId: null, remark: '' }\r\n      this.labForm = { noDrugId: null, remark: '' }\r\n      this.diagForm = { diagnosis: '', basis: '' }\r\n      this.herbalItems = []\r\n      this.herbalForm = { therapy: '', therapyDetails: '', medicalAdvice: '', pairNum: 1, frequency: 1, usageMeans: 1 }\r\n      this.billSummary = { examAmount: 0, medicineAmount: 0, herbalAmount: 0, totalAmount: 0 }\r\n      this.billLines = []\r\n      this.examItemList = []\r\n      this.labItemList = []\r\n      await this.loadContext()\r\n    },\r\n    async loadContext() {\r\n      if (!this.selectedPatient) return\r\n      try {\r\n        const res = await getDoctorDeskContext(this.selectedPatient.id)\r\n        if (!res || res.code !== 20000) return\r\n        const d = res.data || {}\r\n        const ch = d.caseHistory || {}\r\n        this.recordForm = {\r\n          complaint: ch.chiefComplaint || '',\r\n          history: ch.historyOfPresentIllness || '',\r\n          treatment: ch.historyOfTreatment || '',\r\n          pastHistory: ch.pastHistory || '',\r\n          allergy: ch.allergies || '',\r\n          exam: ch.healthCheckup || '',\r\n          onsetTime: ch.startDate || ''\r\n        }\r\n        this.diagForm = {\r\n          diagnosis: d.diagnosis || '',\r\n          basis: d.diagnosisBasis || ''\r\n        }\r\n        this.examItemList = Array.isArray(d.examItems) ? d.examItems : []\r\n        this.labItemList = Array.isArray(d.labItems) ? d.labItems : []\r\n        const exam = this.examItemList.length ? this.examItemList[0] : {}\r\n        const lab = this.labItemList.length ? this.labItemList[0] : {}\r\n        this.examForm = { noDrugId: exam.noDrugId || null, remark: exam.demand || '' }\r\n        this.labForm = { noDrugId: lab.noDrugId || null, remark: lab.demand || '' }\r\n        const medPres = Array.isArray(d.medicinePrescriptions) ? d.medicinePrescriptions : []\r\n        this.prescriptionItems = medPres.length ? (medPres[0].items || []) : []\r\n        const herbPres = Array.isArray(d.herbalPrescriptions) ? d.herbalPrescriptions : []\r\n        this.herbalItems = herbPres.length ? (herbPres[0].items || []) : []\r\n        if (herbPres.length) {\r\n          this.herbalForm.therapy = herbPres[0].therapy || ''\r\n          this.herbalForm.medicalAdvice = herbPres[0].medicalAdvice || ''\r\n        }\r\n        this.billSummary = this.normalizeBillSummary(d.billSummary)\r\n        this.billLines = Array.isArray(d.billLines) ? d.billLines : []\r\n      } catch (e) {\r\n        console.error(e)\r\n      }\r\n    },\r\n    normalizeBillSummary(bs) {\r\n      const n = (v) => {\r\n        const x = Number(v)\r\n        return Number.isFinite(x) ? x : 0\r\n      }\r\n      if (!bs || typeof bs !== 'object') {\r\n        return { examAmount: 0, medicineAmount: 0, herbalAmount: 0, totalAmount: 0 }\r\n      }\r\n      const exam = n(bs.examAmount)\r\n      const med = n(bs.medicineAmount)\r\n      const herb = n(bs.herbalAmount)\r\n      let total = n(bs.totalAmount)\r\n      if (!total && (exam || med || herb)) {\r\n        total = exam + med + herb\r\n      }\r\n      return { examAmount: exam, medicineAmount: med, herbalAmount: herb, totalAmount: total }\r\n    },\r\n    async saveRecord() {\r\n      if (!this.selectedPatient) {\r\n        this.$message.warning('请选择患者')\r\n        return\r\n      }\r\n      const payload = {\r\n        chiefComplaint: this.recordForm.complaint,\r\n        historyOfPresentIllness: this.recordForm.history,\r\n        historyOfTreatment: this.recordForm.treatment,\r\n        pastHistory: this.recordForm.pastHistory,\r\n        allergies: this.recordForm.allergy,\r\n        healthCheckup: this.recordForm.exam,\r\n        startDate: this.recordForm.onsetTime\r\n      }\r\n      const res = await saveDoctorDeskCaseHistory(this.selectedPatient.id, payload)\r\n      if (res && res.code === 20000) {\r\n        this.$message.success('保存病历成功')\r\n        await this.loadContext()\r\n      } else {\r\n        this.$message.error((res && res.message) || '保存失败')\r\n      }\r\n    },\r\n    quickAction() {\r\n      this.$message.info('快捷操作（示例）')\r\n    },\r\n    noonToText(noon) {\r\n      if (noon === 0) return '上午'\r\n      if (noon === 1) return '下午'\r\n      return '—'\r\n    },\r\n    async saveExam() {\r\n      if (!this.selectedPatient) return\r\n      if (!this.examForm.noDrugId) {\r\n        this.$message.warning('请选择检查项目')\r\n        return\r\n      }\r\n      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {\r\n        type: 1,\r\n        noDrugId: this.examForm.noDrugId,\r\n        remark: this.examForm.remark\r\n      })\r\n      if (res && res.code === 20000) {\r\n        this.$message.success('保存检查申请成功')\r\n        await this.loadContext()\r\n      } else {\r\n        this.$message.error((res && res.message) || '保存失败')\r\n      }\r\n    },\r\n    async saveLab() {\r\n      if (!this.selectedPatient) return\r\n      if (!this.labForm.noDrugId) {\r\n        this.$message.warning('请选择检验项目')\r\n        return\r\n      }\r\n      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {\r\n        type: 3,\r\n        noDrugId: this.labForm.noDrugId,\r\n        remark: this.labForm.remark\r\n      })\r\n      if (res && res.code === 20000) {\r\n        this.$message.success('保存检验申请成功')\r\n        await this.loadContext()\r\n      } else {\r\n        this.$message.error((res && res.message) || '保存失败')\r\n      }\r\n    },\r\n    async saveDiag() {\r\n      if (!this.selectedPatient) return\r\n      const res = await saveDoctorDeskDiagnosis(this.selectedPatient.id, {\r\n        diagnosis: this.diagForm.diagnosis,\r\n        basis: this.diagForm.basis\r\n      })\r\n      if (res && res.code === 20000) {\r\n        this.$message.success('保存确诊成功')\r\n        await this.loadContext()\r\n      } else {\r\n        this.$message.error((res && res.message) || '保存失败')\r\n      }\r\n    },\r\n    async savePrescription() {\r\n      if (!this.selectedPatient) return\r\n      if (!this.prescriptionItems.length) {\r\n        this.$message.warning('请先添加处方明细')\r\n        return\r\n      }\r\n      const items = this.prescriptionItems.map(it => ({\r\n        drugId: it.drugId,\r\n        qty: it.qty || 1,\r\n        usageMeans: it.usageMeans || 1,\r\n        frequency: it.frequency || 1,\r\n        medicalAdvice: it.medicalAdvice || ''\r\n      }))\r\n      const res = await saveDoctorDeskMedicinePrescription(this.selectedPatient.id, {\r\n        name: this.selectedPatient.name,\r\n        items\r\n      })\r\n      if (res && res.code === 20000) {\r\n        this.$message.success('保存处方成功')\r\n        await this.loadContext()\r\n      } else {\r\n        this.$message.error((res && res.message) || '保存失败')\r\n      }\r\n    },\r\n    openPrescriptionDetail() {\r\n      this.prescriptionDetailSearch = ''\r\n      this.prescriptionDetailItems = []\r\n      this.prescriptionDialogVisible = true\r\n    },\r\n    addMedicineToDetail(med) {\r\n      this.prescriptionDetailItems.push({\r\n        drugId: med.id,\r\n        name: med.name,\r\n        spec: med.format,\r\n        qty: 1,\r\n        unitPrice: med.price,\r\n        usage: med.unit || '',\r\n        usageMeans: 1,\r\n        frequency: 1\r\n      })\r\n    },\r\n    removeDetailItem(index) {\r\n      this.prescriptionDetailItems.splice(index, 1)\r\n    },\r\n    confirmPrescriptionDetail() {\r\n      this.prescriptionItems = this.prescriptionItems.concat(this.prescriptionDetailItems)\r\n      this.prescriptionDialogVisible = false\r\n      this.$message.success('处方已加入')\r\n    },\r\n    removePrescriptionItem(index) {\r\n      this.prescriptionItems.splice(index, 1)\r\n    },\r\n    async saveHerbalPrescription() {\r\n      if (!this.selectedPatient) return\r\n      if (!this.herbalItems.length) {\r\n        this.$message.warning('请先添加草药明细')\r\n        return\r\n      }\r\n      const items = this.herbalItems.map(it => ({\r\n        drugId: it.drugId,\r\n        totalNum: it.totalNum || 1,\r\n        usageNum: it.usageNum || 1,\r\n        usageNumUnit: it.usageNumUnit || 1,\r\n        medicalAdvice: it.medicalAdvice || '',\r\n        footnote: it.footnote || ''\r\n      }))\r\n      const res = await saveDoctorDeskHerbalPrescription(this.selectedPatient.id, {\r\n        name: this.selectedPatient.name,\r\n        therapy: this.herbalForm.therapy,\r\n        therapyDetails: this.herbalForm.therapyDetails,\r\n        medicalAdvice: this.herbalForm.medicalAdvice,\r\n        pairNum: this.herbalForm.pairNum,\r\n        frequency: this.herbalForm.frequency,\r\n        usageMeans: this.herbalForm.usageMeans,\r\n        items\r\n      })\r\n      if (res && res.code === 20000) {\r\n        this.$message.success('保存草药处方成功')\r\n        await this.loadContext()\r\n      } else {\r\n        this.$message.error((res && res.message) || '保存失败')\r\n      }\r\n    },\r\n    formatMoney(v) {\r\n      if (v === null || v === undefined || v === '') return '0.00'\r\n      const n = typeof v === 'number' ? v : Number(String(v).replace(/,/g, ''))\r\n      if (!Number.isFinite(n)) return '0.00'\r\n      return n.toFixed(2)\r\n    },\r\n    deskScope() {\r\n      return this.activeTab === 'dept' ? 'dept' : 'self'\r\n    },\r\n    async startVisit() {\r\n      if (!this.selectedPatient) {\r\n        this.$message.warning('请选择患者')\r\n        return\r\n      }\r\n      try {\r\n        const res = await startDoctorDeskVisit(this.selectedPatient.id, this.deskScope())\r\n        // request 拦截器在业务失败时仍 resolve，必须看 code\r\n        if (!res || res.code !== 20000) {\r\n          this.$message.error((res && res.message) || '开始诊疗失败')\r\n          return\r\n        }\r\n        this.$message.success('已开始诊疗')\r\n        this.selectedPatient = null\r\n        this.isFinished = false\r\n        await this.fetchPatients()\r\n      } catch (e) {\r\n        console.error(e)\r\n        this.$message.error('开始诊疗失败')\r\n      }\r\n    },\r\n    async finishVisit() {\r\n      if (!this.selectedPatient) {\r\n        this.$message.warning('请选择患者')\r\n        return\r\n      }\r\n      this.$confirm('确认结束本次就诊吗？', '提示', { type: 'warning' })\r\n        .then(async () => {\r\n          try {\r\n            const res = await finishDoctorDeskVisit(this.selectedPatient.id, this.deskScope())\r\n            if (!res || res.code !== 20000) {\r\n              this.$message.error((res && res.message) || '结束就诊失败')\r\n              this.isFinished = false\r\n              return\r\n            }\r\n            this.$message.success('就诊已结束')\r\n            this.selectedPatient = null\r\n            this.isFinished = false\r\n            await this.fetchPatients()\r\n          } catch (e) {\r\n            console.error(e)\r\n            this.$message.error('结束就诊失败')\r\n            this.isFinished = false\r\n          }\r\n        })\r\n        .catch(() => {\r\n          this.isFinished = false\r\n        })\r\n    },\r\n    onFinishedChange(checked) {\r\n      if (!checked) {\r\n        this.isFinished = false\r\n        return\r\n      }\r\n      // 勾选“诊毕”即结束就诊\r\n      this.finishVisit()\r\n    }\r\n  }\r\n}\r\n</script>\r\n\r\n<style scoped>\r\n.outpatient-desk {\r\n  display: flex;\r\n  height: calc(100vh - 96px);\r\n  gap: 12px;\r\n  padding: 12px;\r\n  background: #f5f7fb;\r\n}\r\n.left-panel {\r\n  width: 336px;\r\n  padding: 12px;\r\n  background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);\r\n  box-sizing: border-box;\r\n  border-radius: 12px;\r\n  border: 1px solid #e9edf5;\r\n  box-shadow: 0 6px 20px rgba(32, 56, 85, 0.05);\r\n}\r\n.left-title {\r\n  font-size: 16px;\r\n  font-weight: 600;\r\n  color: #2f3a4d;\r\n  margin-bottom: 10px;\r\n}\r\n\r\n.scope-tip {\r\n  margin-bottom: 10px;\r\n  font-size: 12px;\r\n  line-height: 1.45;\r\n}\r\n.panel-header {\r\n  margin-bottom: 10px;\r\n}\r\n.patient-tabs {\r\n  margin-bottom: 12px;\r\n}\r\n.patient-section {\r\n  margin-bottom: 14px;\r\n}\r\n.section-title {\r\n  font-size: 13px;\r\n  color: #409EFF;\r\n  padding: 6px 2px;\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n}\r\n.patient-list {\r\n  max-height: 230px;\r\n  overflow: auto;\r\n  padding-right: 4px;\r\n}\r\n.patient-card {\r\n  cursor: pointer;\r\n  margin-bottom: 8px;\r\n  border-radius: 8px;\r\n  border: 1px solid #edf2fa;\r\n  transition: all .2s ease;\r\n}\r\n.patient-card:hover {\r\n  transform: translateY(-1px);\r\n  box-shadow: 0 6px 16px rgba(64, 90, 140, 0.12);\r\n}\r\n.patient-card.doing {\r\n  background: #f6ffed;\r\n}\r\n.patient-row {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n}\r\n.patient-id { color: #8b95a8; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }\r\n.patient-name { flex: 1; font-weight: 600; color: #2f3a4d; }\r\n.patient-age { width: 60px; text-align: right; color: #7f8aa1; font-size: 12px; }\r\n.patient-card.selected {\r\n  border: 1px solid #5b8ff9;\r\n  box-shadow: 0 0 0 2px rgba(91, 143, 249, .14);\r\n}\r\n.empty {\r\n  padding: 24px 12px;\r\n  color: #99a2b3;\r\n  text-align: center;\r\n  background: #fbfcfe;\r\n  border: 1px dashed #e6ebf2;\r\n  border-radius: 8px;\r\n}\r\n\r\n.right-panel {\r\n  flex: 1;\r\n  padding: 0;\r\n  overflow: auto;\r\n  background: transparent;\r\n}\r\n.page-title {\r\n  font-size: 20px;\r\n  font-weight: 700;\r\n  color: #27364a;\r\n  margin-bottom: 12px;\r\n}\r\n.top-info { display:flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-radius: 12px; }\r\n.info-left { display:flex; gap: 16px; flex-wrap: wrap; }\r\n.info-left .field { display:flex; gap:6px; align-items:center }\r\n.info-left label { color: #8c95a6 }\r\n.info-left span { color: #2f3a4d; font-weight: 500; }\r\n.info-right { display: flex; align-items: center; gap: 10px; }\r\n.work-tabs {\r\n  margin-bottom: 12px;\r\n  background: #fff;\r\n  border: 1px solid #e9edf5;\r\n  border-radius: 12px;\r\n  padding: 0 12px;\r\n}\r\n.work-area {\r\n  background: #fff;\r\n  padding: 16px;\r\n  border-radius: 12px;\r\n  border: 1px solid #e9edf5;\r\n  box-shadow: 0 6px 20px rgba(32, 56, 85, 0.04);\r\n  min-height: 420px;\r\n}\r\n.record-form .el-form-item { margin-bottom: 12px }\r\n\r\n.card {\r\n  border: 1px solid #ebeff6;\r\n  border-radius: 10px;\r\n  background: #fff;\r\n  padding: 14px;\r\n}\r\n.card-title {\r\n  font-weight: 600;\r\n  margin-bottom: 12px;\r\n  color: #2f3a4d;\r\n  font-size: 15px;\r\n}\r\n.btn-row {\r\n  display:flex;\r\n  gap: 12px;\r\n  margin-top: 14px;\r\n  justify-content: flex-end;\r\n  flex-wrap: wrap;\r\n}\r\n.summary-line {\r\n  margin: 8px 0;\r\n  line-height: 1.6;\r\n}\r\n.summary-line .k {\r\n  color: #999;\r\n  display: inline-block;\r\n  width: 90px;\r\n}\r\n.summary-line .v {\r\n  color: #333;\r\n}\r\n.divider {\r\n  height: 1px;\r\n  background: #edf1f7;\r\n  margin: 14px 0;\r\n}\r\n.link-btn {\r\n  padding: 0;\r\n  margin: 6px 0;\r\n  color: #409EFF;\r\n}\r\n.presc-top {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  margin-bottom: 12px;\r\n}\r\n.presc-total {\r\n  color: #999;\r\n}\r\n.dialog-left {\r\n  padding-right: 8px;\r\n  background: #fafcff;\r\n  border: 1px solid #eef2f8;\r\n  border-radius: 8px;\r\n  padding: 10px;\r\n}\r\n.dialog-left-title {\r\n  margin-top: 12px;\r\n  font-weight: 600;\r\n  color: #333;\r\n  font-size: 13px;\r\n}\r\n.dialog-right {\r\n  padding-left: 4px;\r\n  border: 1px solid #eef2f8;\r\n  border-radius: 8px;\r\n  padding: 8px;\r\n}\r\n.dialog-right-toolbar {\r\n  display: flex;\r\n  justify-content: space-between;\r\n  padding: 8px 0;\r\n}\r\n.bill-tip {\r\n  font-size: 13px;\r\n  color: #606266;\r\n  margin: 0 0 12px;\r\n  line-height: 1.5;\r\n}\r\n.muted {\r\n  color: #999;\r\n}\r\n.dialog-pagination {\r\n  padding: 10px 0;\r\n}\r\n.dialog-footer {\r\n  text-align: right;\r\n}\r\n\r\n.flow-tip {\r\n  font-size: 13px;\r\n  color: #606266;\r\n  line-height: 1.55;\r\n  margin: 0 0 14px;\r\n  padding: 10px 12px;\r\n  background: #f4f9ff;\r\n  border-radius: 6px;\r\n  border: 1px solid #d9ecff;\r\n}\r\n.exam-results-ref {\r\n  margin-bottom: 14px;\r\n  border-left: 3px solid #409eff;\r\n}\r\n.exam-results-title-row {\r\n  display: flex;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n  margin-bottom: 4px;\r\n}\r\n.exam-results-title-row .card-title {\r\n  margin-bottom: 0;\r\n}\r\n.exam-results-tip {\r\n  font-size: 12px;\r\n  color: #909399;\r\n  margin: 0 0 12px;\r\n  line-height: 1.5;\r\n}\r\n.exam-result-block {\r\n  padding: 10px 0;\r\n  border-top: 1px dashed #ebeef5;\r\n}\r\n.exam-result-block:first-of-type {\r\n  border-top: none;\r\n  padding-top: 0;\r\n}\r\n.exam-result-head {\r\n  display: flex;\r\n  align-items: center;\r\n  gap: 8px;\r\n  margin-bottom: 6px;\r\n}\r\n.exam-result-head .proj-name {\r\n  font-weight: 600;\r\n  color: #303133;\r\n}\r\n.exam-result-line {\r\n  font-size: 13px;\r\n  color: #606266;\r\n  margin: 4px 0;\r\n  line-height: 1.5;\r\n  white-space: pre-wrap;\r\n}\r\n.exam-result-line .rk {\r\n  color: #909399;\r\n}\r\n.exam-result-imgs {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  gap: 8px;\r\n  margin-top: 8px;\r\n}\r\n.exam-result-imgs .rimg {\r\n  width: 64px;\r\n  height: 64px;\r\n  border-radius: 4px;\r\n  border: 1px solid #ebeef5;\r\n}\r\n\r\n.left-panel ::v-deep .el-tabs--border-card {\r\n  border: 1px solid #edf2fa;\r\n  border-radius: 8px;\r\n  overflow: hidden;\r\n}\r\n\r\n.work-tabs ::v-deep .el-tabs__item.is-active {\r\n  color: #2f6bff;\r\n  font-weight: 600;\r\n}\r\n\r\n.work-tabs ::v-deep .el-tabs__active-bar {\r\n  background-color: #2f6bff;\r\n}\r\n</style>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/his-web/src/views/doctor/OutpatientDesk.vue b/his-web/src/views/doctor/OutpatientDesk.vue
+--- a/his-web/src/views/doctor/OutpatientDesk.vue	(revision 93df8a2514626835bb4d0b5d6cb5cd59713adea2)
++++ b/his-web/src/views/doctor/OutpatientDesk.vue	(date 1774258141064)
+@@ -174,6 +174,7 @@
+ 
+                 <div class="btn-row">
+                   <el-button type="primary" @click="saveRecord">保存病历</el-button>
++                  <el-button @click="openCaseModelDialog">选择病历模板</el-button>
+                   <el-button @click="quickAction">快捷操作</el-button>
+                   <el-button
+                     type="success"
+@@ -218,6 +219,7 @@
+               </el-form-item>
+             </el-form>
+             <div class="btn-row">
++              <el-button @click="openNonDrugModelDialog(1)">选择检查模板</el-button>
+               <el-button type="primary" @click="saveExam">保存检查申请</el-button>
+             </div>
+           </div>
+@@ -238,6 +240,7 @@
+               </el-form-item>
+             </el-form>
+             <div class="btn-row">
++              <el-button @click="openNonDrugModelDialog(3)">选择检验模板</el-button>
+               <el-button type="primary" @click="saveLab">保存检验申请</el-button>
+             </div>
+           </div>
+@@ -264,6 +267,7 @@
+           <div class="card">
+             <div class="card-title">成药处方</div>
+             <div class="presc-top">
++              <el-button size="small" @click="openMedicineModelDialog">选择处方模板</el-button>
+               <el-button type="primary" size="small" :disabled="!selectedPatient" @click="openPrescriptionDetail">处方详情</el-button>
+               <span class="presc-total">处方总计: {{ formatMoney(prescriptionItemsTotal) }} 元</span>
+             </div>
+@@ -311,6 +315,7 @@
+               <el-table-column prop="medicalAdvice" label="医嘱" />
+             </el-table>
+             <div class="btn-row">
++              <el-button @click="openHerbalModelDialog">选择草药模板</el-button>
+               <el-button type="primary" @click="saveHerbalPrescription">保存草药处方</el-button>
+             </div>
+           </div>
+@@ -350,6 +355,59 @@
+       </div>
+       </div>
+ 
++      <el-dialog title="病历模板" :visible.sync="caseModelDialogVisible" width="700px">
++        <el-table :data="caseModels" border size="small" height="420" @row-dblclick="confirmCaseModel">
++          <el-table-column prop="id" label="ID" width="90" />
++          <el-table-column prop="name" label="模板名称" min-width="180" />
++          <el-table-column prop="chiefComplaint" label="主诉" min-width="180" show-overflow-tooltip />
++          <el-table-column label="操作" width="90">
++            <template slot-scope="{ row }">
++              <el-button type="text" size="small" @click="confirmCaseModel(row)">套用</el-button>
++            </template>
++          </el-table-column>
++        </el-table>
++      </el-dialog>
++
++      <el-dialog :title="nonDrugModelDialogTitle" :visible.sync="nonDrugModelDialogVisible" width="700px">
++        <el-table :data="nonDrugModels" border size="small" height="420" @row-dblclick="confirmNonDrugModel">
++          <el-table-column prop="id" label="ID" width="90" />
++          <el-table-column prop="name" label="模板名称" min-width="180" />
++          <el-table-column prop="type" label="类型" width="100" />
++          <el-table-column prop="remark" label="备注" min-width="180" show-overflow-tooltip />
++          <el-table-column label="操作" width="90">
++            <template slot-scope="{ row }">
++              <el-button type="text" size="small" @click="confirmNonDrugModel(row)">套用</el-button>
++            </template>
++          </el-table-column>
++        </el-table>
++      </el-dialog>
++
++      <el-dialog title="成药处方模板" :visible.sync="medicineModelDialogVisible" width="760px">
++        <el-table :data="medicineModels" border size="small" height="420" @row-dblclick="confirmMedicineModel">
++          <el-table-column prop="id" label="ID" width="90" />
++          <el-table-column prop="name" label="模板名称" min-width="220" />
++          <el-table-column prop="scope" label="范围" width="90" />
++          <el-table-column label="操作" width="90">
++            <template slot-scope="{ row }">
++              <el-button type="text" size="small" @click="confirmMedicineModel(row)">套用</el-button>
++            </template>
++          </el-table-column>
++        </el-table>
++      </el-dialog>
++
++      <el-dialog title="草药处方模板" :visible.sync="herbalModelDialogVisible" width="760px">
++        <el-table :data="herbalModels" border size="small" height="420" @row-dblclick="confirmHerbalModel">
++          <el-table-column prop="id" label="ID" width="90" />
++          <el-table-column prop="name" label="模板名称" min-width="220" />
++          <el-table-column prop="scope" label="范围" width="90" />
++          <el-table-column label="操作" width="90">
++            <template slot-scope="{ row }">
++              <el-button type="text" size="small" @click="confirmHerbalModel(row)">套用</el-button>
++            </template>
++          </el-table-column>
++        </el-table>
++      </el-dialog>
++
+       <!-- 处方详情弹窗（按模板图 3） -->
+       <el-dialog title="处方详情" :visible.sync="prescriptionDialogVisible" width="96%">
+         <el-row :gutter="14">
+@@ -433,6 +491,7 @@
+   saveDoctorDeskNonDrugItem,
+   startDoctorDeskVisit
+ } from '@/api/doctorDesk'
++import { pageBackfillRows } from '@/api/moduleBackfill'
+ import { getToken } from '@/utils/auth'
+ 
+ export default {
+@@ -494,7 +553,21 @@
+       },
+       billLines: [],
+       examItemList: [],
+-      labItemList: []
++      labItemList: [],
++      caseModelDialogVisible: false,
++      caseModels: [],
++      nonDrugModelDialogVisible: false,
++      nonDrugModelMode: 1,
++      nonDrugModels: [],
++      medicineModelDialogVisible: false,
++      medicineModels: [],
++      medicineModelItems: [],
++      herbalModelDialogVisible: false,
++      herbalModels: [],
++      herbalModelItems: []
++      ,
++      examTemplateIds: [],
++      labTemplateIds: []
+     }
+   },
+   mounted() {
+@@ -515,6 +588,9 @@
+       const items = this.prescriptionDetailItems || []
+       return items.reduce((sum, it) => sum + (Number(it.qty) || 0) * (Number(it.unitPrice) || 0), 0)
+     },
++    nonDrugModelDialogTitle() {
++      return this.nonDrugModelMode === 1 ? '检查模板' : '检验模板'
++    },
+     nonDrugResultRows() {
+       const rows = []
+       const push = (list, kind) => {
+@@ -535,6 +611,165 @@
+     }
+   },
+   methods: {
++    toNum(v, d = 0) {
++      const n = Number(v)
++      return Number.isFinite(n) ? n : d
++    },
++    toText(v, d = '') {
++      if (v === null || v === undefined) return d
++      return String(v)
++    },
++    async loadTemplateTable(table, size = 200) {
++      const res = await pageBackfillRows(table, 1, size)
++      if (!res || res.code !== 20000) {
++        throw new Error((res && res.message) || '加载模板失败')
++      }
++      return (res.data && res.data.records) || []
++    },
++    async openCaseModelDialog() {
++      try {
++        const all = await this.loadTemplateTable('dms_case_model')
++        this.caseModels = all.filter(r => Number(r.status) === 1 || r.status === null || r.status === undefined)
++        this.caseModelDialogVisible = true
++      } catch (e) {
++        this.$message.error(e.message || '加载病历模板失败')
++      }
++    },
++    confirmCaseModel(row) {
++      if (!row) return
++      // strict mapping: dms_case_model columns
++      this.recordForm.complaint = this.toText(row.chief_complaint, '')
++      this.recordForm.history = this.toText(row.history_of_present_illness, '')
++      this.recordForm.treatment = this.toText(row.history_of_treatment, '')
++      this.recordForm.pastHistory = this.toText(row.past_history, '')
++      this.recordForm.allergy = this.toText(row.allergies, '')
++      this.recordForm.exam = this.toText(row.health_checkup, '')
++      // 初步诊断直接带入确诊页文本（医生可再编辑）
++      const prelim = this.toText(row.priliminary_dise_str_list, '').trim()
++      if (prelim) {
++        this.diagForm.diagnosis = prelim
++      }
++      this.caseModelDialogVisible = false
++      this.$message.success('病历模板已套用')
++    },
++    async openNonDrugModelDialog(type) {
++      this.nonDrugModelMode = type === 3 ? 3 : 1
++      try {
++        const all = await this.loadTemplateTable('dms_non_drug_model')
++        this.nonDrugModels = all.filter(r => (Number(r.status) === 1 || r.status == null) && this.toNum(r.type, -1) === this.nonDrugModelMode)
++        this.nonDrugModelDialogVisible = true
++      } catch (e) {
++        this.$message.error(e.message || '加载模板失败')
++      }
++    },
++    confirmNonDrugModel(row) {
++      if (!row) return
++      // strict mapping: dms_non_drug_model.non_drug_id_list + aim
++      const ids = this.toText(row.non_drug_id_list, '')
++        .split(',')
++        .map(s => this.toNum(s.trim(), 0))
++        .filter(n => n > 0)
++      if (!ids.length) {
++        this.$message.warning('该模板未配置 non_drug_id_list')
++        return
++      }
++      const noDrugId = ids[0]
++      const remark = this.toText(row.aim, '')
++      if (this.nonDrugModelMode === 1) {
++        this.examTemplateIds = ids
++        if (noDrugId > 0) this.examForm.noDrugId = noDrugId
++        this.examForm.remark = remark
++      } else {
++        this.labTemplateIds = ids
++        if (noDrugId > 0) this.labForm.noDrugId = noDrugId
++        this.labForm.remark = remark
++      }
++      this.nonDrugModelDialogVisible = false
++      this.$message.success(`模板已套用（共 ${ids.length} 项）`)
++    },
++    async openMedicineModelDialog() {
++      try {
++        const all = await this.loadTemplateTable('dms_drug_model')
++        // dms_drug_model.type: 0 西药 / 1 草药
++        this.medicineModels = all.filter(r => (Number(r.status) === 1 || r.status == null) && this.toNum(r.type, 0) === 0)
++        this.medicineModelItems = (await this.loadTemplateTable('dms_medicine_model_item', 500))
++          .filter(r => Number(r.status) === 1 || r.status == null)
++        this.medicineModelDialogVisible = true
++      } catch (e) {
++        this.$message.error(e.message || '加载处方模板失败')
++      }
++    },
++    confirmMedicineModel(row) {
++      if (!row) return
++      const modelId = this.toNum(row.id, 0)
++      const lines = (this.medicineModelItems || []).filter(it => {
++        return this.toNum(it.model_id, -1) === modelId
++      })
++      if (!lines.length) {
++        this.$message.warning('该模板未配置明细')
++        return
++      }
++      this.prescriptionItems = lines.map(it => {
++        const drugId = this.toNum(it.drug_id, 0)
++        const dict = (this.medicines || []).find(m => m.id === drugId) || {}
++        const qty = this.toNum(it.num, 1)
++        const unitPrice = this.toNum(dict.price, 0)
++        return {
++          drugId,
++          name: dict.name || `药品#${drugId}`,
++          spec: dict.format || '',
++          qty,
++          unitPrice,
++          usage: this.toText(it.medicine_usage, ''),
++          days: this.toNum(it.days, 1),
++          usageNum: this.toNum(it.usage_num, 1),
++          usageNumUnit: this.toNum(it.usage_num_unit, 1),
++          usageMeans: this.toNum(it.usage_means, 1),
++          frequency: this.toNum(it.frequency, 1),
++          medicalAdvice: this.toText(it.medical_advice, '')
++        }
++      })
++      this.medicineModelDialogVisible = false
++      this.$message.success('成药模板已套用')
++    },
++    async openHerbalModelDialog() {
++      try {
++        const all = await this.loadTemplateTable('dms_drug_model')
++        this.herbalModels = all.filter(r => (Number(r.status) === 1 || r.status == null) && this.toNum(r.type, 0) === 1)
++        this.herbalModelItems = (await this.loadTemplateTable('dms_herbal_model_item', 500))
++          .filter(r => Number(r.status) === 1 || r.status == null)
++        this.herbalModelDialogVisible = true
++      } catch (e) {
++        this.$message.error(e.message || '加载草药模板失败')
++      }
++    },
++    confirmHerbalModel(row) {
++      if (!row) return
++      const modelId = this.toNum(row.id, 0)
++      const lines = (this.herbalModelItems || []).filter(it => {
++        return this.toNum(it.model_id, -1) === modelId
++      })
++      if (!lines.length) {
++        this.$message.warning('该模板未配置草药明细')
++        return
++      }
++      const pairNum = this.toNum(row.pair_num, 1)
++      this.herbalItems = lines.map(it => ({
++        drugId: this.toNum(it.drug_id, 0),
++        totalNum: this.toNum(it.usage_num, 1) * pairNum,
++        usageNum: this.toNum(it.usage_num, 1),
++        usageNumUnit: this.toNum(it.usage_num_unit, 1),
++        medicalAdvice: this.toText(row.medical_advice, ''),
++        footnote: this.toText(it.footnote, '')
++      }))
++      this.herbalForm.therapy = this.toText(row.therapy, '')
++      this.herbalForm.therapyDetails = this.toText(row.therapy_details, '')
++      this.herbalForm.medicalAdvice = this.toText(row.medical_advice, '')
++      this.herbalForm.pairNum = pairNum
++      this.herbalForm.frequency = this.toNum(row.frequency, 1)
++      this.herbalModelDialogVisible = false
++      this.$message.success('草药模板已套用')
++    },
+     nonDrugProjectName(row) {
+       const dict = row.type === 3 ? this.labDict : this.examDict
+       const hit = (dict || []).find(x => x.id === row.noDrugId)
+@@ -604,6 +839,8 @@
+       this.recordForm = { complaint: '', history: '', treatment: '', pastHistory: '', allergy: '', exam: '', onsetTime: '' }
+       this.examForm = { noDrugId: null, remark: '' }
+       this.labForm = { noDrugId: null, remark: '' }
++      this.examTemplateIds = []
++      this.labTemplateIds = []
+       this.diagForm = { diagnosis: '', basis: '' }
+       this.herbalItems = []
+       this.herbalForm = { therapy: '', therapyDetails: '', medicalAdvice: '', pairNum: 1, frequency: 1, usageMeans: 1 }
+@@ -706,17 +943,20 @@
+         this.$message.warning('请选择检查项目')
+         return
+       }
+-      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
+-        type: 1,
+-        noDrugId: this.examForm.noDrugId,
+-        remark: this.examForm.remark
+-      })
+-      if (res && res.code === 20000) {
+-        this.$message.success('保存检查申请成功')
+-        await this.loadContext()
+-      } else {
+-        this.$message.error((res && res.message) || '保存失败')
++      const ids = (this.examTemplateIds && this.examTemplateIds.length) ? this.examTemplateIds : [this.examForm.noDrugId]
++      for (let i = 0; i < ids.length; i += 1) {
++        const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
++          type: 1,
++          noDrugId: ids[i],
++          remark: this.examForm.remark
++        })
++        if (!res || res.code !== 20000) {
++          this.$message.error((res && res.message) || '保存失败')
++          return
++        }
+       }
++      this.$message.success(`保存检查申请成功（${ids.length} 项）`)
++      await this.loadContext()
+     },
+     async saveLab() {
+       if (!this.selectedPatient) return
+@@ -724,17 +964,20 @@
+         this.$message.warning('请选择检验项目')
+         return
+       }
+-      const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
+-        type: 3,
+-        noDrugId: this.labForm.noDrugId,
+-        remark: this.labForm.remark
+-      })
+-      if (res && res.code === 20000) {
+-        this.$message.success('保存检验申请成功')
+-        await this.loadContext()
+-      } else {
+-        this.$message.error((res && res.message) || '保存失败')
++      const ids = (this.labTemplateIds && this.labTemplateIds.length) ? this.labTemplateIds : [this.labForm.noDrugId]
++      for (let i = 0; i < ids.length; i += 1) {
++        const res = await saveDoctorDeskNonDrugItem(this.selectedPatient.id, {
++          type: 3,
++          noDrugId: ids[i],
++          remark: this.labForm.remark
++        })
++        if (!res || res.code !== 20000) {
++          this.$message.error((res && res.message) || '保存失败')
++          return
++        }
+       }
++      this.$message.success(`保存检验申请成功（${ids.length} 项）`)
++      await this.loadContext()
+     },
+     async saveDiag() {
+       if (!this.selectedPatient) return

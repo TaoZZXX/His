@@ -410,11 +410,11 @@ export default {
   cursor: pointer;
 }
 .patient-card:hover {
-  border-color: #c6e2ff;
+  border-color: #d2c5fb;
 }
 .patient-card.active {
-  border-color: #409eff;
-  background: #ecf5ff;
+  border-color: #b79bf8;
+  background: #f1ebff;
 }
 .patient-card .muted {
   font-size: 12px;

@@ -64,25 +64,25 @@ export default {
   height: 6px;
 }
 .history-scroll::-webkit-scrollbar-thumb {
-  background: #cfd9ea;
+  background: #d8cff3;
   border-radius: 999px;
 }
 .history-tag {
   cursor: pointer;
-  border-radius: 999px;
-  border: 1px solid #dce5f2;
-  color: #5a6a7b;
-  background: #f7faff;
+  border-radius: 0;
+  border: 1px solid #e1daf6;
+  color: #5f5577;
+  background: #f7f5ff;
   transition: all .2s ease;
 }
 .history-tag:hover {
-  background: #edf3ff;
-  border-color: #bfd3ff;
+  background: #f0eaff;
+  border-color: #d2c5fb;
 }
 .history-tag.active {
   color: #fff;
-  background: linear-gradient(135deg, #3a7afe, #5a8bff);
-  border-color: #3a7afe;
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+  border-color: #8b5cf6;
 }
 </style>
 

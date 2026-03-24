@@ -109,11 +109,9 @@ export default {
       }
     },
     handleClose(view) {
-      if (this.visitedViews.length <= 1) {
-        this.$message.warning("最后一个标签页不能关闭！");
-        return;
-      }
-      this.visitedViews.splice(this.visitedViews.indexOf(view), 1);
+      const idx = this.visitedViews.findIndex(v => v.path === view.path)
+      if (idx < 0) return
+      this.visitedViews.splice(idx, 1);
       if (this.isActive(view)) {
         this.toLastView(this.visitedViews);
       }
@@ -126,7 +124,7 @@ export default {
       if (latestView) {
         this.$router.push(latestView.path);
       } else {
-        this.$router.push('/');
+        this.$router.push('/home');
       }
     },
     handleCommand(command) {
@@ -201,17 +199,17 @@ export default {
   justify-content: center;
   padding: 0 18px;
   gap: 6px;
-  border-bottom: 1px solid #e9edf5;
-  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
-  box-shadow: 0 4px 16px rgba(37, 64, 99, 0.06);
+  border-bottom: 1px solid #ddd6f3;
+  background: linear-gradient(180deg, #ffffff 0%, #f7f5ff 100%);
+  box-shadow: 0 4px 16px rgba(78, 60, 138, 0.08);
 }
 
 /* 折叠按钮样式 */
 .collapse-btn {
   margin-right: 14px;
-  color: #3a7afe;
-  border: 1px solid #d8e4ff;
-  background: #f2f7ff;
+  color: #6d50b3;
+  border: 1px solid #ddd6f3;
+  background: #f4f0ff;
 }
 
 /* 第一行：标题区域 */
@@ -234,12 +232,12 @@ export default {
 .right-panel {
   padding-right: 6px;
   font-size: 14px;
-  color: #5f6f82;
+  color: #625b73;
 }
 
 .el-dropdown-link {
   cursor: pointer;
-  color: #3a7afe;
+  color: #6d50b3;
 }
 
 .el-icon-caret-bottom {
@@ -260,7 +258,7 @@ export default {
   width: 100%;
   padding: 16px;
   overflow: auto;
-  background: #f4f7fb;
+  background: #f7f5ff;
   min-width: 0;
 }
 

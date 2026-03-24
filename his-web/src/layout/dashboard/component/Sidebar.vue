@@ -6,9 +6,9 @@
         :default-active="activeMenu"
         class="el-menu-vertical-demo"
         :collapse="isCollapse"
-        background-color="#1f2a3d"
-        text-color="#c7d2e0"
-        active-text-color="#7cb3ff"
+        background-color="#f1ebff"
+        text-color="#534c66"
+        active-text-color="#2f2a3a"
         mode="vertical"
         :default-openeds="defaultOpeneds"
     >
@@ -39,6 +39,9 @@
         <el-menu-item index="/cashier/daily-settlement/audit" @click="goTo('/cashier/daily-settlement/audit')">
           日结核对
         </el-menu-item>
+        <el-menu-item index="/cashier/extension" @click="goTo('/cashier/extension')">
+          财务扩展
+        </el-menu-item>
       </el-submenu>
 
       <el-submenu index="2" @mouseenter.native="handleMenuMouseEnter('2')" @mouseleave.native="handleMenuMouseLeave('2')">
@@ -52,6 +55,12 @@
         </el-menu-item>
         <el-menu-item index="/doctor/schedule" @click="goTo('/doctor/schedule')">
           医生排班管理
+        </el-menu-item>
+        <el-menu-item index="/doctor/template-center" @click="goTo('/doctor/template-center')">
+          医生模板中心
+        </el-menu-item>
+        <el-menu-item index="/doctor/diagnosis-management" @click="goTo('/doctor/diagnosis-management')">
+          诊断目录管理
         </el-menu-item>
       </el-submenu>
 
@@ -91,6 +100,18 @@
         </el-menu-item>
         <el-menu-item index="/admin/departments" @click="goTo('/admin/departments')">
           科室管理
+        </el-menu-item>
+        <el-menu-item index="/admin/module-backfill" @click="goTo('/admin/module-backfill')">
+          模块补齐工作台
+        </el-menu-item>
+        <el-menu-item index="/admin/login-logs" @click="goTo('/admin/login-logs')">
+          登录日志查看
+        </el-menu-item>
+        <el-menu-item index="/admin/operation-logs" @click="goTo('/admin/operation-logs')">
+          操作日志
+        </el-menu-item>
+        <el-menu-item index="/admin/audit-ops" @click="goTo('/admin/audit-ops')">
+          系统审计与运营
         </el-menu-item>
       </el-submenu>
     </el-menu>
@@ -140,9 +161,9 @@ export default {
 .sidebar-container {
   height: 100%;
   transition: width 0.2s ease;
-  background: linear-gradient(180deg, #1f2a3d 0%, #162033 100%);
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 2px 0 14px rgba(11, 22, 40, 0.22);
+  background: linear-gradient(180deg, #f4f0ff 0%, #ece4ff 100%);
+  border-right: 1px solid #ddd6f3;
+  box-shadow: none;
 }
 
 .el-menu-vertical-demo {
@@ -159,7 +180,7 @@ export default {
 
 .el-menu-vertical-demo :deep(.el-submenu__title),
 .el-menu-vertical-demo :deep(.el-menu-item) {
-  border-radius: 8px;
+  border-radius: 0;
   margin: 4px 8px;
   height: 42px;
   line-height: 42px;
@@ -167,17 +188,17 @@ export default {
 
 /* 嵌套子菜单区域背景：与一级区分 */
 .el-menu-vertical-demo :deep(.el-submenu .el-menu) {
-  background: rgba(12, 22, 38, 0.72) !important;
+  background: #f7f5ff !important;
   margin: 4px 6px 8px;
   padding: 6px 0 8px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 0;
+  border: 1px solid #e3dcf8;
 }
 
 /* 再嵌一层（如 首页 > 门诊收费挂号）更深一点 */
 .el-menu-vertical-demo :deep(.el-submenu .el-submenu .el-menu) {
-  background: rgba(8, 16, 30, 0.88) !important;
-  border-color: rgba(124, 179, 255, 0.12);
+  background: #f1ebff !important;
+  border-color: #ddd6f3;
 }
 
 .el-menu-vertical-demo :deep(.el-submenu .el-menu-item) {
@@ -186,15 +207,15 @@ export default {
 }
 
 .el-menu-vertical-demo :deep(.el-submenu .el-menu-item:hover) {
-  background: rgba(124, 179, 255, 0.12) !important;
+  background: #ece4ff !important;
 }
 
 .el-menu-vertical-demo :deep(.el-menu-item.is-active) {
-  background: rgba(124, 179, 255, 0.18) !important;
-  color: #dcebff !important;
+  background: #e2d7ff !important;
+  color: #2f2a3a !important;
 }
 
 .el-menu-vertical-demo :deep(.el-submenu .el-menu-item.is-active) {
-  background: rgba(124, 179, 255, 0.22) !important;
+  background: #dfd3ff !important;
 }
 </style>

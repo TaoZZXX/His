@@ -186,21 +186,21 @@ export default {
             text: '全院七日接诊人数',
             left: 'center',
             top: 8,
-            textStyle: { fontSize: 15, color: '#243447', fontWeight: 600 }
+            textStyle: { fontSize: 15, color: '#2f2a3a', fontWeight: 600 }
           },
           tooltip: { trigger: 'axis' },
           grid: { left: 48, right: 24, top: 52, bottom: 28 },
-          xAxis: { type: 'category', data: dates, boundaryGap: false, axisLabel: { color: '#5b6b7b' } },
-          yAxis: { type: 'value', minInterval: 1, axisLabel: { color: '#5b6b7b' }, splitLine: { lineStyle: { color: '#e8edf5' } } },
+          xAxis: { type: 'category', data: dates, boundaryGap: false, axisLabel: { color: '#625b73' } },
+          yAxis: { type: 'value', minInterval: 1, axisLabel: { color: '#625b73' }, splitLine: { lineStyle: { color: '#ddd6f3' } } },
           series: [
             {
               type: 'line',
               smooth: true,
               data: counts,
               symbolSize: 6,
-              lineStyle: { width: 3, color: '#3a7afe' },
-              itemStyle: { color: '#3a7afe' },
-              areaStyle: { color: 'rgba(58, 122, 254, 0.12)' }
+              lineStyle: { width: 3, color: '#8b5cf6' },
+              itemStyle: { color: '#8b5cf6' },
+              areaStyle: { color: 'rgba(139, 92, 246, 0.18)' }
             }
           ]
         })
@@ -216,11 +216,11 @@ export default {
             text: '七日分类费用统计',
             left: 'center',
             top: 8,
-            textStyle: { fontSize: 15, color: '#243447', fontWeight: 600 }
+            textStyle: { fontSize: 15, color: '#2f2a3a', fontWeight: 600 }
           },
           tooltip: { trigger: 'item', formatter: '{b}<br/>{c} 元 ({d}%)' },
           legend: { bottom: 4, type: 'scroll' },
-          color: ['#3a7afe', '#21ba45', '#ff9f1a', '#f56c6c', '#9b59b6', '#1abc9c'],
+          color: ['#8b5cf6', '#a78bfa', '#c4b5fd', '#f59e0b', '#ef4444', '#ec4899'],
           series: [
             {
               type: 'pie',
@@ -231,7 +231,7 @@ export default {
               itemStyle: pieData.length
                 ? {}
                 : {
-                    color: '#e8edf5'
+                    color: '#ddd6f3'
                   }
             }
           ]
@@ -253,7 +253,7 @@ export default {
             text: '科室分类费用统计',
             left: 'center',
             top: 8,
-            textStyle: { fontSize: 15, color: '#243447', fontWeight: 600 }
+            textStyle: { fontSize: 15, color: '#2f2a3a', fontWeight: 600 }
           },
           tooltip: { trigger: 'axis', axisPointer: { type: 'shadow' } },
           legend: { type: 'scroll', bottom: 4 },
@@ -261,18 +261,18 @@ export default {
           xAxis: {
             type: 'category',
             data: cats.length ? cats : ['暂无'],
-            axisLabel: { color: '#5b6b7b', interval: 0, rotate: cats.length > 5 ? 24 : 0 }
+            axisLabel: { color: '#625b73', interval: 0, rotate: cats.length > 5 ? 24 : 0 }
           },
           yAxis: {
             type: 'value',
-            axisLabel: { color: '#5b6b7b' },
-            splitLine: { lineStyle: { color: '#e8edf5' } }
+            axisLabel: { color: '#625b73' },
+            splitLine: { lineStyle: { color: '#ddd6f3' } }
           },
-          color: ['#3a7afe', '#21ba45', '#ff9f1a', '#f56c6c', '#9b59b6'],
+          color: ['#8b5cf6', '#a78bfa', '#c4b5fd', '#f59e0b', '#ef4444'],
           series:
             barSeries.length > 0
               ? barSeries
-              : [{ name: '金额', type: 'bar', data: [0], itemStyle: { color: '#e8edf5' } }]
+              : [{ name: '金额', type: 'bar', data: [0], itemStyle: { color: '#ddd6f3' } }]
         })
       }
     }
@@ -292,7 +292,7 @@ export default {
 .quick-link {
   font-size: 14px;
   font-weight: 600;
-  color: var(--brand, #3a7afe);
+  color: var(--brand, #8b5cf6);
   text-decoration: none;
 }
 
@@ -334,7 +334,7 @@ export default {
 }
 
 .stat-icon--blue {
-  background: linear-gradient(135deg, #3a7afe, #5b8cff);
+  background: linear-gradient(135deg, #8b5cf6, #a78bfa);
 }
 
 .stat-icon--red {

@@ -187,8 +187,8 @@ $cursor: #2f3a4d;
   }
 
   .el-form-item {
-    border: 1px solid #e3eaf5;
-    background: #f8fbff;
+    border: 1px solid #ddd6f3;
+    background: #f7f5ff;
     border-radius: 10px;
     color: #454545;
   }
@@ -203,7 +203,7 @@ $light_gray:#eee;
 .register-container {
   min-height: 100%;
   width: 100%;
-  background: linear-gradient(135deg, #edf3ff, #f7f9fd);
+  background: linear-gradient(135deg, #f4f0ff, #fbf9ff);
   display: flex;
   align-items: stretch;
   overflow: hidden;
@@ -213,7 +213,7 @@ $light_gray:#eee;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(145deg, #245fff, #69a5ff);
+    background: linear-gradient(145deg, #8b5cf6, #a78bfa);
     color: #fff;
     .hero-content {
       h2 { font-size: 34px; margin-bottom: 10px; }
@@ -283,7 +283,7 @@ $light_gray:#eee;
     }
 
     .link:hover {
-      color: #3a7afe;
+      color: #8b5cf6;
     }
   }
 }

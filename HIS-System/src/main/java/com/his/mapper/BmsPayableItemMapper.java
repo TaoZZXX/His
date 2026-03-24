@@ -26,4 +26,6 @@ public interface BmsPayableItemMapper {
             @Param("id") Long id,
             @Param("paidAmount") java.math.BigDecimal paidAmount,
             @Param("status") int status);
+
+    int resetByRegistrationId(@Param("registrationId") Long registrationId);
 }

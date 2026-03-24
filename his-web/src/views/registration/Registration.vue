@@ -753,7 +753,7 @@ export default {
 }
 
 .toolbar-link {
-  color: #409eff;
+  color: #8b5cf6;
   font-weight: 500;
 }
 
@@ -791,7 +791,7 @@ export default {
 }
 
 .refresh-link {
-  color: #409eff;
+  color: #8b5cf6;
   margin-left: 4px;
 }
 
