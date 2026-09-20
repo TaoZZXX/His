@@ -1,0 +1,38 @@
+<view class="page">
+  <view class="section-title">{{doctor.deptName}}</view>
+  <view class="card doctor">
+    <view class="avatar"></view>
+    <view class="info">
+      <view class="line">
+        <text class="name">{{doctor.name}}</text>
+        <text class="badge">{{doctor.title}}</text>
+      </view>
+      <view class="muted">{{doctor.intro}}</view>
+    </view>
+  </view>
+
+  <view class="card schedule">
+    <block wx:for="{{schedules}}" wx:key="id">
+      <view class="item" data-id="{{item.id}}" bindtap="onSelectSchedule">
+        <radio checked="{{selectedScheduleId===item.id}}" color="#8b5cf6"></radio>
+        <view class="text">{{item.text}}</view>
+        <view class="muted">限额:{{item.quota}}</view>
+        <view class="muted">剩余:{{item.left}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="card form-card">
+    <view class="form-title">就诊人基础信息</view>
+    <input class="input" data-key="name" value="{{patientForm.name}}" placeholder="姓名" bindinput="onFormInput" />
+    <input class="input" data-key="idCard" value="{{patientForm.idCard}}" placeholder="身份证号（数字）" type="number" bindinput="onFormInput" />
+    <radio-group class="gender-row" bindchange="onGenderChange">
+      <label class="gender-item"><radio value="男" checked="{{patientForm.gender==='男'}}" color="#8b5cf6" />男</label>
+      <label class="gender-item"><radio value="女" checked="{{patientForm.gender==='女'}}" color="#8b5cf6" />女</label>
+    </radio-group>
+    <input class="input" data-key="contact" value="{{patientForm.contact}}" placeholder="联系方式（选填）" bindinput="onFormInput" />
+    <input class="input" data-key="address" value="{{patientForm.address}}" placeholder="地址（选填）" bindinput="onFormInput" />
+  </view>
+
+  <button class="primary-btn" loading="{{creating}}" bindtap="onRegister">挂号</button>
+</view>

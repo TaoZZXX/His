@@ -1,0 +1,50 @@
+.page { padding: 16rpx; }
+
+.search {
+  padding: 12rpx 18rpx;
+  margin-bottom: 12rpx;
+}
+
+.body {
+  display: flex;
+  gap: 12rpx;
+  height: calc(100vh - 220rpx);
+}
+
+.left {
+  width: 34%;
+  padding: 10rpx 0;
+}
+
+.right {
+  flex: 1;
+  padding: 10rpx;
+}
+
+.dept {
+  padding: 22rpx 14rpx;
+  border-bottom: 1rpx solid #eee8ff;
+}
+
+.dept.active {
+  color: #8b5cf6;
+  font-weight: 700;
+  background: #f1ebff;
+}
+
+.doctor {
+  display: flex;
+  align-items: center;
+  padding: 14rpx 8rpx;
+  border-bottom: 1rpx solid #eee8ff;
+}
+
+.avatar {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 12rpx;
+  background: #ddd6f3;
+}
+
+.meta { margin-left: 16rpx; }
+.name { font-weight: 600; }

@@ -1,0 +1,1 @@
+-- Baseline migration for his-exam-lab-service.

@@ -1,0 +1,19 @@
+<view class="page">
+  <view class="card">
+    <view class="title">历史病历</view>
+    <view class="muted" wx:if="{{loading}}">加载中...</view>
+    <view class="muted" wx:if="{{!loading && errorText}}">{{errorText}}</view>
+  </view>
+
+  <block wx:for="{{records}}" wx:key="id">
+    <view class="card item">
+      <view class="row"><text class="label">挂号ID：</text>{{item.id}}</view>
+      <view class="row"><text class="label">病历号：</text>{{item.medicalRecordNo}}</view>
+      <view class="row"><text class="label">科室：</text>{{item.deptName}}</view>
+      <view class="row"><text class="label">医生：</text>{{item.doctorName}}</view>
+      <view class="row"><text class="label">时间：</text>{{item.visitDate}}</view>
+      <view class="row"><text class="label">状态：</text>{{item.statusText}}</view>
+      <button class="mini-btn" data-id="{{item.id}}" bindtap="toCheckResult">查看检查检验结果</button>
+    </view>
+  </block>
+</view>

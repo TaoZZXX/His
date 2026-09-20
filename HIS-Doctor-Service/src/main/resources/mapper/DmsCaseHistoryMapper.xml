@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.DmsCaseHistoryMapper">
+    <select id="selectByRegistrationId" resultType="com.his.domain.DmsCaseHistory">
+        select * from dms_case_history where registration_id = #{registrationId} order by id desc limit 1
+    </select>
+    <insert id="insert" parameterType="com.his.domain.DmsCaseHistory" useGeneratedKeys="true" keyProperty="id">
+        insert into dms_case_history
+        (chief_complaint, history_of_present_illness, history_of_treatment, past_history, allergies, health_checkup, registration_id, start_date, name, gender, age_str, create_time, definite_dise_str_list, patient_id, status, check_result)
+        values
+        (#{chiefComplaint}, #{historyOfPresentIllness}, #{historyOfTreatment}, #{pastHistory}, #{allergies}, #{healthCheckup}, #{registrationId}, #{startDate}, #{name}, #{gender}, #{ageStr}, #{createTime}, #{definiteDiseStrList}, #{patientId}, #{status}, #{checkResult})
+    </insert>
+    <update id="updateByRegistrationId" parameterType="com.his.domain.DmsCaseHistory">
+        update dms_case_history
+        <set>
+            <if test="chiefComplaint != null">chief_complaint = #{chiefComplaint},</if>
+            <if test="historyOfPresentIllness != null">history_of_present_illness = #{historyOfPresentIllness},</if>
+            <if test="historyOfTreatment != null">history_of_treatment = #{historyOfTreatment},</if>
+            <if test="pastHistory != null">past_history = #{pastHistory},</if>
+            <if test="allergies != null">allergies = #{allergies},</if>
+            <if test="healthCheckup != null">health_checkup = #{healthCheckup},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="definiteDiseStrList != null">definite_dise_str_list = #{definiteDiseStrList},</if>
+            <if test="checkResult != null">check_result = #{checkResult},</if>
+        </set>
+        where registration_id = #{registrationId}
+    </update>
+</mapper>

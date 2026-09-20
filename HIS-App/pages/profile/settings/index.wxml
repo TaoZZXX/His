@@ -1,0 +1,13 @@
+<view class="page">
+  <view class="card">
+    <view class="title">系统设置</view>
+    <view class="label">后端地址</view>
+    <input class="input" value="{{baseUrl}}" bindinput="onBaseUrlInput" placeholder="例如：http://localhost:9999" />
+
+    <view class="label">医生 token（用于读取检查检验真实结果）</view>
+    <textarea class="textarea" value="{{token}}" bindinput="onTokenInput" placeholder="可选"></textarea>
+
+    <button class="primary-btn" bindtap="onSave">保存设置</button>
+    <button class="ghost-btn" bindtap="onClearToken">清空 token</button>
+  </view>
+</view>

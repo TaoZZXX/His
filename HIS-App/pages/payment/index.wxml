@@ -1,0 +1,24 @@
+<view class="page">
+  <view class="header">
+    <text class="title">缴费记录</text>
+    <text class="total">共计: {{total}} 元</text>
+  </view>
+
+  <view class="card">
+    <block wx:for="{{items}}" wx:key="id">
+      <view class="row">
+        <view class="left">
+          <view class="name">{{item.itemName || item.item_name}}</view>
+          <view class="muted">
+            数量:{{item.qty || 1}} 单价:{{item.unitPrice || item.amount}} 状态:{{item.status || '未登记'}}
+          </view>
+        </view>
+        <view class="type">{{item.typeName || '检验'}}</view>
+      </view>
+    </block>
+  </view>
+
+  <button class="primary-btn" loading="{{paying}}" bindtap="onPayAll">一键缴费</button>
+  <view wx:if="{{invoiceNo}}" class="invoice muted">发票号: {{invoiceNo}}</view>
+  <button class="primary-btn" bindtap="goCheckResult">查看检查检验结果</button>
+</view>

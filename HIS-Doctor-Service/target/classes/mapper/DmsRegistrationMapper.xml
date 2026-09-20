@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.DmsRegistrationMapper">
+    <select id="selectOutpatientDeskPatients" resultType="com.his.vo.OutpatientPatientVo">
+        select dr.id as id,p.medical_record_no as medicalNo,p.name as name,case when p.gender = 1 then '男' else '女' end as gender,
+               COALESCE(TIMESTAMPDIFF(YEAR, p.date_of_birth, dr.attendance_date), 0) as age,dr.status as status,dr.end_attendance as endAttendance,skd.noon as noon
+        from dms_registration dr left join pms_patient p on dr.patient_id = p.id left join sms_skd skd on dr.skd_id = skd.id
+        where dr.attendance_date = #{attendanceDate}
+        <if test="noon != null">and skd.noon = #{noon}</if>
+        and (dr.end_attendance = #{endAttendance} or dr.end_attendance is null) and dr.status &lt;&gt; #{canceledStatus}
+        <choose><when test="scope == 'self'">and skd.staff_id = #{staffId}</when><otherwise>and dr.dept_id = #{deptId}</otherwise></choose>
+        <if test="keyword != null and keyword != ''">and (p.name like concat('%', #{keyword}, '%') or p.medical_record_no like concat('%', #{keyword}, '%'))</if>
+        order by dr.create_time asc
+    </select>
+    <update id="startVisitById">
+        update dms_registration dr join sms_skd skd on dr.skd_id = skd.id set dr.status = #{status}
+        where dr.id = #{id} and skd.staff_id = #{staffId} and dr.status = #{unfinishedStatus}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null) and dr.status &lt;&gt; #{canceledStatus}
+    </update>
+    <update id="startVisitByDeptId">
+        update dms_registration dr set dr.status = #{status}
+        where dr.id = #{id} and dr.dept_id = #{deptId} and dr.status = #{unfinishedStatus}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null) and dr.status &lt;&gt; #{canceledStatus}
+    </update>
+    <update id="finishVisitById">
+        update dms_registration dr join sms_skd skd on dr.skd_id = skd.id
+        set dr.end_attendance = #{endAttendance}, dr.status = #{status}
+        where dr.id = #{id} and skd.staff_id = #{staffId}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null) and dr.status &lt;&gt; #{canceledStatus}
+    </update>
+    <update id="finishVisitByDeptId">
+        update dms_registration dr set dr.end_attendance = #{endAttendance}, dr.status = #{status}
+        where dr.id = #{id} and dr.dept_id = #{deptId}
+          and (dr.end_attendance = #{unfinishedEndAttendance} or dr.end_attendance is null) and dr.status &lt;&gt; #{canceledStatus}
+    </update>
+    <select id="countOperatePermission" resultType="int">
+        select count(1) from dms_registration dr left join sms_skd skd on dr.skd_id = skd.id
+        where dr.id = #{registrationId} and skd.staff_id = #{staffId}
+    </select>
+    <select id="selectPatientBaseByRegistrationId" resultType="map">
+        select p.id as patientId,p.name as name,p.gender as gender,TIMESTAMPDIFF(YEAR, p.date_of_birth, dr.attendance_date) as age
+        from dms_registration dr left join pms_patient p on dr.patient_id = p.id where dr.id = #{registrationId} limit 1
+    </select>
+</mapper>

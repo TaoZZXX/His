@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/register/index",
+    "pages/profile/index",
+    "pages/profile/history/index",
+    "pages/profile/help/index",
+    "pages/profile/about/index",
+    "pages/profile/feedback/index",
+    "pages/profile/settings/index",
+    "pages/doctor-detail/index",
+    "pages/payment/index",
+    "pages/check-result/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "HIS-App",
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#f7f5ff",
+    "backgroundTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "#8c86a0",
+    "selectedColor": "#8b5cf6",
+    "backgroundColor": "#ffffff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/register/index",
+        "text": "挂号预约"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的"
+      }
+    ]
+  },
+  "subPackages": [],
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

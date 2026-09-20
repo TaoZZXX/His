@@ -1,0 +1,27 @@
+<view class="page">
+  <view class="search card">
+    <input placeholder="搜索科室" value="{{keyword}}" bindinput="onSearchInput" />
+  </view>
+
+  <view class="body">
+    <scroll-view class="left card" scroll-y="true">
+      <block wx:for="{{departments}}" wx:key="id">
+        <view class="dept {{activeDeptId===item.id?'active':''}}" data-id="{{item.id}}" bindtap="onSelectDept">
+          {{item.name}}
+        </view>
+      </block>
+    </scroll-view>
+
+    <scroll-view class="right card" scroll-y="true">
+      <block wx:for="{{doctors}}" wx:key="id">
+        <view class="doctor" data-id="{{item.id}}" bindtap="goDoctorDetail">
+          <view class="avatar"></view>
+          <view class="meta">
+            <view class="name">{{item.name}}</view>
+            <view class="muted">{{item.title || '门诊医生'}}</view>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+</view>

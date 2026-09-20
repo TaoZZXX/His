@@ -1,0 +1,9 @@
+{
+  "desc": "HIS-App sitemap",
+  "rules": [
+    {
+      "action": "allow",
+      "page": "*"
+    }
+  ]
+}

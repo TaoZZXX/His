@@ -4,39 +4,216 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-23">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="cbcee335-7436-40a5-b2a9-986c45abc52c" name="Changes" comment="25-3-24">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_revert_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_revert__Changes_1.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsDailySettlementMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsDailySettlementMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPayableItemMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPayableItemMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPaymentAllocationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPaymentAllocationMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPaymentRecordMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPaymentRecordMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/BmsCashierService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/BmsCashierService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/BmsDailySettlementService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/BmsDailySettlementService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DoctorDeskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DoctorDeskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/ExamLabDeskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/ExamLabDeskService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/HomeDashboardService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/HomeDashboardService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsDailySettlementMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsDailySettlementMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPayableItemMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPayableItemMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPaymentAllocationMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPaymentAllocationMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPaymentRecordMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPaymentRecordMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/Dashboard.Vue.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/History.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/History.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/layout/dashboard/component/Sidebar.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/router/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/style/css/theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/style/css/theme.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/cashier/CashierDesk.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/cashier/CashierDesk.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/doctor/OutpatientDesk.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/home/Home.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/home/Home.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/login/LoginVue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/login/LoginVue.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/pharmacy/PharmacyWorkbench.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/pharmacy/PharmacyWorkbench.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/register/RegisterVue.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/register/RegisterVue.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/his-web/src/views/registration/Registration.vue" beforeDir="false" afterPath="$PROJECT_DIR$/his-web/src/views/registration/Registration.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/src/main/java/com/his/HisBusinessApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Business/src/test/java/com/his/HisBusinessApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/HisGatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/security/PermissionZuulFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/java/com/his/security/PermissionZuulFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/HIS-Gateway/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/src/main/java/com/his/HisStatisticsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-Statistics/src/test/java/com/his/HisStatisticsApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/HisSystemApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/Size.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/annotation/utils/FiledLengthValidator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/config/BmsInvoiceSequenceBootstrap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/config/ExamResultResourceConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/config/HisTempFileProperties.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/config/OperationLogInterceptor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/config/WebLogConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/DoctorDeskController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/ExamLabDeskController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/ExamLabResultImageController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/FinanceDailySettlementController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/HomeDashboardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/ModuleBackfillController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/PharmacyDeskController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/PharmacyDrugController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsDeptController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsPermissionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRegistrationController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsRoleController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsSkdRuleController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/controller/SmsStaffController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsBillsRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsDailySettlement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsInvoiceExp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsInvoiceRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsOperatorSettleRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsPayableItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsPaymentAllocation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsPaymentRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/BmsSettlementCat.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsCaseHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsCaseModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsCaseModelCatalog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsDise.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsDiseCatalog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsDosage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsDrug.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsDrugModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsDrugRefundItemRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsHerbalItemRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsHerbalModelItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsHerbalPrescriptionRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsMedicineItemRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsMedicineModelItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsMedicinePrescriptionRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsNonDrug.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsNonDrugItemRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsNonDrugModel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/DmsRegistration.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/PmsPatient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsDept.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsDescription.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsFrequentUsed.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsLoginLog.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsPermission.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsRegistrationRank.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsRole.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsRolePermissionRelation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsSkd.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsSkdRule.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsSkdRuleItem.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsStaff.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/domain/SmsWorkloadRecord.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/DashboardFeeSlice.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/DashboardVisitPoint.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/RegistrationDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SkdRuleCreateDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffLoginDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/dto/SmsStaffRegisterDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/BusinessException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/exception/GlobalExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsDailySettlementMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsInvoiceRecordMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsInvoiceSequenceMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPayableItemMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPaymentAllocationMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/BmsPaymentRecordMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsCaseHistoryMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsDrugMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsHerbalItemRecordMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsHerbalPrescriptionRecordMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsMedicineItemRecordMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsMedicinePrescriptionRecordMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsNonDrugItemRecordMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsNonDrugMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/DmsRegistrationMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/HomeDashboardMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/ModuleBackfillMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/PharmacyDeskMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/PmsPatientMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsDeptMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsLoginLogMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsRegistrationRankMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsRoleMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsSkdMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsSkdRuleItemMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsSkdRuleMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/mapper/SmsStaffMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IBmsCashierService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IBmsDailySettlementService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDmsRegistrationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IDoctorDeskService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IExamLabDeskService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IHomeDashboardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IModuleBackfillService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IPharmacyDeskService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IPharmacyDrugService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IPmsPatientService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/IRoleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsDeptService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsSkdRuleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/ISmsStaffService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/BmsCashierService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/BmsDailySettlementService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DmsRegistrationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/DoctorDeskService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/ExamLabDeskService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/HomeDashboardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/ModuleBackfillService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/PharmacyDeskService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/PharmacyDrugService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/PmsPatientServiceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/RoleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsDeptService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsSkdRuleService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/service/impl/SmsStaffService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/typehandler/EndAttendanceCodeTypeHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/typehandler/RegistrationBindStatusTypeHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/typehandler/RegistrationStatusCodeTypeHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/utils/MD5Util.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/DeptFeeBarChartVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/DeptFeeSeriesVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/ExamLabItemRowVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/HomeDashboardVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/OutpatientDeskVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/OutpatientPatientVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/PermissionNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/PharmacyMedicineLineVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/PharmacyPatientQueueVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/RegistrationPageVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/SmsStaffLoginVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/java/com/his/vo/StaffPageVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsDailySettlementMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsInvoiceRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsInvoiceSequenceMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPayableItemMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPaymentAllocationMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/BmsPaymentRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsCaseHistoryMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsDrugMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsHerbalItemRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsHerbalPrescriptionRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsMedicineItemRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsMedicinePrescriptionRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsNonDrugItemRecordMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsNonDrugMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/DmsRegistrationMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/HomeDashboardMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/ModuleBackfillMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/PharmacyDeskMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/PmsPatientMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsDeptMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsLoginLogMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsRegistrationRankMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsRoleMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsSkdMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsSkdRoleItemMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsSkdRuleMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/main/resources/mapper/SmsStaffMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-System/src/test/java/com/his/HisSystemApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HIS-common/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,6 +262,10 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/HIS-master/test.java" root0="SKIP_INSPECTION" />
   </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -102,47 +283,67 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.HisGatewayApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.HisSystemApplication.executor&quot;: &quot;Debug&quot;,
-    &quot;Spring Boot.Unnamed.executor&quot;: &quot;Run&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;ms-21&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;G:/workspace-java/HIS/HIS-System/src/main/resources/mapper&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.tabs&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\IntelliJ IDEA 2025.3.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Maven.HIS [clean].executor": "Run",
+    "Maven.HIS [compile].executor": "Run",
+    "Maven.HIS-Auth-Service [clean].executor": "Run",
+    "Maven.HIS-Auth-Service [compile].executor": "Run",
+    "Maven.HIS-Doctor-Service [compile].executor": "Run",
+    "Maven.HIS-ExamLab-Service [compile].executor": "Run",
+    "Maven.HIS-Finance-Service [compile].executor": "Run",
+    "Maven.HIS-Gateway [compile].executor": "Run",
+    "Maven.HIS-Home-Service [compile].executor": "Run",
+    "Maven.HIS-Pharmacy-Service [compile].executor": "Run",
+    "Maven.HIS-System [org.apache.maven.plugins:maven-clean-plugin:3.5.0:clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.HisAuthServiceApplication.executor": "Run",
+    "Spring Boot.HisBusinessApplication.executor": "Run",
+    "Spring Boot.HisDoctorServiceApplication.executor": "Run",
+    "Spring Boot.HisExamLabServiceApplication.executor": "Run",
+    "Spring Boot.HisFileServiceApplication.executor": "Run",
+    "Spring Boot.HisFinanceServiceApplication.executor": "Run",
+    "Spring Boot.HisGatewayApplication.executor": "Run",
+    "Spring Boot.HisHomeServiceApplication.executor": "Run",
+    "Spring Boot.HisPharmacyServiceApplication.executor": "Run",
+    "Spring Boot.HisRegistrationServiceApplication.executor": "Run",
+    "Spring Boot.HisSystemApplication.executor": "Run",
+    "Spring Boot.Unnamed.executor": "Run",
+    "WebServerToolWindowFactoryState": "false",
+    "android.gradle.sync.needed": "true",
+    "git-widget-placeholder": "main",
+    "jdk.selected.JAVA_MODULE": "ms-21",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "G:/code",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "C:/Users/6800/AppData/Roaming/JetBrains/IntelliJIdea2023.2/node/node-v18.15.0-win-x64/node",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "editor.preferences.tabs",
+    "ts.external.directory.path": "D:\\IntelliJ IDEA 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\workspace-java\HIS\HIS-System\src\main\resources\mapper" />
@@ -162,23 +363,10 @@
         <option value="KtorApplicationConfigurationType" />
         <option value="MicronautRunConfigurationType" />
         <option value="QuarkusRunConfigurationType" />
-        <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
-    <option name="configurationStatuses">
-      <map>
-        <entry key="SpringBootApplicationConfigurationType">
-          <value>
-            <map>
-              <entry key="HisGatewayApplication" value="FAILED" />
-              <entry key="HisSystemApplication" value="STOPPED" />
-            </map>
-          </value>
-        </entry>
-      </map>
-    </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.HisSystemApplication">
+  <component name="RunManager" selected="Spring Boot.HisFileServiceApplication">
     <configuration name="dms_drug_test_data.sql" type="DatabaseScript" editBeforeRun="true" temporary="true" nameIsGenerated="true">
       <script-file value="$PROJECT_DIR$/document/sql/dms_drug_test_data.sql" />
       <script-mode>FILE</script-mode>
@@ -187,9 +375,9 @@
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:5173">
       <method v="2" />
     </configuration>
-    <configuration name="HisBusinessApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="HIS-Business" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisBusinessApplication" />
+    <configuration name="HisAuthServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Auth-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisAuthServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -201,9 +389,72 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="HisGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <configuration name="HisDoctorServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Doctor-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisDoctorServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisExamLabServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-ExamLab-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisExamLabServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisFileServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-File-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisFileServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisFinanceServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Finance-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisFinanceServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="HIS-Gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisGatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisHomeServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Home-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisHomeServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisJobServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Job-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisJobServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisNotifyServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Notify-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisNotifyServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisPharmacyServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Pharmacy-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisPharmacyServiceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="HisRegistrationServiceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="HIS-Registration-Service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.his.HisRegistrationServiceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -225,9 +476,18 @@
     <list>
       <item itemvalue="Database Script.dms_drug_test_data.sql" />
       <item itemvalue="JavaScript Debug.Debug Application" />
-      <item itemvalue="Spring Boot.HisBusinessApplication" />
+      <item itemvalue="Spring Boot.HisAuthServiceApplication" />
       <item itemvalue="Spring Boot.HisCommonApplication" />
+      <item itemvalue="Spring Boot.HisDoctorServiceApplication" />
+      <item itemvalue="Spring Boot.HisExamLabServiceApplication" />
+      <item itemvalue="Spring Boot.HisFileServiceApplication" />
+      <item itemvalue="Spring Boot.HisFinanceServiceApplication" />
       <item itemvalue="Spring Boot.HisGatewayApplication" />
+      <item itemvalue="Spring Boot.HisHomeServiceApplication" />
+      <item itemvalue="Spring Boot.HisJobServiceApplication" />
+      <item itemvalue="Spring Boot.HisNotifyServiceApplication" />
+      <item itemvalue="Spring Boot.HisPharmacyServiceApplication" />
+      <item itemvalue="Spring Boot.HisRegistrationServiceApplication" />
       <item itemvalue="Spring Boot.HisStatisticsApplication" />
       <item itemvalue="Spring Boot.HisSystemApplication" />
     </list>
@@ -313,7 +573,13 @@
       <workItem from="1774156469886" duration="17097000" />
       <workItem from="1774197796626" duration="27000" />
       <workItem from="1774197832816" duration="62000" />
-      <workItem from="1774251008372" duration="12125000" />
+      <workItem from="1774251008372" duration="23336000" />
+      <workItem from="1774521124960" duration="4369000" />
+      <workItem from="1774690454767" duration="1275000" />
+      <workItem from="1774936117374" duration="124000" />
+      <workItem from="1775105380530" duration="19000" />
+      <workItem from="1776329157385" duration="9000" />
+      <workItem from="1776603416014" duration="27000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <option name="closed" value="true" />
@@ -451,7 +717,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774197676639</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="25-3-24">
+      <option name="closed" value="true" />
+      <created>1774366337691</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1774366337691</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -489,7 +763,8 @@
     <MESSAGE value="25-3-18" />
     <MESSAGE value="25-3-19" />
     <MESSAGE value="25-3-23" />
-    <option name="LAST_COMMIT_MESSAGE" value="25-3-23" />
+    <MESSAGE value="25-3-24" />
+    <option name="LAST_COMMIT_MESSAGE" value="25-3-24" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

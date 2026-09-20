@@ -1,0 +1,8 @@
+<view class="page">
+  <view class="card">
+    <view class="title">关于我们</view>
+    <view class="line">产品：{{appName}}</view>
+    <view class="line">版本：{{version}}</view>
+    <view class="desc">{{intro}}</view>
+  </view>
+</view>

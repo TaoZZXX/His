@@ -1,0 +1,13 @@
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\dto\DashboardFeeSlice.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\dto\DashboardVisitPoint.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\HisHomeServiceApplication.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\controller\HomeDashboardController.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\utils\JwtUtil.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\vo\DeptFeeBarChartVo.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\mapper\HomeDashboardMapper.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\service\impl\HomeDashboardService.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\vo\DeptFeeSeriesVo.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\vo\HomeDashboardVo.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\mapper\SmsStaffMapper.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\enums\RegistrationStatusCode.java
+G:\workspace-java\HIS\HIS-Home-Service\src\main\java\com\his\service\IHomeDashboardService.java

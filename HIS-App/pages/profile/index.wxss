@@ -1,0 +1,50 @@
+.page { padding: 20rpx; }
+
+.auth-tip {
+  padding: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.hero {
+  background: #f1ebff;
+  border-radius: 20rpx;
+  padding: 26rpx;
+  text-align: center;
+  margin-bottom: 18rpx;
+}
+
+.avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 999rpx;
+  background: #c4b5fd;
+  margin: 0 auto 14rpx;
+}
+.avatar-img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 999rpx;
+  margin: 0 auto 14rpx;
+}
+
+.name {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.field {
+  font-size: 30rpx;
+  margin-top: 6rpx;
+}
+
+.menu { padding: 0 20rpx; }
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #eee8ff;
+}
+
+.menu-item:last-child { border-bottom: none; }

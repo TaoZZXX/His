@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.BmsPaymentRecordMapper">
+    <select id="selectPayMethodSummaryInRange" resultType="map">
+        select pay_method as m, coalesce(sum(total_amount), 0) as s
+        from bms_payment_record
+        where pay_time &gt;= #{rangeStart}
+          and pay_time &lt;= #{rangeEnd}
+        group by pay_method
+    </select>
+</mapper>

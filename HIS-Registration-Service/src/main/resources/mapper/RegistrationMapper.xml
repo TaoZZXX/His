@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.RegistrationMapper">
+    <select id="selectRegistrationRanks" resultType="com.his.vo.RegistrationRankVo">
+        select id,code,name,seq_no as seqNo,price,status from sms_registration_rank where status=1 order by seq_no,id
+    </select>
+    <select id="selectDepartments" resultType="com.his.vo.DeptVo">
+        select id,code,cat_id as catId,name,type,status from sms_dept where status is null or status=1 order by id
+    </select>
+    <select id="selectDoctorsByDept" resultType="com.his.vo.DoctorVo">
+        select id,name,dept_id as deptId from sms_staff where dept_id=#{deptId} order by name
+    </select>
+    <select id="selectAvailableDoctors" resultType="com.his.vo.DoctorVo">
+        select distinct s.id,s.name,s.dept_id as deptId
+        from sms_skd sk left join sms_staff s on sk.staff_id=s.id
+        where sk.dept_id=#{deptId} and sk.date <![CDATA[>=]]> #{start} and sk.date <![CDATA[<]]> #{end} and sk.status=1 and sk.remain>0
+        <if test="noon != null">and sk.noon=#{noon}</if>
+        order by s.name
+    </select>
+    <select id="selectPatientByIdentificationNo" resultType="map">
+        select * from pms_patient where identification_no=#{identificationNo}
+    </select>
+    <insert id="insertPatient" useGeneratedKeys="true" keyProperty="id">
+        insert into pms_patient (name,date_of_birth,identification_no,home_address,phone_no,gender,medical_record_no)
+        values (#{name},#{dateOfBirth},#{identificationNo},#{homeAddress},#{phoneNo},#{gender},#{medicalRecordNo})
+    </insert>
+    <select id="selectPatientById" resultType="map">
+        select * from pms_patient where id=#{id}
+    </select>
+    <select id="selectSkdIds" resultType="long">
+        select id from sms_skd where staff_id=#{doctorId} and dept_id=#{deptId} and date <![CDATA[>=]]> #{start} and date <![CDATA[<]]> #{end}
+        <if test="noon != null">and noon=#{noon}</if>
+        order by date asc
+    </select>
+    <insert id="insertRegistration" useGeneratedKeys="true" keyProperty="id">
+        insert into dms_registration (patient_id,create_time,end_attendance,status,skd_id,need_book,bind_status,dept_id,attendance_date,patient_age_str)
+        values (#{patientId},#{createTime},#{endAttendance},#{status},#{skdId},#{needBook},#{bindStatus},#{deptId},#{attendanceDate},#{patientAgeStr})
+    </insert>
+    <select id="selectRankPrice" resultType="java.math.BigDecimal">
+        select price from sms_registration_rank where id=#{rankId} and status=1
+    </select>
+    <insert id="insertPayable">
+        insert into bms_payable_item (registration_id,item_type,source_id,item_name,amount,paid_amount,status,create_time,update_time)
+        values (#{registrationId},#{itemType},#{sourceId},#{itemName},#{amount},#{paidAmount},#{status},#{createTime},#{updateTime})
+    </insert>
+    <select id="selectPayables" resultType="com.his.vo.PayableItemVo">
+        select id,registration_id as registrationId,item_type as itemType,source_id as sourceId,item_name as itemName,amount,paid_amount as paidAmount,status,create_time as createTime,update_time as updateTime
+        from bms_payable_item where registration_id=#{registrationId} order by id
+    </select>
+    <select id="selectUnpaidPayableIds" resultType="long">
+        select id from bms_payable_item where registration_id=#{registrationId} and status!=1
+    </select>
+    <update id="markPayablePaid">
+        update bms_payable_item set paid_amount=amount,status=1,update_time=now() where id=#{id}
+    </update>
+    <select id="countUnpaidPayables" resultType="int">
+        select count(1) from bms_payable_item where registration_id=#{registrationId} and status!=1
+    </select>
+    <update id="updateRegistrationBindStatus">
+        update dms_registration set bind_status=#{bindStatus} where id=#{registrationId}
+    </update>
+    <update id="updateRegistrationBasic">
+        update dms_registration set dept_id=#{deptId},skd_id=#{skdId},attendance_date=#{attendanceDate} where id=#{id}
+    </update>
+    <delete id="deleteRegistration">
+        delete from dms_registration where id=#{id}
+    </delete>
+    <update id="cancelRegistration">
+        update dms_registration set status=#{status},end_attendance=#{endAttendance} where id=#{id}
+    </update>
+    <select id="countRegistrationPage" resultType="long">
+        select count(1)
+        from dms_registration dr left join pms_patient p on dr.patient_id=p.id
+        <if test="keyword != null and keyword != ''">
+            where p.name like concat('%', #{keyword}, '%') or p.medical_record_no like concat('%', #{keyword}, '%')
+        </if>
+    </select>
+    <select id="selectRegistrationPage" resultType="com.his.vo.RegistrationPageVo">
+        select dr.id,dr.patient_id as patientId,dr.create_time as createTime,dr.end_attendance as endAttendance,dr.status,dr.skd_id as skdId,dr.need_book as needBook,
+               dr.bind_status as bindStatus,dr.dept_id as deptId,dr.attendance_date as attendanceDate,dr.patient_age_str as patientAgeStr,p.name as patientName,
+               p.medical_record_no as medicalRecordNo,p.date_of_birth as dateOfBirth,case when p.gender=1 then '男' when p.gender=0 then '女' else '—' end as genderStr,
+               d.name as deptName,skd.staff_id as doctorId,s.name as doctorName,skd.noon as noon
+        from dms_registration dr
+        left join pms_patient p on dr.patient_id=p.id
+        left join sms_dept d on dr.dept_id=d.id
+        left join sms_skd skd on dr.skd_id=skd.id
+        left join sms_staff s on skd.staff_id=s.id
+        <if test="keyword != null and keyword != ''">
+            where p.name like concat('%', #{keyword}, '%') or p.medical_record_no like concat('%', #{keyword}, '%')
+        </if>
+        order by dr.create_time desc
+        limit #{limit} offset #{offset}
+    </select>
+    <update id="resetPayables">
+        update bms_payable_item set paid_amount=0,status=0,update_time=now() where registration_id=#{registrationId}
+    </update>
+</mapper>

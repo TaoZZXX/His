@@ -1,0 +1,33 @@
+<view class="page">
+  <view class="card panel">
+    <view class="title">检查检验结果</view>
+    <view class="muted" wx:if="{{registrationId}}">挂号ID：{{registrationId}}</view>
+    <view class="muted" wx:if="{{loading}}">加载中...</view>
+    <view class="muted" wx:if="{{!loading && errorText}}">{{errorText}}</view>
+  </view>
+
+  <block wx:for="{{resultRows}}" wx:key="id" wx:for-item="row">
+    <view class="card panel">
+      <view class="title">{{row.kind}} · {{row.checkParts}}</view>
+      <view class="result" wx:if="{{row.checkResult}}">{{row.checkResult}}</view>
+      <view class="muted" wx:if="{{row.clinicalImpression}}">临床印象：{{row.clinicalImpression}}</view>
+      <view class="muted" wx:if="{{row.clinicalDiagnosis}}">临床诊断：{{row.clinicalDiagnosis}}</view>
+      <view class="muted" wx:if="{{row.logDatetime}}">报告时间：{{row.logDatetime}}</view>
+
+      <view class="img-grid" wx:if="{{row.images && row.images.length}}">
+        <block wx:for="{{row.images}}" wx:key="index" wx:for-item="img">
+          <image
+            class="thumb"
+            src="{{img}}"
+            mode="aspectFill"
+            data-src="{{img}}"
+            data-list="{{row.images}}"
+            bindtap="onPreviewImage"
+          ></image>
+        </block>
+      </view>
+    </view>
+  </block>
+
+  <button class="primary-btn" bindtap="onConfirm">确定</button>
+</view>

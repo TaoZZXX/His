@@ -1,0 +1,8 @@
+{
+  "description": "Private configuration file.",
+  "projectname": "HIS-App",
+  "compileType": "miniprogram",
+  "setting": {
+    "urlCheck": false
+  }
+}

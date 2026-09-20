@@ -1,0 +1,13 @@
+<view class="page">
+  <image class="banner" src="{{banner}}" mode="aspectFill"></image>
+
+  <view class="section-title">科室介绍</view>
+  <view class="card list-card">
+    <block wx:for="{{departments}}" wx:key="id">
+      <view class="row">
+        <view class="name">{{item.name}}</view>
+        <view class="intro muted">{{item.intro}}</view>
+      </view>
+    </block>
+  </view>
+</view>

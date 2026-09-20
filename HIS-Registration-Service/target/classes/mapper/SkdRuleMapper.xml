@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.SkdRuleMapper">
+    <insert id="insertRule" useGeneratedKeys="true" keyProperty="id">
+        insert into sms_skd_rule (status,operator_id,operate_time,rule_name,description,dept_id)
+        values (#{status},#{operatorId},#{operateTime},#{ruleName},#{description},#{deptId})
+    </insert>
+    <insert id="insertRuleItem">
+        insert into sms_skd_rule_item (staff_id,days_of_week,status,sk_limit,sk_rule_id)
+        values (#{staffId},#{daysOfWeek},#{status},#{skLimit},#{skRuleId})
+    </insert>
+    <select id="selectRules" resultType="com.his.vo.SkdRuleVo">
+        select id,status,operator_id as operatorId,operate_time as operateTime,rule_name as ruleName,description,dept_id as deptId
+        from sms_skd_rule where dept_id=#{deptId} order by operate_time desc
+    </select>
+    <select id="selectRuleById" resultType="com.his.vo.SkdRuleVo">
+        select id,status,operator_id as operatorId,operate_time as operateTime,rule_name as ruleName,description,dept_id as deptId
+        from sms_skd_rule where id=#{id}
+    </select>
+    <select id="selectRuleItems" resultType="com.his.vo.SkdRuleItemVo">
+        select id,staff_id as staffId,days_of_week as daysOfWeek,status,sk_limit as skLimit,sk_rule_id as skRuleId
+        from sms_skd_rule_item where sk_rule_id=#{ruleId} order by staff_id
+    </select>
+    <update id="publishRule">
+        update sms_skd_rule set status=1 where id=#{id}
+    </update>
+    <insert id="insertSkd">
+        insert into sms_skd (date,status,remain,noon,staff_id,dept_id,sk_limit)
+        values (#{date},#{status},#{remain},#{noon},#{staffId},#{deptId},#{skLimit})
+    </insert>
+</mapper>

@@ -1,0 +1,9 @@
+.page { padding: 20rpx; }
+
+.panel { padding: 20rpx; }
+.title { font-size: 32rpx; margin-bottom: 12rpx; }
+.result { margin: 10rpx 0; color: #222; line-height: 1.6; }
+.img-grid { margin-top: 12rpx; display: flex; flex-wrap: wrap; gap: 12rpx; }
+.thumb { width: 210rpx; height: 210rpx; border-radius: 10rpx; background: #f3f3f3; }
+
+.primary-btn { margin-top: 20rpx; }

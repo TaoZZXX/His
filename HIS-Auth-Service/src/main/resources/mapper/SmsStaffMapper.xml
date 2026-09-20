@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.SmsStaffMapper">
+    <insert id="insertSmsStaff" parameterType="com.his.domain.SmsStaff">
+        insert into sms_staff (username, password, status, create_time,
+                               gender, skd_flag, title, name, dept_id, role_id, registration_rank_id)
+        values (#{username}, #{password}, #{status}, #{createTime},
+                #{gender}, #{skdFlag}, #{title}, #{name}, #{deptId}, #{roleId}, #{registrationRankId})
+    </insert>
+
+    <select id="selectSmsStaffCountByUsername" resultType="long">
+        select count(*) from sms_staff where username = #{username}
+    </select>
+
+    <select id="selectSmsStaffByUsername" resultType="com.his.domain.SmsStaff">
+        select *
+        from sms_staff
+        where username = #{username}
+    </select>
+
+    <select id="selectStaffCount" resultType="long">
+        select count(*) from sms_staff
+        <where>
+            <if test="filterDeptId != null and filterDeptId &gt; 0">
+                and dept_id = #{filterDeptId}
+            </if>
+            <if test="filterRoleId != null and filterRoleId &gt; 0">
+                and role_id = #{filterRoleId}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectStaffByPage" resultType="com.his.vo.StaffPageVo">
+        select id, username, name, role_id, dept_id, create_time from sms_staff
+        <where>
+            <if test="filterDeptId != null and filterDeptId &gt; 0">
+                and dept_id = #{filterDeptId}
+            </if>
+            <if test="filterRoleId != null and filterRoleId &gt; 0">
+                and role_id = #{filterRoleId}
+            </if>
+        </where>
+        order by create_time desc
+        limit #{limit} offset #{offset}
+    </select>
+
+    <update id="updateSmsStaff" parameterType="com.his.domain.SmsStaff">
+        update sms_staff
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="skdFlag != null">skd_flag = #{skdFlag},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
+            <if test="roleId != null">role_id = #{roleId},</if>
+            <if test="registrationRankId != null">registration_rank_id = #{registrationRankId},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSmsStaffByUsername">
+        delete from sms_staff where username = #{username}
+    </delete>
+</mapper>

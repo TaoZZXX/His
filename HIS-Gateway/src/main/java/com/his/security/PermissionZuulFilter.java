@@ -135,6 +135,7 @@ public class PermissionZuulFilter extends ZuulFilter {
             log.debug("deny: token missing userId. requestPath={}", requestPath);
             return deny(ctx, ResultCode.TOKEN_INVALID, "token 无效");
         }
+        ctx.set("currentUserId", userId);
 
         Long roleId;
         try {

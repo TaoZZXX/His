@@ -6,24 +6,44 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="HIS-Business" />
+        <module name="HIS-ExamLab-Service" />
         <module name="HIS-Gateway" />
         <module name="HIS-common" />
-        <module name="HIS-System" />
-        <module name="HIS-Statistics" />
+        <module name="HIS-Auth-Service" />
+        <module name="HIS-Registration-Service" />
+        <module name="HIS-Doctor-Service" />
+        <module name="HIS-File-Service" />
+        <module name="HIS-Job-Service" />
+        <module name="HIS-Finance-Service" />
+        <module name="HIS-Home-Service" />
+        <module name="HIS-Notify-Service" />
+        <module name="HIS-Pharmacy-Service" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="HIS-Business" target="1.8" />
       <module name="his-gateway" target="1.7" />
       <module name="HIS-master" target="17" />
       <module name="HIS-Redis" target="1.8" />
+      <module name="HIS-Statistics" target="1.8" />
+      <module name="HIS-System" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="HIS-Auth-Service" options="-parameters" />
       <module name="HIS-Business" options="-parameters" />
+      <module name="HIS-Doctor-Service" options="-parameters" />
+      <module name="HIS-ExamLab-Service" options="-parameters" />
+      <module name="HIS-File-Service" options="-parameters" />
+      <module name="HIS-Finance-Service" options="-parameters" />
       <module name="HIS-Gateway" options="-parameters" />
+      <module name="HIS-Home-Service" options="-parameters" />
+      <module name="HIS-Job-Service" options="-parameters" />
+      <module name="HIS-Notify-Service" options="-parameters" />
+      <module name="HIS-Pharmacy-Service" options="-parameters" />
       <module name="HIS-Redis" options="-parameters" />
+      <module name="HIS-Registration-Service" options="-parameters" />
       <module name="HIS-Statistics" options="-parameters" />
       <module name="HIS-System" options="-parameters" />
       <module name="HIS-common" options="-parameters" />

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.DmsMedicineItemRecordMapper">
+    <insert id="insertBatch">
+        insert into dms_medicine_item_record
+        (drug_id, status, prescription_id, medicine_usage, frequency, days, num, medical_advice, usage_num, usage_means, usage_num_unit, current_num)
+        values
+        <foreach collection="list" item="it" separator=",">
+            (#{it.drugId}, #{it.status}, #{it.prescriptionId}, #{it.medicineUsage}, #{it.frequency}, #{it.days}, #{it.num}, #{it.medicalAdvice}, #{it.usageNum}, #{it.usageMeans}, #{it.usageNumUnit}, #{it.currentNum})
+        </foreach>
+    </insert>
+    <select id="selectByPrescriptionId" resultType="com.his.domain.DmsMedicineItemRecord">
+        select * from dms_medicine_item_record where prescription_id = #{prescriptionId} and (status is null or status &lt;&gt; 2) order by id asc
+    </select>
+</mapper>

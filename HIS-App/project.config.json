@@ -1,0 +1,19 @@
+{
+  "description": "Project configuration file.",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.30.4",
+  "appid": "touristappid",
+  "projectname": "HIS-App",
+  "miniprogramRoot": "./",
+  "condition": {}
+}

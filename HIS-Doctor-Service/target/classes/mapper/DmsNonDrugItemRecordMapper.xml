@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.his.mapper.DmsNonDrugItemRecordMapper">
+    <insert id="insert" parameterType="com.his.domain.DmsNonDrugItemRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into dms_non_drug_item_record
+        (registration_id, status, aim, demand, create_time, no_drug_id, type, create_staff_id, amount)
+        values (#{registrationId}, #{status}, #{aim}, #{demand}, #{createTime}, #{noDrugId}, #{type}, #{createStaffId}, #{amount})
+    </insert>
+    <select id="selectByRegistrationIdAndType" resultType="com.his.domain.DmsNonDrugItemRecord">
+        select * from dms_non_drug_item_record where registration_id = #{registrationId} and type = #{type} and (status is null or status &lt;&gt; 2) order by id desc
+    </select>
+    <select id="sumAmountByRegistrationId" resultType="java.math.BigDecimal">
+        select COALESCE(sum(amount), 0) from dms_non_drug_item_record where registration_id = #{registrationId} and (status is null or status &lt;&gt; 2)
+    </select>
+</mapper>
