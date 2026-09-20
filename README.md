@@ -1,168 +1,125 @@
+# HIS
 
-HIS英文全称 hospital information system（医院信息系统），系统主要功能按照数据流量、流向及处理过程分为临床诊疗、药品管理、财务管理、患者管理。诊疗活动由各工作站配合完成，并将临床信息进行整理、处理、汇总、统计、分析等。本系统包括以下工作站：门诊医生工作站、药房医生工作站、医技医生工作站、收费员工作站、对帐员工作站、管理员工作站。基于Spring cloud和Spring boot 2.x 实现。
+HIS（Hospital Information System，医院信息系统）是一个面向医院业务场景的前后端项目，覆盖患者服务、门诊诊疗、检查检验、药房、财务结算、权限管理和运营看板等功能。
 
+> 本项目主要用于学习、课程实践和功能验证，不建议直接用于生产环境。医疗业务上线前必须完成安全评审、数据脱敏、权限审计、性能测试和合规评估。
 
+## 功能概览
 
-**持续更新中......**
+- 患者端：主页、科室/医生查询、预约挂号、费用查询、缴费、检查检验结果和个人中心
+- 医生工作站：患者接诊、病历/处方相关业务和检查检验结果处理
+- 药房工作站：药品查询、处方处理和发药相关流程
+- 财务模块：应收、支付和日结等业务
+- 系统管理：员工、角色、权限、科室和排班管理
+- 平台能力：网关鉴权、JWT、Redis 缓存、异步通知、定时任务、文件服务和监控配置
 
-``作者近期准备考研，更新速度有所减慢，敬请理解，12月后计划加快进度``
+## 项目结构
 
-**申明**：项目为NEU实训课设本组所作，包前缀为neu，侵权必改
+```text
+HIS/
+├── HIS-Gateway/              # API 网关、路由和统一鉴权
+├── HIS-Auth-Service/         # 登录、注册和员工认证
+├── HIS-Registration-Service/ # 挂号/预约业务
+├── HIS-Doctor-Service/       # 医生工作站业务
+├── HIS-ExamLab-Service/      # 检查检验业务
+├── HIS-Finance-Service/      # 收费、支付和财务业务
+├── HIS-Pharmacy-Service/     # 药房业务
+├── HIS-Home-Service/         # 首页和运营看板
+├── HIS-Notify-Service/       # 通知相关能力
+├── HIS-Job-Service/          # 定时任务
+├── HIS-File-Service/         # 文件和检查结果图片
+├── HIS-common/               # 公共实体、工具和基础组件
+├── his-web/                  # Web 管理端/工作站前端
+├── HIS-App/                  # 患者端小程序
+├── ops/                      # 运维与监控配置
+└── document/                 # 架构图、流程图和界面资料
+```
 
-## 前言
+## 技术栈
 
-HIS 项目致力于打造一个完整的医疗系统，采用现阶段流行技术实现。
+### 后端
 
-下一阶段计划
+- Java、Maven、Spring Boot、Spring Cloud Alibaba
+- Spring Cloud Gateway/Zuul（以代码实际配置为准）、MyBatis、MySQL
+- Redis、RabbitMQ、JWT、Swagger/OpenAPI 相关组件
+- Docker Compose（可选，用于本地基础设施和监控）
 
-1. 添置部署教程
-2. 提高代码质量
-3. 更新技术栈为最新版本，并引入新技术
+### 前端
 
+- `his-web`：Vue 2、Vue Router、Vuex、Element UI、Axios、ECharts
+- `HIS-App`：原生微信小程序目录结构
 
+## 环境要求
 
-本仓库包含
+- JDK 8 或与项目 Maven 配置兼容的 JDK
+- Maven 3.6+
+- Node.js 及 npm（运行 `his-web` 时使用）
+- MySQL、Redis；RabbitMQ 是否启用取决于对应模块配置
+- 微信开发者工具（仅运行 `HIS-App` 时需要）
 
-| 系统 | 描述         |
-| ---------- | ---------------- |
-| HIS-master | 单体应用         |
-| his-cloud  | 分布式微服务应用 |
-| HIS-web    | 诊疗前端           |
-| HIS-app    | 患者前端 |
+## 本地配置
 
-``注：单体应用和分布式实现业务完全相同``
+不要把真实密码、令牌、私钥、患者数据或公司内网地址提交到 Git。建议为每个环境建立本地配置文件，或通过环境变量覆盖配置，例如：
 
-## 一. 项目架构
+```yaml
+spring:
+  datasource:
+    url: ${HIS_DB_URL:jdbc:mysql://localhost:3306/his}
+    username: ${HIS_DB_USERNAME:his}
+    password: ${HIS_DB_PASSWORD:}
 
-![项目开发进度图](document/picture/架构图.png)
+jwt:
+  secret: ${HIS_JWT_SECRET:}
+```
 
-### 后端技术栈
+请在启动前准备数据库及初始化数据，并根据各服务的 `src/main/resources/application.yaml` 检查端口、数据库、Redis、消息队列和文件存储配置。默认值只适合本地开发，不代表安全配置。
 
-| 技术                 | 版本             | 说明                 |
-| -------------------- | ---------------- | -------------------- |
-| Spring Cloud Netflix | Finchley.RELEASE | 分布式全家桶         |
-| Spring Cloud Eureka  | 2.0.0.RELEASE    | 服务注册             |
-| Spring Cloud Zipkin  | 2.0.0.RELEASE    | 服务链路             |
-| Spring Cloud config  | 2.0.0.RELEASE    | 服务配置             |
-| Spring Cloud Feign   | 2.0.0.RELEASE    | 服务调用             |
-| Spring Cloud Zuul    | 2.0.0.RELEASE    | 服务网关             |
-| Spring Cloud Hystrix | 2.0.0.RELEASE    | 服务熔断             |
-| Spring Cloud Turbine | 2.0.0.RELEASE    | 服务熔断监控         |
-| Spring Boot Admin    | 2.0.1            | 服务监控             |
-| Spring Boot          | 2.0.3.RELEASE    | 容器+MVC框架         |
-| Spring Security      | 5.1.4.RELEASE    | 认证和授权框架       |
-| MyBatis              | 3.4.6            | ORM框架              |
-| MyBatisGenerator     | 1.3.3            | 数据层代码生成       |
-| PageHelper           | 5.1.8            | MyBatis物理分页插件  |
-| Maven                | 3.6.1            | 项目管理工具         |
-| Swagger2             | 2.7.0            | 交互式API文档        |
-| Elasticsearch        | 6.2.2            | 搜索引擎             |
-| kibana               | 6.2.2            | 数据分析和可视化平台 |
-| LogStash             | 6.2.2            | 数据采集引擎         |
-| RabbitMq             | 3.7.14           | 消息队列             |
-| Redis                | 3.2              | 缓存                 |
-| Druid                | 1.1.10           | 数据库连接池         |
-| OSS                  | 2.5.0            | 对象存储             |
-| JWT                  | 0.9.1            | 跨域身份验证解决方案 |
-| Lombok               | 1.18.6           | 简化对象封装工具     |
-| Junit                | 4.12             | 单元测试框架         |
-| Logback              | 1.2.3            | 日志框架             |
-| Java doc             | ————             | API帮助文档          |
-| Docker               | 18.09.6          | 应用容器引擎         |
-| Docker-compose       | 18.09.6          | 容器快速编排         |
+## 启动后端
 
-### 前端技术栈
+在项目根目录执行：
 
-| 技术       | 版本        | 说明                |
-| ---------- | ----------- | ------------------- |
-| Vue        | 2.6.10      | 前端框架            |
-| Vue-router | 3.0.2       | 前端路由框架        |
-| Vuex       | 3.1.0       | vue状态管理组件     |
-| Vue-cli    | ————        | Vue脚手架           |
-| Element-ui | 2.7.0       | 前端UI框架          |
-| Echarts    | 4.2.1       | 数据可视化框架      |
-| Uni-app    | ————        | 跨平台前端框架      |
-| Mockjs     | 1.0.1-beta3 | 模拟后端数据        |
-| Axios      | 0.18.0      | 基于Promise的Http库 |
-| Js-cookie  | 2.2.0       | Cookie组件          |
-| Jsonlint   | 1.6.3       | Json解析组件        |
-| screenfull | 4.2.0       | 全屏组件            |
-| Xlsx       | 0.14.1      | Excel表导出组件     |
-| Webpack    | ————        | 模板打包器          |
+```bash
+mvn clean package -DskipTests
+```
 
-## 二. 项目展示
+然后按依赖顺序启动公共基础设施、网关和业务服务。推荐先启动认证/基础能力，再启动业务服务，最后启动网关。具体端口和服务名以各模块配置文件为准。
 
-- PC-主页
-![PC-主页](document/picture/PC-主页.png)
+单独启动某个服务时，可执行：
 
-- APP-主页
+```bash
+mvn -pl HIS-Gateway -am spring-boot:run
+```
 
-![APP-主页](document/picture/APP-主页.png)
+## 启动 Web 前端
 
-- APP-挂号
+```bash
+cd his-web
+npm install
+npm run dev
+```
 
-![APP-挂号](document/picture/APP-挂号-1.png)
+前端请求地址请配置为本地网关地址，不要把个人电脑的绝对路径、内网 IP 或真实账号写入源码。
 
+## 启动患者端小程序
 
-- PC-门诊医生工作台
-  ![C-门诊医生工作台](document/picture/PC-门诊医生工作台-1.png)
-- PC-药房医生工作台
-  ![PC-药房医生工作台](document/picture/PC-药房医生工作台-1.png)
-- PC-日结
-  ![PC-日结](document/picture/PC-日结-1.png)
-- Spring boot admin
-  ![Spring boot admin](document/picture/Spring boot admin-1.png)
-- Spring boot admin
-  ![Spring boot admin](document/picture/Spring boot admin-2.png)
-- ZinKin链路追踪
-  ![ZinKin链路追踪](document/picture/ZinKin链路追踪.png)
-- 分布式日志收集
-  ![分布式日志收集](document/picture/分布式日志收集.png)
-- Hystrix dashboard
-  ![Hystrix dashboard](document/picture/Hystrix-dashboard.png)
+1. 使用微信开发者工具导入 `HIS-App`。
+2. 使用测试 AppID 或已授权的 AppID。
+3. 在 `HIS-App/app.js` 配置本地网关地址和仅用于开发的测试账号。
+4. 真机调试前配置合法域名，并确认接口已启用 HTTPS。
 
+## 文档与界面资料
 
+架构图、业务流程图和部分界面截图位于 [`document/`](document/)。截图发布前请确认没有患者姓名、手机号、身份证号、就诊号、内部域名、Token 或其他可识别信息。
 
+## 隐私与安全检查清单
 
-
-## 三. 环境搭建
-
-### 开发工具
-
-| 工具                     | 版本          | 说明                     |
-| ------------------------ | ------------- | ------------------------ |
-| IDEA                     | 2019.1.1      | 后端开发IDE              |
-| WebStorm                 | 2019.1.1      | 前端开发IDE              |
-| Visual   Studio Code     | 1.35.1        | 前端开发IDE              |
-| HbuilderX                | V2.0.1        | 前端开发IDE              |
-| Git                      | 2.21.0        | 代码托管平台             |
-| Google   Chrome          | 75.0.3770.100 | 浏览器、前端调试工具     |
-| VMware   Workstation Pro | 14.1.3        | 虚拟机                   |
-| PowerDesigner            | 15            | 数据库设计工具           |
-| Navicat                  | 11.1.13       | 数据库连接工具           |
-| SQLyog                   | 12.0.3        | 数据库连接工具           |
-| Visio                    | 2013          | 时序图、流程图等绘制工具 |
-| ProcessOn                | ——            | 架构图等绘制工具         |
-| XMind   ZEN              | 9.2.0         | 思维导图绘制工具         |
-| RedisDesktop             | 0.9.3.817     | redis客户端连接工具      |
-| Postman                  | 7.1.0         | 接口测试工具             |
-
-### 部署教程
-
-``待更新``
-
-## 三. 业务需求
-
-### 业务流程图
-
-![项目开发进度图](document/picture/业务流程图.png)
-
-## 需求
-
-![项目开发进度图](document/picture/需求思维图.png)
+- 配置文件中的数据库密码、Redis 密码和 JWT 密钥必须改为环境变量或本地未跟踪配置。
+- 禁止提交 `target/`、日志、IDE 数据源、导出的数据库文件和真实业务数据。
+- 测试账号使用随机密码，禁止复用生产账号或个人账号。
+- 日志、截图和接口示例中的患者信息必须脱敏或使用虚构数据。
+- 如果密钥曾经提交到远程仓库，应立即轮换；仅删除当前文件不能消除 Git 历史中的泄露。
+- 生产环境应使用强随机 JWT 密钥、最小权限数据库账号、HTTPS 和定期备份。
 
 ## 许可证
 
-[Apache License 2.0](https://github.com/macrozheng/mall/blob/master/LICENSE)
-
-Copyright (c) 2018-2019 ZainZhao
+仓库当前包含 [`LICENSE`](LICENSE)。使用或再分发前请确认第三方依赖和历史代码的许可证要求。
